@@ -3,15 +3,20 @@
    sudo pacman -S upower libdbusmenu-gtk3 libxss
 ** install stack manually:
    this depends on the OS, but the easiest is probably just to install manually:
+#+BEGIN_SRC bash
    wget https://get.haskellstack.org/stable/linux-x86_64.tar.gz
    mv linux-x86_64.tar.gz stack-linux-x86_64.tar.gz
    mkdir -p stack && cd stack
    mv ../stack-linux-x86_64.tar.gz ./
    tar xvf stack-linux-x86_64.tar.gz
-   cd stack-*linux-x86_64/	# replace * with stack version or let bash do it for you
-   cp stack $HOME/.local/bin/	# assuming $HOME/.local/bin/ is in the PATH
+	 # replace * with stack version or let bash do it for you
+   cd stack-*linux-x86_64/
+	 # add $HOME/.local/bin/ to the PATH
+	 PATH=$HOME/.local/bin:$PATH
+   cp stack $HOME/.local/bin/
    stack setup
    stack upgrade
+#+END_SRC
 
 ** install taffybar from it's git:
    # I've verified the below snippet lastly at 2019-04-20
