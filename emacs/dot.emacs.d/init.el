@@ -243,7 +243,7 @@ current window."
 (add-hook 'after-init-hook 'global-flycheck-mode)
 (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
 
-
+(setq-default tab-width 2)
 
 ;;; Languages:
 ;; haskell
@@ -263,7 +263,7 @@ current window."
     (sp-local-pair "{" nil :post-handlers '(:add ("||\n[i]" "RET")))))
 
 ;; c-c++
-(setq c-default-style "gnu") ;; set style to "linux"
+(setq c-default-style "gnu") ;; set style to "gnu"
 (with-eval-after-load 'smartparens
   (sp-with-modes
       '(c++-mode objc-mode c-mode)
