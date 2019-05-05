@@ -42,7 +42,7 @@ alias ga="git add"
 
 # calcualations:
 function calc(){
-		echo "$(( $@ ))"
+    echo "$(( $@ ))"
 }
 
 function rename_workspace(){
@@ -73,6 +73,8 @@ function todec() {
     done
     echo
 }
+
+
 
 # Lists folders and files sizes in the current folder
 alias ducks='du -cksh * | sort -rh | head -11'
