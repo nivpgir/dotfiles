@@ -39,6 +39,7 @@ alias gpush="git push"
 alias gpull="git pull"
 alias gfetch="git fetch"
 alias ga="git add"
+alias glp='git log --pretty=format:"%C(yellow)%h %Cblue%>(12)%ad %Cgreen%<(7)%aN%Cred%d %Creset%s"'
 
 # calcualations:
 function calc(){
@@ -78,3 +79,4 @@ function todec() {
 
 # Lists folders and files sizes in the current folder
 alias ducks='du -cksh * | sort -rh | head -11'
+
