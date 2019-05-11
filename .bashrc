@@ -5,7 +5,7 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias dotfiles='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
@@ -136,5 +136,7 @@ export WORKON_HOME=~/.py_venvs
 
 [[ -f $HOME/.local_bashrc ]] && . $HOME/.local_bashrc
 
+### RUST setup ###
 
+[[ -f $HOME/.cargo/bin ]] && source $HOME/.cargo/env
 
