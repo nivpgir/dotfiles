@@ -43,7 +43,7 @@ main = do
   spawn "xrandr --output eDP-1 --auto"
   -- kill previous tray and dzen before starting a new 1
   -- waiting 1 second in the hopes it will be enough to for pkill to finish before the new one starts
-  spawn "pkill stalonetray && sleep 1 && stalonetray"
+  spawn "pkill stalonetray && sleep 1 && stalonetray -c $HOME/.xmonad/.stalonetrayrc"
   d <- spawnPipe ("pkill dzen2 && sleep 1 && " ++ myStatusbar)
   xmonad
     $ withNavigation2DConfig nav2DConf $ additionalNav2DKeysP ("w", "a", "s", "d") [("M-", windowGo), ("M-S-", windowSwap)] True

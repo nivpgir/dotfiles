@@ -1,0 +1,78 @@
+[global] # Configuración global
+    font = "Monospace 8"
+    # Permitir etiquetas html
+    allow_markup = yes
+    # El formato de las notificaciones,
+    # %s - sumario
+    # %p - progreso
+    # %b - cuerpo del mensaje
+    format = "<b>%s %p</b>\n%b"
+    # Ordenar mensajes por prioridad
+    sort = yes
+    # Mostrar cuantas not. hay ocultas
+    indicate_hidden = true
+    idle_threshold = 0
+    # Tamaño de  la notificación
+    geometry = "225x5-12+30"
+    alignment = center
+    show_age_threshold = 60
+    sticky_history = yes
+    follow = mouse
+    word_wrap = yes
+    separator_height = 2
+    padding = 10
+    horizontal_padding = 10
+    separator_color = frame
+    startup_notification = true
+
+# Diseño del borde de la notificación
+[frame]
+    width = 3
+    color = "#0e0f12"
+
+# Atajos de teclado
+[shortcuts]
+    #close = mod4+x
+    #close_all = mod4+ctrl+x
+    history = mod4+grave
+    context = ctrl+shift+period
+
+# Estilo para las notificaciones de baja prioridad
+[urgency_low]
+    background = "#2e394a"
+    foreground = "#EEEEEE"
+    timeout = 5
+
+# Estilo para las notificaciones de prioridad normal
+[urgency_normal]
+    background = "#006287"
+    foreground = "#EEEEEE"
+    timeout = 10
+
+# Estilo para las notificaciones de alta prioridad
+[urgency_critical]
+    background = "#004378"
+    foreground = "#EEEEEE"
+    timeout = 0
+
+# Se pueden personalizar notificciones en función de su texto
+[test]
+    summary = "*test*"
+    background="#00415a"
+
+# Y también se personalizan por aplicación
+[signed_on]
+    appname = Pidgin
+    summary = "*signed on*"
+    urgency = low
+    
+[irc]
+    appname = "weechat"
+    format  = "%s: %b"
+    urgency = low
+    background = "#00a4c4"
+    foreground = "#EEEEEE"
+
+[i3blocks]
+    summary = "*"
+    script = ~/.bin/notify
