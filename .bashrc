@@ -138,5 +138,5 @@ export WORKON_HOME=~/.py_venvs
 
 ### RUST setup ###
 
-[[ -f $HOME/.cargo/bin ]] && source $HOME/.cargo/env
+[[ -f $HOME/.cargo/env ]] && source $HOME/.cargo/env
 
