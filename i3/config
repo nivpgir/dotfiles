@@ -46,7 +46,7 @@ set $right d
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec termite #i3-sensible-terminal
+bindsym $mod+Return exec i3-sensible-terminal # termite
 
 
 # kill focused window
@@ -252,27 +252,27 @@ for_window [class="imagewriter"] floating enable border pixel 4
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command              i3blocks -c ~/.config/i3/i3blocks.conf
-        # status_command                i3status
+        # status_command              i3blocks -c ~/.config/i3/i3blocks.conf
+        status_command                i3status
         position                    top
-        mode                        dock
+#        mode                        dock
         strip_workspace_numbers     yes
-        height                      25
+#        height                      25
         font                        pango: xos4 Terminess Powerline, awesome 10
-       # separator_symbol            "::"
+#        separator_symbol            "::"
 
-       #   Color panel
-       colors {
-              background #202020
-              statusline #d0e1d4
-              separator  #c1d0c1
+#   Color panel
+colors {
+		background #202020
+		statusline #d0e1d4
+		separator  #c1d0c1
 
-              #   Indicadores panel
-              #                   border  backgr   text
-              focused_workspace   #31302d #31302d #fff2ce
-              inactive_workspace  #64635f #64635f #28220B
-              urgent_workspace    #2e394a #2e394a #e7dfd9
-              }
+#   Indicadores panel
+#                        border  backgr   text
+    focused_workspace   #31302d #31302d #fff2ce
+    inactive_workspace  #64635f #64635f #28220B
+    urgent_workspace    #2e394a #2e394a #e7dfd9
+       }
 }
 
 #######################################################################
@@ -286,65 +286,63 @@ bar {
 #######################################################################
 
 
-#:::::::::::::::::::::::: Settings for gaps window ::::::::::::::::::::::::::::#
+# #:::::::::::::::::::::::: Settings for gaps window ::::::::::::::::::::::::::::#
 
-# Set inner/outer gaps
-set $default_gaps_inner 8
-set $default_gaps_outer 0
-gaps inner $default_gaps_inner
-gaps outer $default_gaps_outer
+# # Set inner/outer gaps
+# set $default_gaps_inner 8
+# set $default_gaps_outer 0
+# gaps inner $default_gaps_inner
+# gaps outer $default_gaps_outer
 
-# smart_gaps on
-smart_borders on
+# # smart_gaps on
+# smart_borders on
 
-# Press $mod+Shift+g to enter the gap mode. Choose o or i for modifying
-# outer/inner gaps. Press one of + / - (in-/decrement for current workspace) or
-# 0 (remove gaps for current workspace). If you also press Shift with these
-# keys, the change will be global for all workspaces.
+# # Press $mod+Shift+g to enter the gap mode. Choose o or i for modifying
+# # outer/inner gaps. Press one of + / - (in-/decrement for current workspace) or
+# # 0 (remove gaps for current workspace). If you also press Shift with these
+# # keys, the change will be global for all workspaces.
 
-set $mode_gaps Gaps: (o) outer, (i) inner
-set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
-set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
-bindsym $mod+Shift+g mode "$mode_gaps"
+# set $mode_gaps Gaps: (o) outer, (i) inner
+# set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
+# set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
+# bindsym $mod+Shift+g mode "$mode_gaps"
 
-mode "$mode_gaps" {
-    bindsym o       mode "$mode_gaps_outer"
-    bindsym i       mode "$mode_gaps_inner"
-    bindsym Return  mode "default"
-    bindsym Escape  mode "default"
-}
+# mode "$mode_gaps" {
+#     bindsym o       mode "$mode_gaps_outer"
+#     bindsym i       mode "$mode_gaps_inner"
+#     bindsym Return  mode "default"
+#     bindsym Escape  mode "default"
+# }
 
-mode "$mode_gaps_inner" {
-    bindsym plus    gaps inner current plus 3
-    bindsym minus   gaps inner current minus 3
-    bindsym 0       gaps inner current set 0
+# mode "$mode_gaps_inner" {
+#     bindsym plus    gaps inner current plus 3
+#     bindsym minus   gaps inner current minus 3
+#     bindsym 0       gaps inner current set 0
 
-    bindsym Shift+plus  gaps inner all plus 3
-    bindsym Shift+minus gaps inner all minus 3
-    bindsym Shift+0     gaps inner all set 0
+#     bindsym Shift+plus  gaps inner all plus 3
+#     bindsym Shift+minus gaps inner all minus 3
+#     bindsym Shift+0     gaps inner all set 0
 
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
+#     bindsym Return mode "default"
+#     bindsym Escape mode "default"
+# }
 
-mode "$mode_gaps_outer" {
-    bindsym plus    gaps outer current plus 3
-    bindsym minus   gaps outer current minus 3
-    bindsym 0       gaps outer current set 0
+# mode "$mode_gaps_outer" {
+#     bindsym plus    gaps outer current plus 3
+#     bindsym minus   gaps outer current minus 3
+#     bindsym 0       gaps outer current set 0
 
-    bindsym Shift+plus  gaps outer all plus 3
-    bindsym Shift+minus gaps outer all minus 3
-    bindsym Shift+0     gaps outer all set 0
+#     bindsym Shift+plus  gaps outer all plus 3
+#     bindsym Shift+minus gaps outer all minus 3
+#     bindsym Shift+0     gaps outer all set 0
 
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
+#     bindsym Return mode "default"
+#     bindsym Escape mode "default"
+# }
 
 #::::::::::::::::::::::::::::::: Out system :::::::::::::::::::::::::::::::::::#
 
-set $Lock gnome-screensaver-command -l && sleep
-# set $Lock 
-
+set $Lock gnome-screensaver-command -l && sleep 
 set $mode_system System:   L :  | E :  | S :  | H :  | R :  | P :   )
 
 mode "$mode_system" {
@@ -383,7 +381,7 @@ bindsym $mod+F6 workspace $WS9; exec gksudo gparted
 bindsym $mod+Shift+F6 workspace $WS9; exec gksudo lightdm-gtk-greeter-settings
 
 # browser
-bindsym $win+b exec chromium # vivaldi-stable
+bindsym $win+b exec google-chrome # vivaldi-stable
 
 #text editor
 # bindsym $win+e exec emacsclient -c -a emacs
@@ -392,6 +390,10 @@ bindsym $win+e exec $emacs
 
 # file manager
 bindsym $win+f exec caja
+
+#       Call image edit
+bindsym Shift+F4 workspace $WS7; exec inkscape
+bindsym $mod+Shift+F8 workspace $WS7; exec gimp
 
 
 # take screenshot with mate-screenshot (-i = interactive,-a = area, -w = window)
@@ -418,7 +420,7 @@ exec --no-startup-id xautolock -time 10 -locker gnome-screensaver-command
 #       Conky
 exec --no-startup-id conky -d; sleep 1 && transset-df .5 -n Conky &
 
-#    Dunst
+#		Dunst
 exec --no-startup-id dunst -config ~/.config/dunst/dunstrc
 
 # composer for smooth window transformations
@@ -431,7 +433,7 @@ exec --no-startup-id blueman-applet # bluetooth
 # exec --no-startup-id mate-power-manager #battery
 
 #disk automounting:
-exec --no-startup-id udiskie
+exec --no-startup-id udiskie&
 
 
 
@@ -456,7 +458,7 @@ bindsym $mod+t [instance="dropdown"] scratchpad show
 # set capslock as hyper and others
 exec_always --no-startup-id xkbcomp -I$HOME/.config/i3/xkbconf ~/.config/i3/xkbconf/keymap/custom $DISPLAY
 
-exec --no-startup-id /usr/lib/mate-settings-daemon/mate-settings-daemon
+exec --no-startup-id unity-settings-daemon
 
 # exec --no-startup-id dbus-send \
 #     --session \
