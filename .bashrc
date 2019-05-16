@@ -56,20 +56,20 @@ set_prompt(){
     BoldRed='\[\e[01;31m\]'
     Red='\[\e[00;31m\]'
     Green='\[\e[01;32m\]'
-		Yellow='\[\e[1;32m\]'
-		Orange='\[\e[38;5;202m\]'
-		Swamp='\[\e[38;5;58m\]'
+    Yellow='\[\e[1;32m\]'
+    Orange='\[\e[38;5;202m\]'
+    Swamp='\[\e[38;5;58m\]'
     LightSwamp='\[\e[38;5;106m\]'
-		Orcam1='\[\e[01;36m\]'
+    Orcam1='\[\e[01;36m\]'
     Orcam2='\[\e[01;33m\]'
     Reset='\[\e[0m\]'
     FancyX='\342\234\227'
     Checkmark='\342\234\223'
     NoColor='\[\e[0m\]'
-		OrangeBG='\[\e[48;5;202m\]'
-		SwampBG='\[\e[48;5;58m\]'
-		git_branch_bg=$Orange
-		py_venv_bg=$LightSwamp
+    OrangeBG='\[\e[48;5;202m\]'
+    SwampBG='\[\e[48;5;58m\]'
+    git_branch_bg=$Orange
+    py_venv_bg=$LightSwamp
 
 
     PS1=""
