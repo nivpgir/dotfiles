@@ -1,6 +1,6 @@
 (def ansi-escape "\x1b[")
-(def ansi-color-end "m")
-(def ansi-graphics
+(def ansi-graphics-end "m")
+(def ansi-graphics-struct
      {
       :reset 0	    # All attributes off
       :bold-on 1    # Bold on
@@ -28,9 +28,19 @@
       :bg-white 47	  # White
       }
      )
-(def ansi-reset (string ansi-escape (ansi-graphics :reset) ansi-color-end))
+(def ansi-reset (string ansi-escape (ansi-graphics :reset) ansi-graphics-end))
+
+(defn set-graphics-attr [attr & attrs]
+     (let [attr-str (string/join
+		     (map (fn [x] (string (ansi-graphics-struct x))) (array/concat @[attr] attrs))
+		     ";")]
+       (string ansi-escape attr-str ansi-graphics-end)))
+
+(defn set-color [color]
+  (set-graphics-attr color))
+
 (defn color-string [s color]
-  (string ansi-escape (ansi-graphics color) ansi-color-end s ansi-reset))
+  (string (set-color color) s ansi-reset))
 
 (defn time-str []
   (string "[" ((os/date) :hours)
