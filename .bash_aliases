@@ -21,6 +21,7 @@ EMACS_CLIENT="emacsclient -q -c -n -a ''"
 EMACS_TERM_CLIENT="emacsclient -q -c -t -a ''"
 # alias em="$EMACS_TERM_CLIENT -t $@"
 alias em="emacs --no-window-system $@"
+alias emq="emacs --no-window-system -Q $@"
 alias emacs="emacs $@"
 
 # Add an "alert" alias for long running commands.  Use like so:
