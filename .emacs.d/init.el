@@ -295,6 +295,14 @@ current window."
     (sp-local-pair "{" nil :post-handlers '(:add ("||\n[i]" "RET")))))
 
 
+;; janet
+(straight-use-package
+ '(ijanet
+   :type git
+   :host github
+   :repo "serialdev/ijanet-mode"
+))
+
 ;; python
 ;; also maybe:
 ;; scala
