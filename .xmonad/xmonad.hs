@@ -41,6 +41,8 @@ main = do
   fixKbdSetup
   -- with this the laptop screen closes when lid is closed, and if opened the screen the overflow the monitor
   -- the mode line for "1920x1200_60.00" was created with: gtf 1920 1200 60
+  spawn "xrandr --newmode \"1920x1200_60.00\"  193.16  1920 2048 2256 2592  1200 1201 1204 1242  -HSync +Vsync"
+  spawn "xrandr --addmode eDP-1  1920x1200_60.00"
   spawn "xrandr --output HDMI-1 --same-as eDP-1 --output DP-1 --same-as eDP-1 --output eDP-1 --mode 1920x1200_60.00"
   -- spawn myTerminal
   -- kill previous tray and dzen before starting a new 1
