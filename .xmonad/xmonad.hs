@@ -81,8 +81,8 @@ myLogHook h = dynamicLogWithPP $ defaultPP
     , ppSep             = "  "
     -- output to the handle we were given as an argument
     , ppOutput          = hPutStrLn h
-    , ppExtras           = [ date "%D %T"
-                           , loadAvg]
+    , ppExtras           = [ loadAvg
+                           , date "%D %T"]
     }
     -- dzenColor "green"
     
