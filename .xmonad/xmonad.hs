@@ -39,8 +39,9 @@ import XMonad.Actions.Navigation2D -- up down left right
 -- import XMonad.Action.GridSelect
 main = do
   fixKbdSetup
-  -- with this the laptop screen closes when lid is closed
-  spawn "xrandr --output DP-1 --auto --output eDP-1 --auto"
+  -- with this the laptop screen closes when lid is closed, and if opened the screen the overflow the monitor
+  -- the mode line for "1920x1200_60.00" was created with: gtf 1920 1200 60
+  spawn "xrandr --output HDMI-1 --same-as eDP-1 --output DP-1 --same-as eDP-1 --output eDP-1 --mode 1920x1200_60.00"
   -- spawn myTerminal
   -- kill previous tray and dzen before starting a new 1
   -- waiting 1 second in the hopes it will be enough to for pkill to finish before the new one starts
@@ -165,4 +166,5 @@ myLayout = spacingRaw True (Border 0 screenGap screenGap screenGap) True (Border
     ratio   = 4/7 -- Default proportion of screen occupied by master pane
     delta   = 3/100 -- Percent of screen to increment by when resizing panes
 
-myStatusbar =  "dzen2 -dock -p -xs 1 -ta l -e 'onstart=lower'"
+-- myStatusbar =  "dzen2 -dock -p -xs 1 -ta l -e 'onstart=lower'"
+myStatusbar =  "dzen2 -dock -p -ta l -e 'onstart=lower'"
