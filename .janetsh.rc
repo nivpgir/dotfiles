@@ -28,7 +28,10 @@
       :bg-white 47	  # White
       }
      )
-(def ansi-reset (string ansi-escape (ansi-graphics :reset) ansi-graphics-end))
+(defn set-color [color]
+  (set-graphics-attr color))
+
+(def ansi-reset (set-graphics-attr :reset))
 
 (defn set-graphics-attr [attr & attrs]
      (let [attr-str (string/join
@@ -36,8 +39,7 @@
 		     ";")]
        (string ansi-escape attr-str ansi-graphics-end)))
 
-(defn set-color [color]
-  (set-graphics-attr color))
+
 
 (defn color-string [s color]
   (string (set-color color) s ansi-reset))
