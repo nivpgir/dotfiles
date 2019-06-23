@@ -13,6 +13,7 @@
   (load bootstrap-file nil 'nomessage))
 
 
+(setq-default show-trailing-whitespace t)
 (require 'tramp)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 ;; My Functions and configs
@@ -138,7 +139,7 @@ current window."
   "Alaways center the cursor in the middle of the screen."
   :lighter "..."
   (cond (centered-point-mode (add-hook 'post-command-hook 'line-change))
-	(t (remove-hook 'post-command-hook 'line-change)))
+	    (t (remove-hook 'post-command-hook 'line-change)))
   )
 (centered-point-mode t)
 ;; match parens
@@ -173,18 +174,18 @@ current window."
 (define-key undo-tree-map (kbd "C-/") nil)
 (setq winum-keymap
       (let ((map (make-sparse-keymap)))
-	(define-key map (kbd "C-`") 'winum-select-window-by-number)
-	(define-key map (kbd "M-0") 'winum-select-window-0-or-10)
-	(define-key map (kbd "M-1") 'winum-select-window-1)
-	(define-key map (kbd "M-2") 'winum-select-window-2)
-	(define-key map (kbd "M-3") 'winum-select-window-3)
-	(define-key map (kbd "M-4") 'winum-select-window-4)
-	(define-key map (kbd "M-5") 'winum-select-window-5)
-	(define-key map (kbd "M-6") 'winum-select-window-6)
-	(define-key map (kbd "M-7") 'winum-select-window-7)
-	(define-key map (kbd "M-8") 'winum-select-window-8)
-	(define-key map (kbd "M-9") 'winum-select-window-9)
-	map))
+	    (define-key map (kbd "C-`") 'winum-select-window-by-number)
+	    (define-key map (kbd "M-0") 'winum-select-window-0-or-10)
+	    (define-key map (kbd "M-1") 'winum-select-window-1)
+	    (define-key map (kbd "M-2") 'winum-select-window-2)
+	    (define-key map (kbd "M-3") 'winum-select-window-3)
+	    (define-key map (kbd "M-4") 'winum-select-window-4)
+	    (define-key map (kbd "M-5") 'winum-select-window-5)
+	    (define-key map (kbd "M-6") 'winum-select-window-6)
+	    (define-key map (kbd "M-7") 'winum-select-window-7)
+	    (define-key map (kbd "M-8") 'winum-select-window-8)
+	    (define-key map (kbd "M-9") 'winum-select-window-9)
+	    map))
 (straight-use-package 'winum)
 (winum-mode)
 ;; darcula theme
@@ -274,11 +275,44 @@ current window."
     (sp-local-pair "{" nil :post-handlers '(:add ("||\n[i]" "RET")))))
 
 ;; c-c++
-(setq c-default-style "gnu") ;; set style to "linux"
-(with-eval-after-load 'smartparens
-  (sp-with-modes
-      '(c++-mode objc-mode c-mode)
-    (sp-local-pair "{" nil :post-handlers '(:add ("||\n[i]" "RET")))))
+;; (defun c-mode-set-style ()
+;;   (setq c-default-style "linux" ; set style to "linux" cause kernel
+;; 	tab-width 4		; so we don't overflow lines
+;; 	indent-tabs-mode t))	; so we use tabs
+;; (setq c-default-style "linux") ; set style to "linux" cause kernel
+
+(defun c-lineup-arglist-tabs-only (ignored)
+  "Line up argument lists by tabs, not spaces"
+  (let* ((anchor (c-langelem-pos c-syntactic-element))
+         (column (c-langelem-2nd-pos c-syntactic-element))
+         (offset (- (1+ column) anchor))
+         (steps (floor offset c-basic-offset)))
+    (* (max steps 1)
+       c-basic-offset)))
+
+(c-add-style
+ "my-linux-tabs-only"
+ '("linux" (c-offsets-alist
+            (arglist-cont-nonempty
+             c-lineup-gcc-asm-reg
+             c-lineup-arglist-tabs-only))
+   (c-basic-offset . 4)))
+
+(defun c-mode-set-smartparens ()
+  (with-eval-after-load 'smartparens
+    (sp-with-modes
+        '(c++-mode objc-mode c-mode)
+      (sp-local-pair "{" nil :post-handlers '(:add ("||\n[i]" "RET"))))))
+
+(add-hook 'c-mode-hook
+          (lambda ()
+            (c-set-style "my-linux-tabs-only")
+            (c-mode-set-smartparens)
+	        (setq indent-tabs-mode t)
+	        (setq tab-width c-basic-offset)
+            ))
+
+
 
 ;; dts
 (straight-use-package 'dts-mode)
@@ -312,7 +346,7 @@ current window."
    :type git
    :host github
    :repo "serialdev/ijanet-mode"
-))
+   ))
 
 ;; python
 ;; also maybe:
