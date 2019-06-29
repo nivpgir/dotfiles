@@ -1,0 +1,6 @@
+[submodule ".config/awesome/awesome-wm-widgets"]
+	path = .config/awesome/awesome-wm-widgets
+	url = /home/nivp/.config/awesome/awesome-wm-widgets/
+[submodule ".config/awesome/light"]
+	path = .config/awesome/light
+	url = /home/nivp/.config/awesome/light/

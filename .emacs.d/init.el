@@ -347,8 +347,11 @@ current window."
    :host github
    :repo "serialdev/ijanet-mode"
    ))
+;; lua
+(straight-use-package 'lua-mode)
 
 ;; python
+;  currently using the default python support which is good enough for now
 ;; also maybe:
 ;; scala
 ;; elixir
