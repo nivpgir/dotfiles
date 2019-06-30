@@ -1,6 +1,8 @@
 -- If LuaRocks is installed, make sure that packages installed through it are
 -- found (e.g. lgi). If LuaRocks is not installed, do nothing.
 pcall(require, "luarocks.loader")
+require("awful.remote")
+require("screenful")
 
 -- Standard awesome library
 local gears = require("gears")
@@ -171,6 +173,8 @@ end
 screen.connect_signal("property::geometry", set_wallpaper)
 
 local brightness_widget = require("awesome-wm-widgets.brightnessarc-widget.brightnessarc")
+local battery_widget = require("awesome-wm-widgets.batteryarc-widget.batteryarc")
+local volume_widget = require("awesome-wm-widgets.volumebar-widget.volumebar")
 awful.screen.connect_for_each_screen(function(s)
       -- Wallpaper
       set_wallpaper(s)
@@ -217,9 +221,11 @@ awful.screen.connect_for_each_screen(function(s)
 	 s.mytasklist, -- Middle widget
 	 { -- Right widgets
 	    layout = wibox.layout.fixed.horizontal,
-	    brightness_widget,
             mykeyboardlayout,
             wibox.widget.systray(),
+	    brightness_widget,
+	    battery_widget,
+	    volume_widget,
             mytextclock,
             s.mylayoutbox,
 	 },

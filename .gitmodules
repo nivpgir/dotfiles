@@ -4,3 +4,6 @@
 [submodule ".config/awesome/light"]
 	path = .config/awesome/light
 	url = /home/nivp/.config/awesome/light/
+[submodule ".config/awesome/screenful"]
+	path = .config/awesome/screenful
+	url = /home/nivp/.config/awesome/screenful/
