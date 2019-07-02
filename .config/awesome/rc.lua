@@ -4,6 +4,14 @@ pcall(require, "luarocks.loader")
 require("awful.remote")
 require("screenful")
 
+version_string_cmd = [[ bash -c '
+awesome -v | head -1 | awk '{print $2}'
+'
+]]
+output = awful.spawn.easy_async(version_string_cmd, function(stdout, stderr, reason, exit_code)
+    naughty.notify { awesome_version = stdout }
+end)
+
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
@@ -95,7 +103,7 @@ myawesomemenu = {
    { "manual", terminal .. " -e man awesome" },
    { "edit config", editor_cmd .. " " .. awesome.conffile },
    { "restart", awesome.restart },
-   { "quit", function() awesome.quit() end },
+   { "quit", function() awesome.quit() end }
 }
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
@@ -193,6 +201,10 @@ awful.screen.connect_for_each_screen(function(s)
 			       awful.button({ }, 4, function () awful.layout.inc( 1) end),
 			       awful.button({ }, 5, function () awful.layout.inc(-1) end)))
       -- Create a taglist widget
+      if awesome_version == "v4.2" then
+      s.mytaglist = awful.widget.taglist (s, awful.widget.taglist.filter.all, taglist_buttons)
+      s.mytasklist = awful.widget.tasklist (s, awful.widget.tasklist.filter.currenttags, tasklist_buttons)
+      else
       s.mytaglist = awful.widget.taglist {
 	 screen  = s,
 	 filter  = awful.widget.taglist.filter.all,
@@ -205,6 +217,7 @@ awful.screen.connect_for_each_screen(function(s)
 	 filter  = awful.widget.tasklist.filter.currenttags,
 	 buttons = tasklist_buttons
       }
+      end
 
       -- Create the wibox
       s.mywibox = awful.wibar({ position = "top", screen = s })
