@@ -4,13 +4,6 @@ pcall(require, "luarocks.loader")
 require("awful.remote")
 require("screenful")
 
-version_string_cmd = [[ bash -c '
-awesome -v | head -1 | awk '{print $2}'
-'
-]]
-output = awful.spawn.easy_async(version_string_cmd, function(stdout, stderr, reason, exit_code)
-    naughty.notify { awesome_version = stdout }
-end)
 
 -- Standard awesome library
 local gears = require("gears")
@@ -27,6 +20,16 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
+
+version_string_cmd = [[ bash -c "
+awesome -v | head -1 | awk '{print $2}'
+"
+]]
+awesome_version = ""
+output = awful.spawn.easy_async(version_string_cmd, function(stdout, stderr, reason, exit_code)
+				   naughty.notify { text = stdout:gsub("\n$", ""), title = "Awesome version" }
+				   awesome_version = stdout:gsub("\n$", "")
+end)
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -201,7 +204,7 @@ awful.screen.connect_for_each_screen(function(s)
 			       awful.button({ }, 4, function () awful.layout.inc( 1) end),
 			       awful.button({ }, 5, function () awful.layout.inc(-1) end)))
       -- Create a taglist widget
-      if awesome_version == "v4.2" then
+      if awesome_version == "v4.3" then
       s.mytaglist = awful.widget.taglist (s, awful.widget.taglist.filter.all, taglist_buttons)
       s.mytasklist = awful.widget.tasklist (s, awful.widget.tasklist.filter.currenttags, tasklist_buttons)
       else
