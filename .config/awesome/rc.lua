@@ -27,6 +27,7 @@ awesome -v | head -1 | awk '{print $2}'
 ]]
 awesome_version = ""
 output = awful.spawn.easy_async(version_string_cmd, function(stdout, stderr, reason, exit_code)
+				   naughty.notify { text = stdout, title = "Awesome version" }
 				   naughty.notify { text = stdout:gsub("\n$", ""), title = "Awesome version" }
 				   awesome_version = stdout:gsub("\n$", "")
 end)
@@ -205,21 +206,21 @@ awful.screen.connect_for_each_screen(function(s)
 			       awful.button({ }, 5, function () awful.layout.inc(-1) end)))
       -- Create a taglist widget
       if awesome_version == "v4.3" then
-      s.mytaglist = awful.widget.taglist (s, awful.widget.taglist.filter.all, taglist_buttons)
-      s.mytasklist = awful.widget.tasklist (s, awful.widget.tasklist.filter.currenttags, tasklist_buttons)
-      else
-      s.mytaglist = awful.widget.taglist {
-	 screen  = s,
-	 filter  = awful.widget.taglist.filter.all,
-	 buttons = taglist_buttons
-      }
+	 s.mytaglist = awful.widget.taglist {
+	    screen  = s,
+	    filter  = awful.widget.taglist.filter.all,
+	    buttons = taglist_buttons
+	 }
 
-      -- Create a tasklist widget
-      s.mytasklist = awful.widget.tasklist {
-	 screen  = s,
-	 filter  = awful.widget.tasklist.filter.currenttags,
-	 buttons = tasklist_buttons
-      }
+	 -- Create a tasklist widget
+	 s.mytasklist = awful.widget.tasklist {
+	    screen  = s,
+	    filter  = awful.widget.tasklist.filter.currenttags,
+	    buttons = tasklist_buttons
+	 }
+      else
+	 s.mytaglist = awful.widget.taglist (s, awful.widget.taglist.filter.all, taglist_buttons)
+	 s.mytasklist = awful.widget.tasklist (s, awful.widget.tasklist.filter.currenttags, tasklist_buttons)
       end
 
       -- Create the wibox
