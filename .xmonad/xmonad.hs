@@ -34,34 +34,43 @@ import XMonad.Util.Loggers  -- dzen
 import XMonad.Actions.Navigation2D -- up down left right
 
 --TESTING AREA
+import XMonad.Prompt
+import XMonad.Prompt.Shell
+import XMonad.Prompt.ConfirmPrompt
+import XMonad.Prompt.XMonad
+
+
 
 ------------------
 -- import XMonad.Action.GridSelect
-main = do
-  fixKbdSetup
-  -- with this the laptop screen closes when lid is closed, and if opened the screen the overflow the monitor
-  -- the mode line for "1920x1200_60.00" was created with: gtf 1920 1200 60
-  spawn "xrandr --newmode \"1920x1200_60.00\"  193.16  1920 2048 2256 2592  1200 1201 1204 1242  -HSync +Vsync"
-  spawn "xrandr --addmode eDP-1  1920x1200_60.00"
-  spawn "xrandr --output HDMI-1 --same-as eDP-1 --output DP-1 --same-as eDP-1 --output eDP-1 --mode 1920x1200_60.00"
-  -- spawn myTerminal
-  -- kill previous tray and dzen before starting a new 1
-  -- waiting 1 second in the hopes it will be enough to for pkill to finish before the new one starts
-  spawn "pkill stalonetray ; sleep 1 && stalonetray -c $HOME/.xmonad/.stalonetrayrc"
-  d <- spawnPipe $ "pkill dzen2 ; sleep 1 && " ++ myStatusbar
-  xmonad
-    $ withNavigation2DConfig nav2DConf $ additionalNav2DKeysP ("w", "a", "s", "d") [("M-", windowGo), ("M-S-", windowSwap)] True
-    $ ewmh
-    $ docks 
-    $ addDescrKeys' ((myModMask, xK_F1), showKeybindings) myKeys
-    $ desktopConfig {
-    layoutHook = avoidStruts $ myLayout
-    , logHook = myLogHook d
-    , manageHook = manageDocks
-    , terminal = myTerminal
-    , modMask = myModMask
-    , focusFollowsMouse = False
-    }
+main =
+  let xrandr_cmd = "xrandr --newmode \"1920x1200_60.00\"  193.16  1920 2048 2256 2592  1200 1201 1204 1242  -HSync +Vsync && "
+        ++ "xrandr --addmode eDP-1  1920x1200_60.00 && "
+        ++ "xrandr --output HDMI-1 --same-as eDP-1 --output DP-1 --same-as eDP-1 --output eDP-1 --mode 1920x1200_60.00"
+  in
+    do
+      fixKbdSetup
+      -- with this the laptop screen closes when lid is closed, and if opened the screen the overflow the monitor
+      -- the mode line for "1920x1200_60.00" was created with: gtf 1920 1200 60
+      spawn xrandr_cmd
+      -- spawn myTerminal
+      -- kill previous tray and dzen before starting a new 1
+      -- waiting 1 second in the hopes it will be enough to for pkill to finish before the new one starts
+      spawn "pkill stalonetray ; sleep 1 && stalonetray -c $HOME/.xmonad/.stalonetrayrc"
+      d <- spawnPipe $ "pkill dzen2 ; sleep 1 && " ++ myStatusbar
+      xmonad
+        $ withNavigation2DConfig nav2DConf $ additionalNav2DKeysP ("w", "a", "s", "d") [("M-", windowGo), ("M-S-", windowSwap)] True
+        $ ewmh
+        $ docks 
+        $ addDescrKeys' ((myModMask, xK_F1), showKeybindings) myKeys
+        $ desktopConfig {
+        layoutHook = avoidStruts $ myLayout
+        , logHook = myLogHook d
+        , manageHook = manageDocks
+        , terminal = myTerminal
+        , modMask = myModMask
+        , focusFollowsMouse = False
+        }
 
 -- myLogHook h = dynamicLogWithPP $ byorgeyPP
 myLogHook h = dynamicLogWithPP $ defaultPP
@@ -154,6 +163,9 @@ myKeys conf = mkNamedKeymap conf $
   [ ("M-"++secondMod++key , addName ("change/move screen to" ++ key) (screenWorkspace sc >>= flip whenJust (windows . f)))
   | (key, sc) <- zip ["z", "x", "c"] [0..]
   , (f, secondMod) <- [(W.view, ""), (W.shift, "S-")]]
+  ++
+  [("M-C-p", addName "Prompt" $ shellPrompt def)
+  ]
 ------------------------------------------------------------------------
 
 ------------------------------------------------------------------------
