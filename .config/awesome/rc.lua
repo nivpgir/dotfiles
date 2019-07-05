@@ -330,7 +330,10 @@ globalkeys = gears.table.join(
    awful.key({ modkey, "Shift", }, "x",
       function (c)
 	 if awesome_version == "v4.3" then
-	    c:move_to_screen(awful.screen.focused():get_next_in_direction("up"))
+	    local c = client.focus
+	    if c then
+	       c:move_to_screen(awful.screen.focused():get_next_in_direction("up"))
+	    end
 	 else
 	    awful.client.movetoscreen(c, awful.screen.focused():get_next_in_direction("up"))
 	 end
@@ -340,7 +343,10 @@ globalkeys = gears.table.join(
    awful.key({ modkey, "Shift", }, "z",
       function (c)
 	 if awesome_version == "v4.3" then
-	    c:move_to_screen(awful.screen.focused():get_next_in_direction("left"))
+	    local c = client.focus
+	    if c then
+	       c:move_to_screen(awful.screen.focused():get_next_in_direction("left"))
+	    end
 	 else
 	    awful.client.movetoscreen(c, awful.screen.focused():get_next_in_direction("left"))
 	 end
@@ -349,8 +355,12 @@ globalkeys = gears.table.join(
 
    awful.key({ modkey, "Shift", }, "c",
       function (c)
+	 naughty.notify{ title = "c",  text = c}
 	 if awesome_version == "v4.3" then
-	    c:move_to_screen(awful.screen.focused():get_next_in_direction("right"))
+	    local c = client.focus
+	    if c then
+	       c:move_to_screen(awful.screen.focused():get_next_in_direction("right"))
+	    end
 	 else
 	    awful.client.movetoscreen(c, awful.screen.focused():get_next_in_direction("right"))
 	 end
@@ -430,7 +440,7 @@ clientkeys = gears.table.join(
 	 c:raise()
       end,
       {description = "toggle fullscreen", group = "client"}),
-   awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
+   awful.key({ modkey,    }, "BackSpace",      function (c) c:kill()                         end,
       {description = "close", group = "client"}),
    awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ,
       {description = "toggle floating", group = "client"}),
