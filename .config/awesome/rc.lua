@@ -298,9 +298,9 @@ globalkeys = gears.table.join(
       {description = "focus the next client by index", group = "client"}),
    awful.key({ modkey,         }, "q", function () awful.client.focus.byidx(-1) end,
       {description = "focus the previous client by index", group = "client"}),
-   awful.key({ modkey,         }, "e", function () awful.client.swap.byidx(1) end,
+   awful.key({ modkey, "Shift" }, "e", function () awful.client.swap.byidx(1) end,
       {description = "swap the next client by index", group = "client"}),
-   awful.key({ modkey,         }, "q", function () awful.client.swap.byidx(-1) end,
+   awful.key({ modkey, "Shift"}, "q", function () awful.client.swap.byidx(-1) end,
       {description = "swap the previous client by index", group = "client"}),
 
    awful.key({ modkey,         }, "u", awful.client.urgent.jumpto,
@@ -323,9 +323,6 @@ globalkeys = gears.table.join(
    awful.key({ modkey, }, "c",
       function () awful.screen.focus_bydirection("right", awful.screen.focused()) end,
       {description = "focus to screen to the right", group = "screen"}),
-   -- awful.key({ modkey, }, "s",
-   --    function () awful.screen.focus_bydirection("down", awful.screen.focused()) end,
-   --    {description = "focus to screen below", group = "screen"}),
 
    awful.key({ modkey, "Shift", }, "x",
       function (c)
@@ -457,19 +454,19 @@ clientkeys = gears.table.join(
 	 c.minimized = true
       end ,
       {description = "minimize", group = "client"}),
-   -- awful.key({ modkey,           }, "m",
-   --    function (c)
-   -- 	 c.maximized = not c.maximized
-   -- 	 c:raise()
-   --    end ,
-   --    {description = "(un)maximize", group = "client"}),
-   awful.key({ modkey, "Control" }, "m",
+   awful.key({ modkey, "m"}, "b",
+      function (c)
+   	 c.maximized = not c.maximized
+   	 c:raise()
+      end ,
+      {description = "(un)maximize", group = "client"}),
+   awful.key({ modkey, "m" }, "v",
       function (c)
 	 c.maximized_vertical = not c.maximized_vertical
 	 c:raise()
       end ,
       {description = "(un)maximize vertically", group = "client"}),
-   awful.key({ modkey, "Shift"   }, "m",
+   awful.key({ modkey, "m" }, "h",
       function (c)
 	 c.maximized_horizontal = not c.maximized_horizontal
 	 c:raise()
