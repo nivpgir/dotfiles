@@ -81,9 +81,49 @@ awful.util.spawn("xkbcomp -I"..xkbhomedir.." "..xkbhomedir.."/keymap/custom :0")
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod3"
 
+
+function do_simple(p, orientation)
+   local wa = p.workarea
+   local cls = p.clients
+   if orientation == "vertical" then
+      wa.width, wa.height = wa.height, wa.width
+      wa.x, wa.y = wa.y, wa.x
+   end
+
+   if #cls > 0 then
+      for k, c in ipairs(cls) do
+	 local g = {}
+	 g.height = wa.height
+	 g.width = wa.width / #cls
+	 g.y = 0
+	 g.x = (k-1) * wa.width / #cls
+	 g.y = g.y + wa.y
+	 g.x = g.x + wa.x
+	 if orientation == 'vertical' then
+	    g.width, g.height = g.height, g.width
+	    g.x, g.y = g.y, g.x
+	 end
+	 p.geometries[c] = g
+      end
+   end
+end
+
+local simple = {}
+simple.vertical = {}
+simple.vertical.name = "simplev"
+function simple.arrange(p)
+   return do_simple(p, "horizontal")
+end
+function simple.vertical.arrange(p)
+   return do_simple(p, "vertical")
+end
+simple.name = "simple"
+
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
    -- awful.layout.suit.floating,
+   simple,
+   simple.vertical,
    lain.layout.termfair.center,
    lain.layout.centerwork,
    lain.layout.centerwork.horizontal,
@@ -272,7 +312,7 @@ globalkeys = gears.table.join(
    awful.key({ modkey, }, "F1", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end,
       {description = "help"}),
    awful.key({ modkey, }, "Left",   awful.tag.viewprev),
-   awful.key({ modkey,          "h" }, "k", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end,
+   awful.key({ modkey, }, "k", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end,
       { description = "show keybinds"}),
    awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
       {description = "go back", group = "tag"}),
@@ -441,10 +481,10 @@ clientkeys = gears.table.join(
       {description = "close", group = "client"}),
    awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ,
       {description = "toggle floating", group = "client"}),
-   awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end,
-      {description = "move to master", group = "client"}),
-   awful.key({ modkey,           }, "o",      function (c) c:move_to_screen()               end,
-      {description = "move to screen", group = "client"}),
+   -- awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end,
+   --    {description = "move to master", group = "client"}),
+   -- awful.key({ modkey,           }, "o",      function (c) c:move_to_screen()               end,
+   --    {description = "move to screen", group = "client"}),
    awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end,
       {description = "toggle keep on top", group = "client"}),
    awful.key({ modkey, "Shift" }, "-",
@@ -454,19 +494,19 @@ clientkeys = gears.table.join(
 	 c.minimized = true
       end ,
       {description = "minimize", group = "client"}),
-   awful.key({ modkey, "m"}, "b",
+   awful.key({ modkey, }, "b",
       function (c)
    	 c.maximized = not c.maximized
    	 c:raise()
       end ,
       {description = "(un)maximize", group = "client"}),
-   awful.key({ modkey, "m" }, "v",
+   awful.key({ modkey, }, "v",
       function (c)
 	 c.maximized_vertical = not c.maximized_vertical
 	 c:raise()
       end ,
       {description = "(un)maximize vertically", group = "client"}),
-   awful.key({ modkey, "m" }, "h",
+   awful.key({ modkey, }, "h",
       function (c)
 	 c.maximized_horizontal = not c.maximized_horizontal
 	 c:raise()
