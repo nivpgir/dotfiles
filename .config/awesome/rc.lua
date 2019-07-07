@@ -129,6 +129,21 @@ function simple.vertical.arrange(p)
 end
 simple.name = "simple"
 
+function do_stack(p)
+   local wa = p.workarea
+   local cls = p.clients
+   if #cls > 0 then
+      local g = {}
+      g.height = 0
+      g.width = wa.width
+      g.y = top_titles
+      g.x = 0
+      g.y = g.y + wa.y
+      g.x = g.x + wa.x
+      p.geometries[c] = g
+   end
+end
+
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
    -- awful.layout.suit.floating,
@@ -171,7 +186,7 @@ mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesom
 		       })
 
 mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
-                                     menu = mymainmenu })
+				     menu = mymainmenu })
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
@@ -285,21 +300,21 @@ awful.screen.connect_for_each_screen(function(s)
       s.mywibox:setup {
 	 layout = wibox.layout.align.horizontal,
 	 { -- Left widgets
-            layout = wibox.layout.fixed.horizontal,
-            mylauncher,
-            s.mytaglist,
-            s.mypromptbox,
+	    layout = wibox.layout.fixed.horizontal,
+	    mylauncher,
+	    s.mytaglist,
+	    s.mypromptbox,
 	 },
 	 s.mytasklist, -- Middle widget
 	 { -- Right widgets
 	    layout = wibox.layout.fixed.horizontal,
-            mykeyboardlayout,
-            wibox.widget.systray(),
+	    mykeyboardlayout,
+	    wibox.widget.systray(),
 	    brightness_widget,
 	    battery_widget,
 	    volume_widget,
-            mytextclock,
-            s.mylayoutbox,
+	    mytextclock,
+	    s.mylayoutbox,
 	 },
       }
 end)
@@ -506,8 +521,8 @@ clientkeys = gears.table.join(
       {description = "minimize", group = "client"}),
    awful.key({ modkey, }, "b",
       function (c)
-   	 c.maximized = not c.maximized
-   	 c:raise()
+	 c.maximized = not c.maximized
+	 c:raise()
       end ,
       {description = "(un)maximize", group = "client"}),
    awful.key({ modkey, }, "v",
