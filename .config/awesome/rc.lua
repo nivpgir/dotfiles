@@ -8,6 +8,7 @@ require("screenful")
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
+
 require("awful.autofocus")
 -- Widget and layout library
 local wibox = require("wibox")
@@ -15,24 +16,33 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
+
+-- we need the awesome version before the hotkeys popup require and
+-- this is the soonest we can get it
+awesome_version = ""
+version_string_cmd = [[ bash -c "
+awesome -v | head -1 | awk '{print $2}'
+"
+]]
+output = awful.spawn.easy_async(version_string_cmd, function(stdout, stderr, reason, exit_code)
+				   naughty.notify { text = stdout, title = "Awesome version" }
+				   naughty.notify { text = stdout:gsub("\n$", ""), title = "Awesome version" }
+				   awesome_version = stdout:gsub("\n$", "")
+end)
+
+
 local menubar = require("menubar")
+
 local hotkeys_popup = require("awful.hotkeys_popup")
+if awesome_version == "v4.3" then
+   hotkeys_popup = require("awful.hotkeys_popup").widget
+end
 local lain = require("lain")
 
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
-version_string_cmd = [[ bash -c "
-awesome -v | head -1 | awk '{print $2}'
-"
-]]
-awesome_version = ""
-output = awful.spawn.easy_async(version_string_cmd, function(stdout, stderr, reason, exit_code)
-				   naughty.notify { text = stdout, title = "Awesome version" }
-				   naughty.notify { text = stdout:gsub("\n$", ""), title = "Awesome version" }
-				   awesome_version = stdout:gsub("\n$", "")
-end)
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
