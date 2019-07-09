@@ -22,9 +22,13 @@ if ! shopt -oq posix; then
   fi
 fi
 
-
-
-# load local bash completions
+# load local bash completions:
+# completions may be installed in various locations when installing to the global env
+# since we are trying to emulate that same env under ~/.local we need to source
+# the same locations.
+for bcfile in ~/.local/share/bash-completion/completions/* ; do
+  . $bcfile
+done
 if [ -d ~/.local/etc/bash_completion.d ]; then
     for f in ~/.local/etc/bash_completion.d/*; do
         . $f

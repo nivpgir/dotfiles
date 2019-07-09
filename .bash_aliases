@@ -5,12 +5,26 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
 # some more ls aliases
-alias ls='ls -CFh --color=auto'
-alias ll='ls -lhF --color=auto'
-alias lal='ls -alhF --color=auto'
-alias lla='ls -alhF --color=auto'
-alias la='ls -ahF --color=auto'
-alias l='ls -CFh --color=auto'
+if which exa 2>&1 > /dev/null; then
+    LS=exa
+else
+    LS=ls
+fi
+alias ls=$LS' -Fh --color=auto'
+alias l=$LS' -Fh --color=auto'
+alias ll=$LS' -lhF --color=auto'
+alias lal=$LS' -alhF --color=auto'
+alias lla=$LS' -alhF --color=auto'
+alias la=$LS' -ahF --color=auto'
+
+if which fd 2>&1 > /dev/null; then
+    alias find=fd
+fi
+
+if which hexyl 2>&1 > /dev/null; then
+    alias hd=hexyl
+    alias hexdump=hexyl
+fi
 
 # prettier pushd stack printing
 alias d='dirs -v'
