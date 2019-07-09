@@ -7,6 +7,8 @@ alias egrep='egrep --color=auto'
 # some more ls aliases
 if which exa 2>&1 > /dev/null; then
     LS=exa
+    alias lt=$LS' -FTh --color=auto'
+    alias llt=$LS' -FThl --color=auto'
 else
     LS=ls
 fi
