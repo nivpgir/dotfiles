@@ -75,7 +75,7 @@ beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 -- terminal = "xterm"
-terminal = "gnome-terminal"
+terminal = "gnome-terminal" or "xterm"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -119,36 +119,185 @@ function do_simple(p, orientation)
 end
 
 local simple = {}
-simple.vertical = {}
-simple.vertical.name = "simplev"
+simple.name = "simple"
 function simple.arrange(p)
    return do_simple(p, "horizontal")
 end
+simple.vertical = {}
+simple.vertical.name = "simplev"
 function simple.vertical.arrange(p)
    return do_simple(p, "vertical")
 end
-simple.name = "simple"
+
+-- function do_stack(p)
+--    local wa = p.workarea
+--    local cls = p.clients
+--    if #cls > 0 then
+--       local top_cls = {}
+--       local bot_cls = {}
+--       local f
+--       -- first divide all client to:
+--       -- the ones which should be above the focused
+--       -- the ones which should be below the focused
+--       -- the focused client
+--       for i, c in ipairs(cls) do
+-- 	 naughty.notify{title=tostring(c.name), text=""..tostring(c).."=="..tostring(c)}
+-- 	 if c == client.focus then
+-- 	    f = c
+-- 	    -- naughty.notify{title=tostring(c.name), text=""..tostring(c).."=="..tostring(f)}
+-- 	 elseif not f then
+-- 	    top_cls[#top_cls+1] = c
+-- 	    -- naughty.notify{title=tostring(c.name), text=""..tostring(c).."=="..tostring(top_cls[#top_cls])}
+-- 	 else
+-- 	    bot_cls[#bot_cls+1] = c
+-- 	    -- naughty.notify{title=tostring(c.name), text=""..tostring(c).."=="..tostring(bot_cls[#bot_cls])}
+-- 	 end
+--       end
+--       -- next setup the top clients, offsetting each client by the
+--       -- sum of the titlebar heights of of the clients before  him
+--       local top_offset = 0
+--       -- naughty.notify{title="top_cls",
+-- 		     -- text=""..tostring(top_cls).." : "..#top_cls}
+--       for i, c  in ipairs(top_cls) do
+-- 	 -- naughty.notify{title="i: "..tostring(i), text="c"..tostring(c)}
+-- 	 local g = {}
+-- 	 local height = awful.titlebar(c).drawable:geometry().height + 5
+-- 	 -- g.height = height
+-- 	 g.height = height
+-- 	 g.width = wa.width
+-- 	 g.y = top_offset
+-- 	 g.x = 0
+-- 	 g.y = g.y + wa.y
+-- 	 g.x = g.x + wa.x
+-- 	 p.geometries[c] = g
+-- 	 -- naughty.notify{title="t: "..c.name, text="("..g.x..":"..g.y..")"}
+-- 	 top_offset = top_offset + height
+-- 	 -- naughty.notify{title=tostring(i),
+-- 	 -- 		text=tostring(c)}
+
+--       end
+--       -- now the same as what we did for the top ones,
+--       -- but reversely, with the bottom ones
+--       -- naughty.notify{title="bot_cls",
+-- 		     -- text=""..tostring(bot_cls).." : "..#bot_cls}
+--       local bot_offset = 0
+--       for i = #bot_cls,1,-1 do
+-- 	 local c = bot_cls[i]
+-- 	 -- naughty.notify{title="i: "..tostring(i), text="c"..tostring(c)}
+-- 	 local height = awful.titlebar(c).drawable:geometry().height + 5
+-- 	 bot_offset = bot_offset + height
+-- 	 local g = {}
+-- 	 -- g.height = height
+-- 	 g.height = height
+-- 	 g.width = wa.width
+-- 	 g.y = wa.height - bot_offset
+-- 	 g.x = 0
+-- 	 g.y = g.y + wa.y
+-- 	 g.x = g.x + wa.x
+-- 	 -- naughty.notify{title="b: "..(c.name), text="("..(g.x)..":"..(g.y)..")"}
+-- 	 p.geometries[c] = g
+-- 	 -- naughty.notify{title=tostring(i),
+-- 	 -- 		text=tostring(c)}
+
+--       end
+--       -- lastly setup the focused window between the top and the bottom ones
+--       local g = {}
+--       g.height = wa.height - top_offset - bot_offset
+--       g.width = wa.width
+--       g.y = top_offset
+--       g.x = 0
+--       g.y = g.y + wa.y
+--       g.x = g.x + wa.x
+--       p.geometries[f] = g
+--       -- naughty.notify{title="HI",text="HI"}
+--       for i, v  in pairs(p.geometries) do
+-- 	 -- naughty.notify{title="HI",text="HI"}
+-- 	 naughty.notify{title=tostring(i),
+-- 			text="<".."("..tostring(v.x)..","..tostring(v.y).."),"
+-- 			   ..tostring(v.width)..","..tostring(v.height)..")"
+-- 	 }
+--       end
+--       -- naughty.notify{title="f: "..f.name, text="("..g.x..":"..g.y..")"}
+--       -- for i, v in ipairs(p.geometries) do
+--       -- end
+--    end
+-- end
 
 function do_stack(p)
    local wa = p.workarea
    local cls = p.clients
    if #cls > 0 then
-      local g = {}
-      g.height = 0
-      g.width = wa.width
-      g.y = top_titles
-      g.x = 0
-      g.y = g.y + wa.y
-      g.x = g.x + wa.x
-      p.geometries[c] = g
+      local top_cls = {}
+      local bot_cls = {}
+      local fidx
+      -- first divide all client to:
+      -- the ones which should be above the focused
+      -- the ones which should be below the focused
+      -- the focused client
+      if not fidx then
+	 for k, c in ipairs(cls) do
+	    if c == client.focus then
+	       fidx = k
+	       break
+	    end
+	 end
+      end
+
+      -- next setup the top clients, offsetting each client by the
+      -- sum of the titlebar heights of of the clients before  him
+      local top_offset = 0
+      for k = 1,fidx-1 do
+	 local g = {}
+	 local height = awful.titlebar(cls[k]).drawable:geometry().height + 5
+	 p.geometries[cls[k]] = {
+	    x = wa.x,
+	    y = wa.y + top_offset,
+	    height = height-1, --height,
+	    width = wa.width
+	 }
+	 top_offset = top_offset + height
+      end
+      -- now the same as what we did for the top ones,
+      -- but reversely, with the bottom ones
+      local bot_offset = 0
+      for k = fidx+1,#cls do
+	 -- local c = bot_cls[i]
+	 local height = awful.titlebar(cls[k]).drawable:geometry().height + 5
+	 bot_offset = bot_offset + height
+	 p.geometries[cls[k]] = {
+	    height = height - 1, --height,
+	    width = wa.width,
+	    y = wa.y + wa.height - bot_offset,
+	    x = wa.x,
+	 }
+      end
+      -- lastly setup the focused window between the top and the bottom ones
+      p.geometries[cls[fidx]] = {
+      height = wa.height - top_offset - bot_offset,
+      width = wa.width,
+      y = wa.y + top_offset,
+      x = wa.x
+      }
+      for i, v  in pairs(p.geometries) do
+	 -- naughty.notify{title=tostring(i),
+	 -- 		text="<".."("..tostring(v.x)..","..tostring(v.y).."),"
+	 -- 		   ..tostring(v.width)..","..tostring(v.height)..")"
+	 -- }
+      end
    end
+end
+
+local stack = {}
+stack.name = "stack"
+function stack.arrange(p)
+   return do_stack(p)
 end
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
    -- awful.layout.suit.floating,
-   simple,
    simple.vertical,
+   simple,
    lain.layout.termfair.center,
    lain.layout.centerwork,
    lain.layout.centerwork.horizontal,
@@ -156,8 +305,8 @@ awful.layout.layouts = {
    awful.layout.suit.tile.left,
    awful.layout.suit.tile.bottom,
    -- awful.layout.suit.tile.top,
-   awful.layout.suit.fair,
-   awful.layout.suit.fair.horizontal,
+   -- awful.layout.suit.fair,
+   -- awful.layout.suit.fair.horizontal,
    -- awful.layout.suit.spiral,
    -- awful.layout.suit.spiral.dwindle,
    awful.layout.suit.max,
@@ -167,6 +316,7 @@ awful.layout.layouts = {
    -- awful.layout.suit.corner.ne,
    -- awful.layout.suit.corner.sw,
    -- awful.layout.suit.corner.se,
+   stack,
 }
 -- }}}
 
@@ -343,7 +493,9 @@ globalkeys = gears.table.join(
       {description = "go back", group = "tag"}),
 
    -- Layout manipulation
-   awful.key({ modkey, "Shift" }, "w", function () awful.client.swap.global_bydirection(  "up")    end,
+   awful.key({ modkey, "Shift" }, "w", function ()
+	 awful.client.swap.global_bydirection(  "up")
+				       end,
       {description = "swap with client above", group = "client"}),
    awful.key({ modkey, "Shift" }, "a", function () awful.client.swap.global_bydirection(  "left")    end,
       {description = "swap with client to the left", group = "client"}),
@@ -351,13 +503,29 @@ globalkeys = gears.table.join(
       {description = "swap with client below", group = "client"}),
    awful.key({ modkey, "Shift" }, "d", function () awful.client.swap.global_bydirection(  "right")    end,
       {description = "swap with client to the right", group = "client"}),
-   awful.key({ modkey,         }, "w", function () awful.client.focus.global_bydirection( "up") end,
+   awful.key({ modkey,         }, "w",
+      function ()
+	 awful.client.focus.global_bydirection( "up")
+	 client.focus:emit_signal("request::activate","client.focus.global_bydirection", {raise=true})
+      end,
       {description = "focus client above", group = "client"}),
-   awful.key({ modkey,         }, "a", function () awful.client.focus.global_bydirection( "left") end,
+   awful.key({ modkey,         }, "a",
+      function ()
+	 awful.client.focus.global_bydirection( "left")
+	 client.focus:emit_signal("request::activate","client.focus.global_bydirection", {raise=true})
+      end,
       {description = "focus client to the left", group = "client"}),
-   awful.key({ modkey,         }, "s", function () awful.client.focus.global_bydirection( "down") end,
+   awful.key({ modkey,         }, "s",
+      function ()
+	 awful.client.focus.global_bydirection( "down")
+	 client.focus:emit_signal("request::activate","client.focus.global_bydirection", {raise=true})
+      end,
       {description = "focus client below", group = "client"}),
-   awful.key({ modkey,         }, "d", function () awful.client.focus.global_bydirection( "right") end,
+   awful.key({ modkey,         }, "d",
+      function ()
+	 awful.client.focus.global_bydirection( "right")
+	 client.focus:emit_signal("request::activate","client.focus.global_bydirection", {raise=true})
+      end,
       {description = "focus client to the right", group = "client"}),
    awful.key({ modkey,         }, "e", function () awful.client.focus.byidx(1) end,
       {description = "focus the next client by index", group = "client"}),
