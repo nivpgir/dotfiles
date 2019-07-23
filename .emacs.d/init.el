@@ -13,6 +13,7 @@
   (load bootstrap-file nil 'nomessage))
 
 
+(column-number-mode)
 (setq-default show-trailing-whitespace t)
 (require 'tramp)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
@@ -326,11 +327,19 @@ current window."
 
 ;; janet
 (straight-use-package
- '(ijanet
+ '(janet-mode
    :type git
    :host github
-   :repo "serialdev/ijanet-mode"
+   :repo "ALSchwalm/janet-mode"
    ))
+(require 'janet-mode)
+(straight-use-package
+ '(inf-janet
+   :type git
+   :host github
+   :repo "velkyel/inf-janet"
+   ))
+(require 'inf-janet)
 ;; lua
 (straight-use-package 'lua-mode)
 
