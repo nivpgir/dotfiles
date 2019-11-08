@@ -343,6 +343,12 @@ current window."
 ;; lua
 (straight-use-package 'lua-mode)
 
+;; scheme
+(straight-use-package 'geiser)
+
+;; chicken scheme
+(setq scheme-program-name "csi -:c")
+
 ;; python
 ;  currently using the default python support which is good enough for now
 ;; also maybe:
