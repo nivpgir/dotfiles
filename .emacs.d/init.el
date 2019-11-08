@@ -243,11 +243,11 @@ current window."
 
 
 ;;; Languages:
-;; haskell
-(straight-use-package 'haskell-mode)
-(straight-use-package 'company-ghc)
-(if (bound-and-true-p company-candidates)
-    (add-to-list 'company-backends 'company-ghc))
+;; ;; haskell
+;; (straight-use-package 'haskell-mode)
+;; (straight-use-package 'company-ghc)
+;; (if (bound-and-true-p company-candidates)
+;;     (add-to-list 'company-backends 'company-ghc))
 
 ;; ruby
 (straight-use-package 'robe)
@@ -302,8 +302,8 @@ current window."
 ;; dts
 (straight-use-package 'dts-mode)
 
-;; racket
-(straight-use-package 'racket-mode)
+;; ;; racket
+;; (straight-use-package 'racket-mode)
 
 ;; rust
 (straight-use-package 'rust-mode)
@@ -311,7 +311,9 @@ current window."
 (straight-use-package 'flycheck-rust)
 (straight-use-package 'racer)
 (setq racer-cmd "~/.cargo/bin/racer") ;; Rustup binaries PATH
-(setq racer-rust-src-path "~/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/") ;; Rust source code PATH
+(setq racer-rust-src-path (if (file-directory-p "/home/local/gits/rust/src/")
+			      "/home/local/gits/rust/src/"
+			    "~/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/")) ;; Rust source code PATH
 (add-hook 'rust-mode-hook #'racer-mode)
 (add-hook 'racer-mode-hook #'eldoc-mode)
 (add-hook 'racer-mode-hook #'company-mode)
@@ -325,21 +327,21 @@ current window."
     (sp-local-pair "{" nil :post-handlers '(:add ("||\n[i]" "RET")))))
 
 
-;; janet
-(straight-use-package
- '(janet-mode
-   :type git
-   :host github
-   :repo "ALSchwalm/janet-mode"
-   ))
-(require 'janet-mode)
-(straight-use-package
- '(inf-janet
-   :type git
-   :host github
-   :repo "velkyel/inf-janet"
-   ))
-(require 'inf-janet)
+;; ;; janet
+;; (straight-use-package
+;;  '(janet-mode
+;;    :type git
+;;    :host github
+;;    :repo "ALSchwalm/janet-mode"
+;;    ))
+;; (require 'janet-mode)
+;; (straight-use-package
+;;  '(inf-janet
+;;    :type git
+;;    :host github
+;;    :repo "velkyel/inf-janet"
+;;    ))
+;; (require 'inf-janet)
 ;; lua
 (straight-use-package 'lua-mode)
 
