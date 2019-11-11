@@ -20,6 +20,8 @@
 ;; My Functions and configs
 (define-prefix-command 'my-keymap nil "niv")
 (global-set-key (kbd "M-m") 'my-keymap)
+(define-key 'my-keymap (kbd "t") (lambda () (interactive) (term "/bin/bash")))
+
 (defun compose (f g)
   `(lambda (x) (,f (,g x))))
 ;; setup splitting windows
@@ -109,6 +111,22 @@ current window."
 
 (define-key 'my-keymap (kbd "c") 'compile)
 
+(defun rename-file-and-buffer ()
+  "Rename the current buffer and file it is visiting."
+  (interactive)
+  (let ((filename (buffer-file-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (message "Buffer is not visiting a file!")
+      (let ((new-name (read-file-name "New name: " filename)))
+        (cond
+         ((vc-backend filename) (vc-rename-file filename new-name))
+         (t
+          (rename-file filename new-name t)
+          (set-visited-file-name new-name t t)))))))
+
+(define-key 'my-keymap (kbd "r") 'rename-file-and-buffer)
+
+
 
 ;;unbinding C-m from RET
 ;; (define-key input-decode-map [?\C-m] [C-m]) ;; without this we can't RET doesn't work in terminal
@@ -140,7 +158,7 @@ current window."
   "Alaways center the cursor in the middle of the screen."
   :lighter "..."
   (cond (centered-point-mode (add-hook 'post-command-hook 'line-change))
-	    (t (remove-hook 'post-command-hook 'line-change)))
+	(t (remove-hook 'post-command-hook 'line-change)))
   )
 (centered-point-mode t)
 ;; match parens
@@ -175,18 +193,18 @@ current window."
 (define-key undo-tree-map (kbd "C-/") nil)
 (setq winum-keymap
       (let ((map (make-sparse-keymap)))
-	    (define-key map (kbd "C-`") 'winum-select-window-by-number)
-	    (define-key map (kbd "M-0") 'winum-select-window-0-or-10)
-	    (define-key map (kbd "M-1") 'winum-select-window-1)
-	    (define-key map (kbd "M-2") 'winum-select-window-2)
-	    (define-key map (kbd "M-3") 'winum-select-window-3)
-	    (define-key map (kbd "M-4") 'winum-select-window-4)
-	    (define-key map (kbd "M-5") 'winum-select-window-5)
-	    (define-key map (kbd "M-6") 'winum-select-window-6)
-	    (define-key map (kbd "M-7") 'winum-select-window-7)
-	    (define-key map (kbd "M-8") 'winum-select-window-8)
-	    (define-key map (kbd "M-9") 'winum-select-window-9)
-	    map))
+	(define-key map (kbd "C-`") 'winum-select-window-by-number)
+	(define-key map (kbd "M-0") 'winum-select-window-0-or-10)
+	(define-key map (kbd "M-1") 'winum-select-window-1)
+	(define-key map (kbd "M-2") 'winum-select-window-2)
+	(define-key map (kbd "M-3") 'winum-select-window-3)
+	(define-key map (kbd "M-4") 'winum-select-window-4)
+	(define-key map (kbd "M-5") 'winum-select-window-5)
+	(define-key map (kbd "M-6") 'winum-select-window-6)
+	(define-key map (kbd "M-7") 'winum-select-window-7)
+	(define-key map (kbd "M-8") 'winum-select-window-8)
+	(define-key map (kbd "M-9") 'winum-select-window-9)
+	map))
 (straight-use-package 'winum)
 (winum-mode)
 ;; darcula theme
@@ -212,9 +230,11 @@ current window."
 (setq ivy-use-virtual-buffers t)
 (setq ivy-count-format "(%d/%d) ")
 
-(global-set-key (kbd "C-s") 'swiper)
+(global-set-key (kbd "C-s") 'swiper-isearch)
+(global-set-key (kbd "C-S-s") 'swiper-query-replace)
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "M-m M-s") 'swiper-isearch-thing-at-point)
 (global-set-key (kbd "M-m h f") 'counsel-describe-function)
 (global-set-key (kbd "M-m h v") 'counsel-describe-variable)
 (global-set-key (kbd "M-m h l") 'counsel-find-library)
@@ -293,8 +313,8 @@ current window."
           (lambda ()
             (c-set-style "my-linux-tabs-only")
             (c-mode-set-smartparens)
-	        (setq indent-tabs-mode t)
-	        (setq tab-width c-basic-offset)
+	    (setq indent-tabs-mode t)
+	    (setq tab-width c-basic-offset)
             ))
 
 
@@ -348,11 +368,28 @@ current window."
 ;; scheme
 (straight-use-package 'geiser)
 
-;; chicken scheme
-(setq scheme-program-name "csi -:c")
+;; clojure
+(dolist (p '(paredit
+	     clojure-mode
+	     clojure-mode-extra-font-locking
+	     rainbow-delimiters
+	     inf-clojure
+	     cider))
+  (straight-use-package p))
+
+
+(add-hook 'clojure-mode-hook #'subword-mode)
+(require 'clojure-mode-extra-font-locking)
+(add-hook 'clojure-mode-hook #'paredit-mode)
+(add-hook 'clojure-mode-hook #'smartparens-strict-mode)
+(add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
+
+(setq cider-default-repl-command "clj")
+(setq inf-clojure-generic-cmd "clj")
+
 
 ;; python
-;  currently using the default python support which is good enough for now
+;;  currently using the default python support which is good enough for now
 ;; also maybe:
 ;; scala
 ;; elixir
