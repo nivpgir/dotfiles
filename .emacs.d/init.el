@@ -207,12 +207,18 @@ current window."
 	map))
 (straight-use-package 'winum)
 (winum-mode)
-;; darcula theme
-(straight-use-package 'idea-darkula-theme)
-(load-theme 'idea-darkula t)
-(custom-theme-set-faces
- 'idea-darkula
- '(show-paren-match ((t (:background "dark slate gray")))))
+;; darcula theme -- not used, keeping in case we wanna come back
+;; (straight-use-package 'idea-darkula-theme)
+;; (load-theme 'idea-darkula t)
+;; (custom-theme-set-faces
+;;  'idea-darkula
+;;  '(show-paren-match ((t (:background "dark slate gray")))))
+;; ample theme
+(straight-use-package 'ample-theme)
+(load-theme 'ample t t)
+(enable-theme 'ample)
+
+
 
 
 ;; Company
@@ -223,6 +229,7 @@ current window."
 
 ;; ivy
 (straight-use-package 'ivy)
+(straight-use-package 'avy)
 (straight-use-package 'swiper)
 (straight-use-package 'counsel)
 (ivy-mode 1)
