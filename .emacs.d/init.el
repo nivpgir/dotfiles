@@ -269,6 +269,19 @@ current window."
 
 
 
+
+(straight-use-package 'yasnippet)
+(straight-use-package 'lsp-mode)
+(straight-use-package 'lsp-ui)
+(add-hook 'lsp-mode-hook 'lsp-ui-mode)
+(straight-use-package 'company-lsp)
+;; (straight-use-package
+;;  '(lsp-ivy
+;;    :type git
+;;    :host github
+;;    :repo "emacs-lsp/lsp-ivy"
+;;    ))
+
 ;;; Languages:
 ;; ;; haskell
 ;; (straight-use-package 'haskell-mode)
@@ -334,17 +347,6 @@ current window."
 
 ;; rust
 (straight-use-package 'rust-mode)
-(straight-use-package 'cargo)
-(straight-use-package 'flycheck-rust)
-(straight-use-package 'racer)
-(setq racer-cmd "~/.cargo/bin/racer") ;; Rustup binaries PATH
-(setq racer-rust-src-path (if (file-directory-p "/home/local/gits/rust/src/")
-			      "/home/local/gits/rust/src/"
-			    "~/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/")) ;; Rust source code PATH
-(add-hook 'rust-mode-hook #'racer-mode)
-(add-hook 'racer-mode-hook #'eldoc-mode)
-(add-hook 'racer-mode-hook #'company-mode)
-(add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
 (add-hook 'rust-mode-hook
           (lambda ()
             (local-set-key (kbd "C-c <tab>") #'rust-format-buffer)))
@@ -352,6 +354,11 @@ current window."
   (sp-with-modes
       '(rust-mode)
     (sp-local-pair "{" nil :post-handlers '(:add ("||\n[i]" "RET")))))
+(straight-use-package 'cargo)
+(add-hook 'rust-mode-hook 'lsp)
+(straight-use-package 'flycheck-rust)
+(add-hook 'rust-mode-hook 'flycheck-mode)
+
 
 
 ;; ;; janet
