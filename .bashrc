@@ -39,6 +39,8 @@ export EDITOR=em
 export VISUAL=emacs
 export BROWSER='chromium'
 
+RUBY_BUNDLE_BIN_DIR=$HOME/.gem/ruby/2.3.0/bin
+[ -d $RUBY_BUNDLE_BIN_DIR ] && export PATH=$RUBY_BUNDLE_BIN_DIR:$PATH
 
 function parse_git_branch {
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
@@ -128,6 +130,17 @@ fi
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 
+### UTILITIES ###
+function until_fail() {
+    local cmd=$@
+    echo executing: $cmd
+    local i=0
+    while eval $cmd; do
+	echo end of iteration: $((i++))
+    done
+    echo failed on iteration: $i
+}
+
 
 ### NVM ###
 export NVM_DIR="$HOME/.nvm"
@@ -138,9 +151,9 @@ export NVM_DIR="$HOME/.nvm"
 export WORKON_HOME=~/.py_venvs
 [[ -f ~/.local/bin/virtualenvwrapper.sh ]] && source ~/.local/bin/virtualenvwrapper.sh
 
-[[ -f $HOME/.local_bashrc ]] && . $HOME/.local_bashrc
-
 ### RUST setup ###
-
 [[ -f $HOME/.cargo/env ]] && source $HOME/.cargo/env
+
+
+[[ -f $HOME/.local_bashrc ]] && . $HOME/.local_bashrc
 

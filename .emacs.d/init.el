@@ -220,6 +220,8 @@ current window."
 
 
 
+;; wgrep
+(straight-use-package 'wgrep)
 
 ;; Company
 ;; remember that navigating in the popup is done with M-n and M-p
@@ -260,6 +262,7 @@ current window."
 (straight-use-package 'magit)
 (require 'magit)
 (define-key 'my-keymap (kbd "g s") 'magit-status)
+(define-key 'my-keymap (kbd "g b") 'magit-blame)
 ;;(straight-use-package 'magithub)
 
 
@@ -273,6 +276,7 @@ current window."
 (straight-use-package 'yasnippet)
 (straight-use-package 'lsp-mode)
 (straight-use-package 'lsp-ui)
+
 (add-hook 'lsp-mode-hook 'lsp-ui-mode)
 (straight-use-package 'company-lsp)
 ;; (straight-use-package
@@ -290,10 +294,11 @@ current window."
 ;;     (add-to-list 'company-backends 'company-ghc))
 
 ;; ruby
-(straight-use-package 'robe)
-(add-hook 'ruby-mode-hook 'robe-mode)
-(if (bound-and-true-p company-candidates)
-    (add-to-list 'company-backends 'company-robe))
+(add-hook 'ruby-mode-hook 'lsp)
+;; (straight-use-package 'robe)
+;; (add-hook 'ruby-mode-hook 'robe-mode)
+;; (if (bound-and-true-p company-candidates)
+;;     (add-to-list 'company-backends 'company-robe))
 (with-eval-after-load 'smartparens
   (sp-with-modes
       '(ruby-mode)
@@ -305,6 +310,9 @@ current window."
 ;; 	tab-width 4		; so we don't overflow lines
 ;; 	indent-tabs-mode t))	; so we use tabs
 ;; (setq c-default-style "linux") ; set style to "linux" cause kernel
+(add-hook 'c-mode-hook 'lsp)
+
+(setq lsp-clients-clangd-args '("-j=4" "-background-index" "-log=error"))
 
 (defun c-lineup-arglist-tabs-only (ignored)
   "Line up argument lists by tabs, not spaces"
@@ -357,6 +365,7 @@ current window."
 (straight-use-package 'cargo)
 (add-hook 'rust-mode-hook 'lsp)
 (straight-use-package 'flycheck-rust)
+(add-hook 'flycheck-mode-hook 'flycheck-rust-setup)
 (add-hook 'rust-mode-hook 'flycheck-mode)
 
 
