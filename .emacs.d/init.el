@@ -311,6 +311,8 @@ current window."
 ;; 	indent-tabs-mode t))	; so we use tabs
 ;; (setq c-default-style "linux") ; set style to "linux" cause kernel
 (add-hook 'c-mode-hook 'lsp)
+(add-hook 'c++-mode-hook 'lsp)
+
 
 (setq lsp-clients-clangd-args '("-j=4" "-background-index" "-log=error"))
 

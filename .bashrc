@@ -91,6 +91,8 @@ set_prompt(){
 
     # export PS1="${PS1}${White}"'[\t] [\[\033[0;31m\]\u@\h\[\033[00m\]] [\[\033[1;36m\]\w\[\033[00m\]]$(parse_git_branch)$(venv_name)\n\[\033[1;32m\]$ \[\033[00m\]'
     local time=`date +%T`
+    local wm_class=$(xprop -id `xdotool getactivewindow` | grep CLASS | rev | cut -d' ' -f1 | rev)
+    wmctrl -r :ACTIVE: -N "${wm_class}::$(pwd)"
     export PS1="${PS1}${White}""[${time}] [$Red\u@\h$Reset] [$Orcam1\w$Reset]$git_branch_bg$(parse_git_branch)$Reset$py_venv_bg$(venv_name)$Reset\n$Yellow$ $Reset"
 
 }
