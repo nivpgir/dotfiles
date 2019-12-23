@@ -102,6 +102,20 @@ current window."
          (other-buffer current-buffer t)))))
 (define-key 'my-keymap (kbd "<tab>") 'alternate-buffer)
 
+(defun new-empty-buffer ()
+  "Create a new empty buffer.
+New buffer will be named “untitled” or “untitled<2>”, “untitled<3>”, etc.
+
+It returns the buffer (for elisp programing).
+
+URL `http://ergoemacs.org/emacs/emacs_new_empty_buffer.html'
+Version 2017-11-01"
+  (interactive)
+  (let (($buf (generate-new-buffer (read-from-minibuffer "New buffer name: "))))
+    (switch-to-buffer $buf)
+    (setq buffer-offer-save t)
+    $buf
+    ))
 ;; indent whole buffer
 (defun indent-buffer ()
   (interactive)
@@ -122,6 +136,7 @@ current window."
   (insert (shell-command-to-string "echo -n $(date +%Y-%m-%d)")))
 
 (define-key 'my-keymap (kbd "c") 'compile)
+(define-key 'my-keymap (kbd "nb") 'new-empty-buffer)
 
 (defun rename-file-and-buffer ()
   "Rename the current buffer and file it is visiting."
