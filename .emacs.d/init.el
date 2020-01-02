@@ -1,5 +1,7 @@
 ;;; init.el --- Initialization file for Emacs
+;;; init.el --- -*- lexical-binding: t -*-
 ;;; Commentary: Emacs Startup File --- initialization for Emacs
+
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -23,6 +25,7 @@
 ;;       (goto-char (point-max))
 ;;       (eval-print-last-sexp)))
 ;;   (load bootstrap-file nil 'nomessage))
+(straight-use-package 'use-package)
 
 
 (column-number-mode)
@@ -257,16 +260,31 @@ Version 2017-11-01"
 (add-hook 'after-init-hook 'global-company-mode)
 
 ;; ivy
-(straight-use-package 'ivy)
+;; (straight-use-package 'ivy)
+(use-package ivy
+  :straight t
+  :hook (after-init . ivy-mode)
+  :config
+  (setq ivy-display-style nil)
+  (define-key ivy-minibuffer-map (kbd "RET") #'ivy-alt-done)
+  (define-key ivy-minibuffer-map (kbd "<escape>") #'minibuffer-keyboard-quit)
+  (define-key ivy-minibuffer-map (kbd "C-M-s") 'swiper-query-replace)
+  ;; (setq ivy-re-builders-alist
+  ;;       '((counsel-rg . ivy--regex-plus)
+  ;;         (counsel-projectile-rg . ivy--regex-plus)
+  ;;         (counsel-ag . ivy--regex-plus)
+  ;;         (counsel-projectile-ag . ivy--regex-plus)
+  ;;         (swiper . ivy--regex-plus)
+  ;;         (t . ivy--regex-fuzzy)))
+  (setq ivy-use-virtual-buffers t
+        ivy-count-format "(%d/%d) "
+        ivy-initial-inputs-alist nil))
+
 (straight-use-package 'avy)
 (straight-use-package 'swiper)
 (straight-use-package 'counsel)
-(ivy-mode 1)
 
-(setq ivy-use-virtual-buffers t)
-(setq ivy-count-format "(%d/%d) ")
 
-(define-key ivy-minibuffer-map (kbd "C-M-s") 'swiper-query-replace)
 (global-set-key (kbd "C-s") 'swiper-isearch)
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
@@ -322,6 +340,7 @@ Version 2017-11-01"
 
 ;; ruby
 (add-hook 'ruby-mode-hook 'lsp)
+(setq lsp-solargraph-use-bundler t)
 ;; (straight-use-package 'robe)
 ;; (add-hook 'ruby-mode-hook 'robe-mode)
 ;; (if (bound-and-true-p company-candidates)
@@ -442,6 +461,7 @@ Version 2017-11-01"
 
 ;; python
 ;;  currently using the default python support which is good enough for now
+(add-hook 'python-mode-hook 'lsp)
 ;; also maybe:
 ;; scala
 ;; elixir
