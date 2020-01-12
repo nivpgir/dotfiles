@@ -2,6 +2,37 @@
 ;;; init.el --- -*- lexical-binding: t -*-
 ;;; Commentary: Emacs Startup File --- initialization for Emacs
 
+(setq gc-cons-threshold 100000000)
+
+(defvar file-name-handler-alist-original file-name-handler-alist)
+(setq file-name-handler-alist nil)
+
+(defvar better-gc-cons-threshold 67108864) ; 64mb
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq gc-cons-threshold better-gc-cons-threshold)
+            (setq file-name-handler-alist file-name-handler-alist-original)
+            (makunbound 'file-name-handler-alist-original)))
+
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (if (boundp 'after-focus-change-function)
+                (add-function :after after-focus-change-function
+                              (lambda ()
+                                (unless (frame-focus-state)
+                                  (garbage-collect))))
+              (add-hook 'after-focus-change-function 'garbage-collect))
+            (defun gc-minibuffer-setup-hook ()
+              (setq gc-cons-threshold (* better-gc-cons-threshold 2)))
+
+            (defun gc-minibuffer-exit-hook ()
+              (garbage-collect)
+              (setq gc-cons-threshold better-gc-cons-threshold))
+
+            (add-hook 'minibuffer-setup-hook #'gc-minibuffer-setup-hook)
+            (add-hook 'minibuffer-exit-hook #'gc-minibuffer-exit-hook)))
+
+
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -176,21 +207,8 @@ Version 2017-11-01"
 ;; first things first...
 ;; delete selection mode
 (delete-selection-mode t)
-;; centered point ;; if this will be problematic then consider using: https://www.emacswiki.org/emacs/centered-cursor-mode.el
-;;(straight-use-package
-;; '(centered-point-mode :type git :host github :repo "jmercouris/emacs-centered-point"))
-;;(require 'centered-point-mode-autoloads)
-;;(require 'centered-point-mode)
-(defun line-change ()
-  (recenter)
-  )
-(define-minor-mode centered-point-mode
-  "Alaways center the cursor in the middle of the screen."
-  :lighter "..."
-  (cond (centered-point-mode (add-hook 'post-command-hook 'line-change))
-	(t (remove-hook 'post-command-hook 'line-change)))
-  )
-(centered-point-mode t)
+;; centered point consider using: https://www.emacswiki.org/emacs/centered-cursor-mode.el
+
 ;; match parens
 (show-paren-mode t)
 
@@ -237,17 +255,30 @@ Version 2017-11-01"
 	map))
 (straight-use-package 'winum)
 (winum-mode)
-;; darcula theme -- not used, keeping in case we wanna come back
-;; (straight-use-package 'idea-darkula-theme)
-;; (load-theme 'idea-darkula t)
-;; (custom-theme-set-faces
-;;  'idea-darkula
-;;  '(show-paren-match ((t (:background "dark slate gray")))))
-;; ample theme
-(straight-use-package 'ample-theme)
-(load-theme 'ample t t)
-(enable-theme 'ample)
 
+;; doom themes
+(use-package doom-themes
+  :straight t
+  :config
+  ;; flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config)
+  (load-theme 'doom-molokai t))
+
+
+;; doom modeline
+(use-package doom-modeline
+  :straight t
+  :hook (after-init . doom-modeline-mode)
+  :custom
+  ;; Don't compact font caches during GC. Windows Laggy Issue
+  (inhibit-compacting-font-caches t)
+  (doom-modeline-minor-modes t)
+  (doom-modeline-icon t)
+  (doom-modeline-major-mode-color-icon t)
+  (doom-modeline-height 15)
+  )
 
 
 ;; wgrep
@@ -259,43 +290,59 @@ Version 2017-11-01"
 (require 'company)
 (add-hook 'after-init-hook 'global-company-mode)
 
+(use-package diminish
+  :straight t)
+
 ;; ivy
 ;; (straight-use-package 'ivy)
 (use-package ivy
   :straight t
+  :init
+  (use-package amx
+    :straight t
+    :defer t)
+  (use-package counsel
+    :straight t
+    :diminish
+    :config (counsel-mode 1))
+  (use-package swiper
+    :defer t)
   :hook (after-init . ivy-mode)
+  :custom
+  (ivy-use-virtual-buffers t)
+  (ivy-count-format "(%d/%d) ")
+  (ivy-initial-inputs-alist nil)
   :config
   (setq ivy-display-style nil)
-  (define-key ivy-minibuffer-map (kbd "RET") #'ivy-alt-done)
-  (define-key ivy-minibuffer-map (kbd "<escape>") #'minibuffer-keyboard-quit)
-  (define-key ivy-minibuffer-map (kbd "C-M-s") 'swiper-query-replace)
-  ;; (setq ivy-re-builders-alist
-  ;;       '((counsel-rg . ivy--regex-plus)
-  ;;         (counsel-projectile-rg . ivy--regex-plus)
-  ;;         (counsel-ag . ivy--regex-plus)
-  ;;         (counsel-projectile-ag . ivy--regex-plus)
-  ;;         (swiper . ivy--regex-plus)
-  ;;         (t . ivy--regex-fuzzy)))
-  (setq ivy-use-virtual-buffers t
-        ivy-count-format "(%d/%d) "
-        ivy-initial-inputs-alist nil))
+  )
+  ;; :map
+(global-set-key (kbd "RET") 'ivy-alt-done)
+(global-set-key (kbd "<escape>") 'minibuffer-keyboard-quit)
+(global-set-key (kbd "C-M-s") 'swiper-query-replace)
 
 (straight-use-package 'avy)
-(straight-use-package 'swiper)
-(straight-use-package 'counsel)
+
+;; (straight-use-package 'counsel)
 
 
 (global-set-key (kbd "C-s") 'swiper-isearch)
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-(global-set-key (kbd "M-m M-s") 'swiper-isearch-thing-at-point)
-(global-set-key (kbd "M-m h f") 'counsel-describe-function)
-(global-set-key (kbd "M-m h v") 'counsel-describe-variable)
-(global-set-key (kbd "M-m h l") 'counsel-find-library)
-(global-set-key (kbd "M-m h i") 'counsel-info-lookup-symbol)
-(global-set-key (kbd "M-m i u") 'counsel-unicode-char)
+;; (global-set-key (kbd "M-m M-s") 'swiper-isearch-thing-at-point)
+(define-key 'my-keymap (kbd "M-s") 'swiper-isearch-thing-at-point)
+;; (global-set-key (kbd "M-m h f") 'counsel-describe-function)
+(define-key 'my-keymap (kbd "h f") 'counsel-describe-function)
+;; (global-set-key (kbd "M-m h v") 'counsel-describe-variable)
+(define-key 'my-keymap (kbd "h v") 'counsel-describe-variable)
+;; (global-set-key (kbd "M-m h l") 'counsel-find-library)
+(define-key 'my-keymap (kbd "h l") 'counsel-find-library)
+;; (global-set-key (kbd "M-m h i") 'counsel-info-lookup-symbol)
+(define-key 'my-keymap (kbd "h i") 'counsel-info-lookup-symbol)
+;; (global-set-key (kbd "M-m i u") 'counsel-unicode-char)
+(define-key 'my-keymap (kbd "i u") 'counsel-unicode-char)
+;; (global-set-key (kbd "C-c c") 'counsel-compile)
+(define-key 'my-keymap (kbd "c") 'counsel-compile)
 
-(global-set-key (kbd "C-c c") 'counsel-compile)
 (global-set-key (kbd "C-c g") 'counsel-git)
 (global-set-key (kbd "C-c j") 'counsel-git-grep)
 (global-set-key (kbd "C-c k") 'counsel-ag)
@@ -469,6 +516,13 @@ Version 2017-11-01"
 ;; java
 
 ;; get something as emacs help (helpful or something)
+
+;; TODO:
+;; Consider Using:
+;; - crux: https://github.com/bbatsov/crux
+;; - emacs disk usage: https://gitlab.com/ambrevar/emacs-disk-usage
+;; - treemacs: https://github.com/Alexander-Miller/treemacs
+;; - look for useful stuff in: https://github.com/MatthewZMD/.emacs.d#orgd39ff00
 
 (global-set-key (kbd "RET") 'newline-and-indent)
 
