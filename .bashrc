@@ -91,8 +91,6 @@ set_prompt(){
 
     # export PS1="${PS1}${White}"'[\t] [\[\033[0;31m\]\u@\h\[\033[00m\]] [\[\033[1;36m\]\w\[\033[00m\]]$(parse_git_branch)$(venv_name)\n\[\033[1;32m\]$ \[\033[00m\]'
     local time=`date +%T`
-    local wm_class=$(xprop -id `xdotool getactivewindow` | grep CLASS | rev | cut -d' ' -f1 | rev)
-    wmctrl -r :ACTIVE: -N "${wm_class}::$(pwd)"
     export PS1="${PS1}${White}""[${time}] [$Red\u@\h$Reset] [$Orcam1\w$Reset]$git_branch_bg$(parse_git_branch)$Reset$py_venv_bg$(venv_name)$Reset\n$Yellow$ $Reset"
 
 }
@@ -143,11 +141,27 @@ function until_fail() {
     echo failed on iteration: $i
 }
 
+function mount-tar(){
+    which archivemount 2>&1 > /dev/null ||
+	( echo "archivemount not found, returning..." && return )
+    test ! -z $1 ||
+	( echo "must give an archive to mount as an argument"  && return )
+
+    local ARCHIVE=$1
+    local MOUNT=/tmp/${USER}/${ARCHIVE%%.*}
+    mkdir -p ${MOUNT}
+    archivemount ${ARCHIVE} ${MOUNT}
+}
+
 
 ### NVM ###
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+### Ruby Setup ###
+RUBY_BIN_PATH=$HOME/.gem/ruby/2.3.0/bin/
+[[ -d $RUBY_BIN_PATH ]] && PATH=$PATH:$RUBY_BIN_PATH
 
 ### Python virtualenv ###
 export WORKON_HOME=~/.py_venvs
@@ -156,6 +170,8 @@ export WORKON_HOME=~/.py_venvs
 ### RUST setup ###
 [[ -f $HOME/.cargo/env ]] && source $HOME/.cargo/env
 
+### nix setup ###
+[[ -f $HOME/.nix-profile/etc/profile.d/nix.sh ]] && . $HOME/.nix-profile/etc/profile.d/nix.sh
 
 [[ -f $HOME/.local_bashrc ]] && . $HOME/.local_bashrc
 
