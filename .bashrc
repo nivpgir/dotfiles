@@ -175,3 +175,5 @@ export WORKON_HOME=~/.py_venvs
 
 [[ -f $HOME/.local_bashrc ]] && . $HOME/.local_bashrc
 
+alias vq="vaquero"
+alias vqrepl="rlwrap vaquero repl"
