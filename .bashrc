@@ -154,6 +154,13 @@ function mount-tar(){
 }
 
 
+
+### NPM ###
+NPM_PACKAGES="${HOME}/.npm-packages"
+export PATH="$PATH:$NPM_PACKAGES/bin"
+# Preserve MANPATH if I already defined it somewhere in my config.
+export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
+
 ### NVM ###
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -175,5 +182,17 @@ export WORKON_HOME=~/.py_venvs
 
 [[ -f $HOME/.local_bashrc ]] && . $HOME/.local_bashrc
 
+
 alias vq="vaquero"
 alias vqrepl="rlwrap vaquero repl"
+
+if command -v pueue >/dev/null 2>&1 ; then
+    alias pue="pueue"
+    alias puest="pue status"
+    alias puead="pue add --"
+    alias puel="pue log"
+    alias puesh="pue show"
+    # echo trying to start pueue daemon...
+    # pueued --daemonize
+fi
+

@@ -316,9 +316,9 @@ Version 2017-11-01"
   (setq ivy-display-style nil)
   )
   ;; :map
-(global-set-key (kbd "RET") 'ivy-alt-done)
-(global-set-key (kbd "<escape>") 'minibuffer-keyboard-quit)
-(global-set-key (kbd "C-M-s") 'swiper-query-replace)
+;; (global-set-key (kbd "RET") 'ivy-alt-done)
+;; (global-set-key (kbd "<escape>") 'minibuffer-keyboard-quit)
+;; (global-set-key (kbd "C-M-s") 'swiper-query-replace)
 
 (straight-use-package 'avy)
 
@@ -387,7 +387,7 @@ Version 2017-11-01"
 
 ;; ruby
 (add-hook 'ruby-mode-hook 'lsp)
-(setq lsp-solargraph-use-bundler t)
+;; (setq lsp-solargraph-use-bundler t)
 ;; (straight-use-package 'robe)
 ;; (add-hook 'ruby-mode-hook 'robe-mode)
 ;; (if (bound-and-true-p company-candidates)
@@ -445,9 +445,6 @@ Version 2017-11-01"
 ;; dts
 (straight-use-package 'dts-mode)
 
-;; ;; racket
-;; (straight-use-package 'racket-mode)
-
 ;; rust
 (straight-use-package 'rust-mode)
 (add-hook 'rust-mode-hook
@@ -464,22 +461,6 @@ Version 2017-11-01"
 (add-hook 'rust-mode-hook 'flycheck-mode)
 
 
-
-;; ;; janet
-;; (straight-use-package
-;;  '(janet-mode
-;;    :type git
-;;    :host github
-;;    :repo "ALSchwalm/janet-mode"
-;;    ))
-;; (require 'janet-mode)
-;; (straight-use-package
-;;  '(inf-janet
-;;    :type git
-;;    :host github
-;;    :repo "velkyel/inf-janet"
-;;    ))
-;; (require 'inf-janet)
 ;; lua
 (straight-use-package 'lua-mode)
 
@@ -502,13 +483,22 @@ Version 2017-11-01"
 (add-hook 'clojure-mode-hook #'smartparens-strict-mode)
 (add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
 
-(setq cider-default-repl-command "clj")
+(setq cider-default-repl-command "clojure-cli")
 (setq inf-clojure-generic-cmd "clj")
 
 
 ;; python
 ;;  currently using the default python support which is good enough for now
 (add-hook 'python-mode-hook 'lsp)
+
+;; purescript
+(use-package purescript-mode
+  :straight t
+  :hook (after-init . turn-on-purescript-indent)
+  ;; :config (add-hook purescript-mode-hook )
+  )
+
+
 ;; also maybe:
 ;; scala
 ;; elixir
