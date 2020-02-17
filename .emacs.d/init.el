@@ -494,9 +494,9 @@ Version 2017-11-01"
 ;; purescript
 (use-package purescript-mode
   :straight t
-  :hook (after-init . turn-on-purescript-indent)
-  ;; :config (add-hook purescript-mode-hook )
+  :hook (purescript-mode . turn-on-purescript-indent)
   )
+;; (add-hook 'purescript-mode-hook 'turn-on-purescript-indent)
 
 
 ;; also maybe:
