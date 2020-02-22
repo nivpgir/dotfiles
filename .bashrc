@@ -186,6 +186,7 @@ export WORKON_HOME=~/.py_venvs
 alias vq="vaquero"
 alias vqrepl="rlwrap vaquero repl"
 
+
 if command -v pueue >/dev/null 2>&1 ; then
     alias pue="pueue"
     alias puest="pue status"
@@ -195,4 +196,9 @@ if command -v pueue >/dev/null 2>&1 ; then
     # echo trying to start pueue daemon...
     # pueued --daemonize
 fi
+
+
+# Wasmer
+export WASMER_DIR="/home/nivp/.wasmer"
+[ -s "$WASMER_DIR/wasmer.sh" ] && source "$WASMER_DIR/wasmer.sh"
 
