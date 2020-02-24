@@ -315,7 +315,7 @@ Version 2017-11-01"
   :config
   (setq ivy-display-style nil)
   )
-  ;; :map
+;; :map
 ;; (global-set-key (kbd "RET") 'ivy-alt-done)
 ;; (global-set-key (kbd "<escape>") 'minibuffer-keyboard-quit)
 ;; (global-set-key (kbd "C-M-s") 'swiper-query-replace)
@@ -490,6 +490,15 @@ Version 2017-11-01"
 ;; python
 ;;  currently using the default python support which is good enough for now
 (add-hook 'python-mode-hook 'lsp)
+
+
+;; coconut
+(straight-use-package
+ '(coconut-mode
+   :type git
+   :host github
+   :repo "NickSeagull/coconut-mode"))
+(require 'coconut-mode)
 
 ;; purescript
 (use-package purescript-mode
