@@ -5,7 +5,7 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-alias dotfiles='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
+alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
@@ -15,24 +15,29 @@ fi
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
+    if [ -f /usr/share/bash-completion/bash_completion ]; then
+	. /usr/share/bash-completion/bash_completion
+    elif [ -f /etc/bash_completion ]; then
+	. /etc/bash_completion
+    fi
 fi
 
 # load local bash completions:
 # completions may be installed in various locations when installing to the global env
 # since we are trying to emulate that same env under ~/.local we need to source
 # the same locations.
-for bcfile in ~/.local/share/bash-completion/completions/* ; do
-  . $bcfile
-done
-if [ -d ~/.local/etc/bash_completion.d ]; then
-    for f in ~/.local/etc/bash_completion.d/*; do
-        . $f
+if test -d ~/.local/share/bash-completion/completions/ ; then
+    for bcfile in ~/.local/share/bash-completion/completions/* ; do
+	echo $bcfile
+	. $bcfile
     done
+fi
+if test -d ~/.local/etc/bash_completion.d ; then
+    if [ -d ~/.local/etc/bash_completion.d ]; then
+	for f in ~/.local/etc/bash_completion.d/*; do
+            . $f
+	done
+    fi
 fi
 
 export EDITOR=em
@@ -47,12 +52,12 @@ function parse_git_branch {
 }
 
 function venv_name {
-		local venvname=${VIRTUAL_ENV##*/}
-		if [[ -z "$venvname" ]]; then
-				echo ""
-		else
-				echo "($venvname)"
-		fi
+    local venvname=${VIRTUAL_ENV##*/}
+    if [[ -z "$venvname" ]]; then
+	echo ""
+    else
+	echo "($venvname)"
+    fi
 }
 
 set_prompt(){
@@ -83,10 +88,10 @@ set_prompt(){
     # a red X.
     if [[ $Last_Command == 0 ]]; then
         PS1="$Green$Checkmark "
-	      PS1XTERM="${Green}V "
+	PS1XTERM="${Green}V "
     else
         PS1="$Red$FancyX "
-	      PS1XTERM="${Red}X "
+	PS1XTERM="${Red}X "
     fi
 
     # export PS1="${PS1}${White}"'[\t] [\[\033[0;31m\]\u@\h\[\033[00m\]] [\[\033[1;36m\]\w\[\033[00m\]]$(parse_git_branch)$(venv_name)\n\[\033[1;32m\]$ \[\033[00m\]'

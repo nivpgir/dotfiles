@@ -5,7 +5,7 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
 # some more ls aliases
-if which exa 2>&1 > /dev/null; then
+if which exa > /dev/null 2>&1; then
     LS=exa
     alias lt=$LS' -FTh --color=auto'
     alias llt=$LS' -FThl --color=auto'
@@ -19,11 +19,11 @@ alias lal=$LS' -alhF --color=auto'
 alias lla=$LS' -alhF --color=auto'
 alias la=$LS' -ahF --color=auto'
 
-if which fd 2>&1 > /dev/null; then
+if which fd > /dev/null 2>&1; then
     alias find=fd
 fi
 
-if which hexyl 2>&1 > /dev/null; then
+if which hexyl > /dev/null 2>&1; then
     alias hd=hexyl
     alias hexdump=hexyl
 fi
