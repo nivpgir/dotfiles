@@ -46,7 +46,7 @@ set $right d
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec termite #i3-sensible-terminal
+bindsym $mod+Return exec i3-sensible-terminal
 
 
 # kill focused window
@@ -383,7 +383,7 @@ bindsym $mod+F6 workspace $WS9; exec gksudo gparted
 bindsym $mod+Shift+F6 workspace $WS9; exec gksudo lightdm-gtk-greeter-settings
 
 # browser
-bindsym $win+b exec chromium # vivaldi-stable
+bindsym $win+b exec firefox # chromium # vivaldi-stable
 
 #text editor
 # bindsym $win+e exec emacsclient -c -a emacs
@@ -446,12 +446,6 @@ exec --no-startup-id feh --bg-fill ~/Pictures/wallpapers/wallhaven-572946.jpg
 # doesn't always start, so we exec always to restart it with i3
 # exec_always $i3confdir/ipc-submit-events.py
 
-## quick terminal
-bindsym $mod+Shift+t exec --no-startup-id termite --name dropdown;
-exec --no-startup-id termite --name dropdown
-for_window [instance="dropdown"] floating enable;
-for_window [instance="dropdown"] move scratchpad; [instance="dropdown"] scratchpad show; move position 0px 22px; resize set 1920 px 300 px; move scratchpad
-bindsym $mod+t [instance="dropdown"] scratchpad show
 
 # set capslock as hyper and others
 exec_always --no-startup-id xkbcomp -I$HOME/.config/i3/xkbconf ~/.config/i3/xkbconf/keymap/custom $DISPLAY
