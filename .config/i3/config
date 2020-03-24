@@ -34,13 +34,13 @@ font pango:monospace 9
 # use these keys for focus, movement, and resize directions when reaching for
 # the arrows is not convenient
 # l
-set $up w 
+set $up w
 # k
-set $down s 
+set $down s
 # j
-set $left a 
+set $left a
 # semicolon
-set $right d 
+set $right d
 
 # use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -251,29 +251,29 @@ for_window [class="imagewriter"] floating enable border pixel 4
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-        # status_command              i3blocks -c ~/.config/i3/i3blocks.conf
-        status_command                i3status
-        position                    top
-        mode                        dock
-        strip_workspace_numbers     yes
-        # height                      25
-        font                        pango: xos4 Terminess Powerline, awesome 10
-       # separator_symbol            "::"
+# bar {
+#         # status_command              i3blocks -c ~/.config/i3/i3blocks.conf
+#         status_command                i3status
+#         position                    top
+#         mode                        dock
+#         strip_workspace_numbers     yes
+#         # height                      25
+#         font                        pango: xos4 Terminess Powerline, awesome 10
+#        # separator_symbol            "::"
 
-       #   Color panel
-       colors {
-              background #202020
-              statusline #d0e1d4
-              separator  #c1d0c1
+#        #   Color panel
+#        colors {
+#               background #202020
+#               statusline #d0e1d4
+#               separator  #c1d0c1
 
-              #   Indicadores panel
-              #                   border  backgr   text
-              focused_workspace   #31302d #31302d #fff2ce
-              inactive_workspace  #64635f #64635f #28220B
-              urgent_workspace    #2e394a #2e394a #e7dfd9
-              }
-}
+#               #   Indicadores panel
+#               #                   border  backgr   text
+#               focused_workspace   #31302d #31302d #fff2ce
+#               inactive_workspace  #64635f #64635f #28220B
+#               urgent_workspace    #2e394a #2e394a #e7dfd9
+#               }
+# }
 
 #######################################################################
 # automatically start i3-config-wizard to offer the user to create a
@@ -448,6 +448,7 @@ exec --no-startup-id feh --bg-fill ~/Pictures/wallpapers/wallhaven-572946.jpg
 
 
 # set capslock as hyper and others
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec_always --no-startup-id xkbcomp -I$HOME/.config/i3/xkbconf ~/.config/i3/xkbconf/keymap/custom $DISPLAY
 
 exec --no-startup-id /usr/lib/mate-settings-daemon/mate-settings-daemon
