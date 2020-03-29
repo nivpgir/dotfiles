@@ -28,7 +28,7 @@ fi
 # the same locations.
 if test -d ~/.local/share/bash-completion/completions/ ; then
     for bcfile in ~/.local/share/bash-completion/completions/* ; do
-	echo $bcfile
+	$bcfile
 	. $bcfile
     done
 fi
