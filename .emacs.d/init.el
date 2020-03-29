@@ -378,6 +378,18 @@ Version 2017-11-01"
 ;;    :repo "emacs-lsp/lsp-ivy"
 ;;    ))
 
+(straight-use-package
+ '(edit-server
+   :type git
+   :host github
+   :repo "stsquad/emacs_chrome"
+   ))
+(add-to-list 'load-path "~/.emacs.d/straight/repos/emacs_chrome/servers/edit-server.el")
+(require 'edit-server)
+(server-start)
+
+
+
 ;;; Languages:
 ;; ;; haskell
 ;; (straight-use-package 'haskell-mode)
@@ -486,27 +498,9 @@ Version 2017-11-01"
 (setq cider-default-repl-command "clojure-cli")
 (setq inf-clojure-generic-cmd "clj")
 
-
 ;; python
 ;;  currently using the default python support which is good enough for now
 (add-hook 'python-mode-hook 'lsp)
-
-
-;; coconut
-(straight-use-package
- '(coconut-mode
-   :type git
-   :host github
-   :repo "NickSeagull/coconut-mode"))
-(require 'coconut-mode)
-
-;; purescript
-(use-package purescript-mode
-  :straight t
-  :hook (purescript-mode . turn-on-purescript-indent)
-  )
-;; (add-hook 'purescript-mode-hook 'turn-on-purescript-indent)
-
 
 ;; also maybe:
 ;; scala
