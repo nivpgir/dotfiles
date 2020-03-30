@@ -498,6 +498,21 @@ Version 2017-11-01"
 (setq cider-default-repl-command "clojure-cli")
 (setq inf-clojure-generic-cmd "clj")
 
+;; gnome-shell = https://github.com/paperwm/gnome-shell-mode.git
+(use-package js2-mode
+  :straight t)
+
+
+(add-to-list 'load-path "~/.emacs.d/straight/repos/gnome-shell-mode/local/gnome-shell-mode/")
+(add-to-list 'load-path "~/.emacs.d/straight/repos/gnome-shell-mode/local/company-gnome-shell/")
+(require 'gnome-shell-mode)
+(require 'company-bbdb)
+(require 'company-gnome-shell)
+;; Most staight forward but might mess up company in other modes?
+;; (eval-after-load "company"
+;;      (add-to-list 'company-backends 'company-gnome-shell))
+
+
 ;; python
 ;;  currently using the default python support which is good enough for now
 (add-hook 'python-mode-hook 'lsp)

@@ -158,16 +158,16 @@ bindsym $mod+0 workspace number 0
 # bindsym $mod+0 workspace $WS0
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace number 1, workspace number 1
-bindsym $mod+Shift+2 move container to workspace number 2, workspace number 2
-bindsym $mod+Shift+3 move container to workspace number 3, workspace number 3
-bindsym $mod+Shift+4 move container to workspace number 4, workspace number 4
-bindsym $mod+Shift+5 move container to workspace number 5, workspace number 5
-bindsym $mod+Shift+6 move container to workspace number 6, workspace number 6
-bindsym $mod+Shift+7 move container to workspace number 7, workspace number 7
-bindsym $mod+Shift+8 move container to workspace number 8, workspace number 8
-bindsym $mod+Shift+9 move container to workspace number 9, workspace number 9
-bindsym $mod+Shift+0 move container to workspace number 0, workspace number 0
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 0
 
 
 #::::::::::::::::::::::::: App assigned in workspace ::::::::::::::::::::::::::# disabled
@@ -387,7 +387,8 @@ bindsym $win+b exec firefox # chromium # vivaldi-stable
 
 #text editor
 # bindsym $win+e exec emacsclient -c -a emacs
-set $emacs emacsclient -q -n -c -a ''
+# set $emacs emacsclient -q -n -c -a ''
+set $emacs emacs
 bindsym $win+e exec $emacs
 
 # file manager
@@ -453,13 +454,3 @@ exec_always --no-startup-id xkbcomp -I$HOME/.config/i3/xkbconf ~/.config/i3/xkbc
 
 exec --no-startup-id /usr/lib/mate-settings-daemon/mate-settings-daemon
 
-# exec --no-startup-id dbus-send \
-#     --session \
-#     --print-reply=literal \
-#     --dest=org.gnome.SessionManager \
-#     "/org/gnome/SessionManager" \
-#     org.gnome.SessionManager.RegisterClient \
-#     "string:i3" \
-#     "string:$DESKTOP_AUTOSTART_ID"
-
-exec --no-startup-id emacs --daemon
