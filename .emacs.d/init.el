@@ -384,7 +384,7 @@ Version 2017-11-01"
    :host github
    :repo "stsquad/emacs_chrome"
    ))
-(add-to-list 'load-path "~/.emacs.d/straight/repos/emacs_chrome/servers/edit-server.el")
+(add-to-list 'load-path "~/.emacs.d/straight/repos/emacs_chrome/servers")
 (require 'edit-server)
 (server-start)
 
