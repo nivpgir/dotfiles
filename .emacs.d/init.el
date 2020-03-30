@@ -386,7 +386,7 @@ Version 2017-11-01"
    ))
 (add-to-list 'load-path "~/.emacs.d/straight/repos/emacs_chrome/servers")
 (require 'edit-server)
-(server-start)
+(edit-server-start)
 
 
 
