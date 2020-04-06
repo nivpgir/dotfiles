@@ -355,15 +355,25 @@ Version 2017-11-01"
 (require 'magit)
 (define-key 'my-keymap (kbd "g s") 'magit-status)
 (define-key 'my-keymap (kbd "g b") 'magit-blame)
-;;(straight-use-package 'magithub)
 
 
 (straight-use-package 'flycheck)
 (add-hook 'after-init-hook 'global-flycheck-mode)
 (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
 
-
-
+(use-package parinfer
+  :straight t
+  :bind
+  (("C-," . parinfer-toggle-mode))
+  :init
+  (progn
+    (setq parinfer-extensions
+          '(defaults       ; should be included.
+	     pretty-parens  ; different paren styles for different modes.
+	     ))
+    (add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
+    (add-hook 'scheme-mode-hook #'parinfer-mode)
+    (add-hook 'lisp-mode-hook #'parinfer-mode)))
 
 (straight-use-package 'yasnippet)
 (straight-use-package 'lsp-mode)
@@ -379,7 +389,7 @@ Version 2017-11-01"
 ;;    ))
 
 (straight-use-package
- '(edit-server
+ '(emacs_chrome
    :type git
    :host github
    :repo "stsquad/emacs_chrome"
@@ -390,6 +400,13 @@ Version 2017-11-01"
 
 
 
+;; YAML
+(use-package yaml-mode
+  :straight t
+  :init
+  (add-to-list 'auto-mode-alist '("//.yml//'" . yaml-mode))
+  (add-to-list 'auto-mode-alist '("//.yaml//'" . yaml-mode)))
+
 ;;; Languages:
 ;; ;; haskell
 ;; (straight-use-package 'haskell-mode)
@@ -399,11 +416,11 @@ Version 2017-11-01"
 
 ;; ruby
 (add-hook 'ruby-mode-hook 'lsp)
-;; (setq lsp-solargraph-use-bundler t)
-;; (straight-use-package 'robe)
-;; (add-hook 'ruby-mode-hook 'robe-mode)
-;; (if (bound-and-true-p company-candidates)
-;;     (add-to-list 'company-backends 'company-robe))
+(setq lsp-solargraph-use-bundler t)
+(straight-use-package 'robe)
+(add-hook 'ruby-mode-hook 'robe-mode)
+(if (bound-and-true-p company-candidates)
+    (add-to-list 'company-backends 'company-robe))
 (with-eval-after-load 'smartparens
   (sp-with-modes
       '(ruby-mode)
@@ -538,19 +555,5 @@ Version 2017-11-01"
 
 (tool-bar-mode -1)
 
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("02591317120fb1d02f8eb4ad48831823a7926113fa9ecfb5a59742420de206e0" default)))
- '(inhibit-startup-screen t))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
