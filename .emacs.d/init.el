@@ -148,8 +148,8 @@ Version 2017-11-01"
   (let (($buf (generate-new-buffer (read-from-minibuffer "New buffer name: "))))
     (switch-to-buffer $buf)
     (setq buffer-offer-save t)
-    $buf
-    ))
+    $buf))
+
 ;; indent whole buffer
 (defun indent-buffer ()
   (interactive)
@@ -241,18 +241,18 @@ Version 2017-11-01"
 (define-key undo-tree-map (kbd "C-/") nil)
 (setq winum-keymap
       (let ((map (make-sparse-keymap)))
-	(define-key map (kbd "C-`") 'winum-select-window-by-number)
-	(define-key map (kbd "M-0") 'winum-select-window-0-or-10)
-	(define-key map (kbd "M-1") 'winum-select-window-1)
-	(define-key map (kbd "M-2") 'winum-select-window-2)
-	(define-key map (kbd "M-3") 'winum-select-window-3)
-	(define-key map (kbd "M-4") 'winum-select-window-4)
-	(define-key map (kbd "M-5") 'winum-select-window-5)
-	(define-key map (kbd "M-6") 'winum-select-window-6)
-	(define-key map (kbd "M-7") 'winum-select-window-7)
-	(define-key map (kbd "M-8") 'winum-select-window-8)
-	(define-key map (kbd "M-9") 'winum-select-window-9)
-	map))
+        (define-key map (kbd "C-`") 'winum-select-window-by-number)
+        (define-key map (kbd "M-0") 'winum-select-window-0-or-10)
+        (define-key map (kbd "M-1") 'winum-select-window-1)
+        (define-key map (kbd "M-2") 'winum-select-window-2)
+        (define-key map (kbd "M-3") 'winum-select-window-3)
+        (define-key map (kbd "M-4") 'winum-select-window-4)
+        (define-key map (kbd "M-5") 'winum-select-window-5)
+        (define-key map (kbd "M-6") 'winum-select-window-6)
+        (define-key map (kbd "M-7") 'winum-select-window-7)
+        (define-key map (kbd "M-8") 'winum-select-window-8)
+        (define-key map (kbd "M-9") 'winum-select-window-9)
+        map))
 (straight-use-package 'winum)
 (winum-mode)
 
@@ -277,8 +277,8 @@ Version 2017-11-01"
   (doom-modeline-minor-modes t)
   (doom-modeline-icon t)
   (doom-modeline-major-mode-color-icon t)
-  (doom-modeline-height 15)
-  )
+  (doom-modeline-height 15))
+
 
 
 ;; wgrep
@@ -313,8 +313,8 @@ Version 2017-11-01"
   (ivy-count-format "(%d/%d) ")
   (ivy-initial-inputs-alist nil)
   :config
-  (setq ivy-display-style nil)
-  )
+  (setq ivy-display-style nil))
+
 ;; :map
 ;; (global-set-key (kbd "RET") 'ivy-alt-done)
 ;; (global-set-key (kbd "<escape>") 'minibuffer-keyboard-quit)
@@ -369,8 +369,7 @@ Version 2017-11-01"
   (progn
     (setq parinfer-extensions
           '(defaults       ; should be included.
-	     pretty-parens  ; different paren styles for different modes.
-	     ))
+            pretty-parens)) ; different paren styles for different modes.
     (add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
     (add-hook 'scheme-mode-hook #'parinfer-mode)
     (add-hook 'lisp-mode-hook #'parinfer-mode)))
@@ -392,8 +391,8 @@ Version 2017-11-01"
  '(emacs_chrome
    :type git
    :host github
-   :repo "stsquad/emacs_chrome"
-   ))
+   :repo "stsquad/emacs_chrome"))
+
 (add-to-list 'load-path "~/.emacs.d/straight/repos/emacs_chrome/servers")
 (require 'edit-server)
 (edit-server-start)
@@ -465,9 +464,9 @@ Version 2017-11-01"
           (lambda ()
             (c-set-style "my-linux-tabs-only")
             (c-mode-set-smartparens)
-	    (setq indent-tabs-mode t)
-	    (setq tab-width c-basic-offset)
-            ))
+            (setq indent-tabs-mode t)
+            (setq tab-width c-basic-offset)))
+
 
 
 
@@ -497,13 +496,14 @@ Version 2017-11-01"
 (straight-use-package 'geiser)
 
 ;; clojure
-(dolist (p '(paredit
-	     clojure-mode
-	     clojure-mode-extra-font-locking
-	     rainbow-delimiters
-	     inf-clojure
-	     cider))
-  (straight-use-package p))
+(dolist
+    (p '(paredit
+         clojure-mode
+	 clojure-mode-extra-font-locking
+	 rainbow-delimiters
+	 inf-clojure
+	 cider))
+    (straight-use-package p))
 
 
 (add-hook 'clojure-mode-hook #'subword-mode)
