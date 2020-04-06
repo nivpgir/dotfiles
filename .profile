@@ -21,12 +21,13 @@ if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
 
+if [ -d "$HOME/.python3.7.7/bin" ] ; then
+    export PATH="$HOME/.python3.7.7/bin:$PATH"
+fi
 
-/home/nivp/.gem/ruby/2.5.0/bin
 if [ -d "$HOME/.gem/ruby/2.5.0/bin" ] ; then
     export PATH="$HOME/.gem/ruby/2.5.0/bin:$PATH"
 fi
-
 
 # set PATH so it includes cargo's bin if it exists
 if [ -d "$HOME/.cargo/bin" ] ; then
@@ -41,4 +42,3 @@ fi
 if [ $HOSTNAME == "amdroid" ] ; then
     export TERMINAL="alacritty"
 fi
-

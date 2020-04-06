@@ -13,6 +13,7 @@ set $i3confdir ~/.config/i3
 set $mod Mod3
 #set WinKey as $mod4
 set $win Mod4
+# this should be kept so that we can restart i3 if xkbcomp fails
 bindsym $win+r restart
 
 
@@ -97,7 +98,7 @@ bindsym $mod+f fullscreen toggle
 # bindsym $mod+s layout stacking
 bindsym $mod+x layout stacking 
 # bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+bindsym $mod+t layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
@@ -383,16 +384,14 @@ bindsym $mod+F6 workspace $WS9; exec gksudo gparted
 bindsym $mod+Shift+F6 workspace $WS9; exec gksudo lightdm-gtk-greeter-settings
 
 # browser
-bindsym $win+b exec firefox # chromium # vivaldi-stable
+bindsym $mod+b exec firefox # chromium # vivaldi-stable
 
 #text editor
-# bindsym $win+e exec emacsclient -c -a emacs
-# set $emacs emacsclient -q -n -c -a ''
 set $emacs emacs
-bindsym $win+e exec $emacs
+bindsym $mod+e exec $emacs
 
 # file manager
-bindsym $win+f exec caja
+bindsym $mod+Shift+f exec caja
 
 
 # take screenshot with mate-screenshot (-i = interactive,-a = area, -w = window)
@@ -428,29 +427,10 @@ exec --no-startup-id compton
 # tray applets
 exec --no-startup-id nm-applet #network
 exec --no-startup-id blueman-applet # bluetooth
-# exec --no-startup-id volctl #audio
-# exec --no-startup-id mate-power-manager #battery
 
 #disk automounting:
 exec --no-startup-id udiskie
 
-
-
-# set the wallpaper
-# exec --no-startup-id feh --randomize --bg-fill ~/Pictures/wallpapers/*
-exec --no-startup-id feh --bg-fill ~/Pictures/wallpapers/wallhaven-572946.jpg 
-# make a shortcut to change the wallpaper in case it's in the way of stuff:
-# bindsym $mod+grave exec feh --randomize --bg-fill ~/Pictures/wallpapers/*
-
-
-# ipc script to change the workspace name appropriately
-# doesn't always start, so we exec always to restart it with i3
-# exec_always $i3confdir/ipc-submit-events.py
-
-
 # set capslock as hyper and others
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec_always --no-startup-id xkbcomp -I$HOME/.config/i3/xkbconf ~/.config/i3/xkbconf/keymap/custom $DISPLAY
-
-exec --no-startup-id /usr/lib/mate-settings-daemon/mate-settings-daemon
-
