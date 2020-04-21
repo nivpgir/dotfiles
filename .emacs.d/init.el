@@ -376,7 +376,24 @@ Version 2017-11-01"
 
 (straight-use-package 'yasnippet)
 (straight-use-package 'lsp-mode)
-(straight-use-package 'lsp-ui)
+;; (straight-use-package 'lsp-ui)
+(use-package lsp-ui
+  :straight t
+  :init
+  (define-prefix-command 'lsp-ui-doc-map nil "bindings for lsp-ui-doc-functions")
+  :custom
+  (lsp-ui-doc-enable t)    ;doesn't automatically pop up
+  (lsp-ui-doc-position 'at-point)
+  :bind
+  (([remap xref-find-definitions] . 'lsp-ui-peek-find-definitions)
+   ([remap xref-find-references] . 'lsp-ui-peek-find-references)
+   :map my-keymap
+   ("M-d" . lsp-ui-doc-map)
+   :map lsp-ui-doc-map
+   ("s" . lsp-ui-doc-glance)    ;show doc until a char is typed
+   ("f" . lsp-ui-doc-focus-frame))) ;focus on the doc frame (to scroll and such)
+
+
 
 (add-hook 'lsp-mode-hook 'lsp-ui-mode)
 (straight-use-package 'company-lsp)
@@ -415,15 +432,18 @@ Version 2017-11-01"
 
 ;; ruby
 (add-hook 'ruby-mode-hook 'lsp)
-(setq lsp-solargraph-use-bundler t)
-(straight-use-package 'robe)
-(add-hook 'ruby-mode-hook 'robe-mode)
-(if (bound-and-true-p company-candidates)
-    (add-to-list 'company-backends 'company-robe))
-(with-eval-after-load 'smartparens
-  (sp-with-modes
-      '(ruby-mode)
-    (sp-local-pair "{" nil :post-handlers '(:add ("||\n[i]" "RET")))))
+;; (setq lsp-solargraph-use-bundler t)
+;; (customize-set-variable 'lsp-solargraph-use-bundler t)
+(use-package inf-ruby
+  :straight t)
+;; (straight-use-package 'robe)
+;; (add-hook 'ruby-mode-hook 'robe-mode)
+;; (if (bound-and-true-p company-candidates)
+;;     (add-to-list 'company-backends 'company-robe))
+;; (with-eval-after-load 'smartparens
+;;   (sp-with-modes
+;;       '(ruby-mode)
+;;     (sp-local-pair "{" nil :post-handlers '(:add ("||\n[i]" "RET")))))
 
 ;; c-c++
 ;; (defun c-mode-set-style ()
@@ -499,11 +519,11 @@ Version 2017-11-01"
 (dolist
     (p '(paredit
          clojure-mode
-	 clojure-mode-extra-font-locking
-	 rainbow-delimiters
-	 inf-clojure
-	 cider))
-    (straight-use-package p))
+         clojure-mode-extra-font-locking
+         rainbow-delimiters
+         inf-clojure
+         cider))
+  (straight-use-package p))
 
 
 (add-hook 'clojure-mode-hook #'subword-mode)
@@ -514,20 +534,6 @@ Version 2017-11-01"
 
 (setq cider-default-repl-command "clojure-cli")
 (setq inf-clojure-generic-cmd "clj")
-
-;; gnome-shell = https://github.com/paperwm/gnome-shell-mode.git
-(use-package js2-mode
-  :straight t)
-
-
-(add-to-list 'load-path "~/.emacs.d/straight/repos/gnome-shell-mode/local/gnome-shell-mode/")
-(add-to-list 'load-path "~/.emacs.d/straight/repos/gnome-shell-mode/local/company-gnome-shell/")
-(require 'gnome-shell-mode)
-(require 'company-bbdb)
-(require 'company-gnome-shell)
-;; Most staight forward but might mess up company in other modes?
-;; (eval-after-load "company"
-;;      (add-to-list 'company-backends 'company-gnome-shell))
 
 
 ;; python
@@ -554,6 +560,10 @@ Version 2017-11-01"
 ;; fix RET in terminal
 
 (tool-bar-mode -1)
+
+(set-face-attribute 'default nil
+                    :family "Ubuntu Mono"
+		    :height 120)
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
