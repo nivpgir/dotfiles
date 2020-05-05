@@ -82,16 +82,20 @@ cursor-click = pointer
 cursor-scroll = ns-resize
 
 
-[bar/mon3]
+[bar/displayport1]
 inherit = bar/base
 monitor = ${env:MONITOR:DisplayPort-1}
 
-[bar/mon2]
+[bar/hdmi1]
 inherit = bar/base
 
-[bar/mon1]
+[bar/dp1]
 inherit = bar/base
 monitor = ${env:MONITOR:DP-1}
+
+[bar/dp2]
+inherit = bar/base
+monitor = ${env:MONITOR:DP-2}
 
 [module/xwindow]
 type = internal/xwindow
