@@ -6,12 +6,15 @@ killall -q polybar
 # polybar-msg cmd quit
 
 # Launch bar1 and bar2
-echo "---" | tee -a /tmp/polybar-mon1.log
-echo "---" | tee -a /tmp/polybar-mon2.log
-# polybar example >> /tmp/polybar-example.log 2>&1 &
-for mon in hdmi1 dp1 dp2 displayport1; do
-    $HOME/.local/bin/polybar $mon >> /tmp/polybar-$mon.log 2>&1 &
-done
-# $HOME/.local/bin/polybar mon2 >> /tmp/polybar-mon2.log 2>&1 &
-# $HOME/.local/bin/polybar mon3 >> /tmp/polybar-mon3.log 2>&1 &
+echo "---" | tee -a /tmp/polybar.log
+POLYBAR_CMD="$HOME/.local/bin/polybar base"
+POLYBAR_LOG="/tmp/polybar.log"
+POLYBAR_ENV="$HOME/.config/polybar/polybar-env"
+LAUNCH_CMD=$POLYBAR_CMD
+if test -f $POLYBAR_ENV ; then
+    source $POLYBAR_ENV
+fi
+echo $LAUNCH_CMD >> $POLYBAR_LOG &
+$LAUNCH_CMD >> $POLYBAR_LOG &
+
 echo "Bars launched..."
