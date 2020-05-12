@@ -368,35 +368,43 @@ Version 2017-11-01"
   :init
   (progn
     (setq parinfer-extensions
-          '(defaults       ; should be included.
-            pretty-parens)) ; different paren styles for different modes.
+          '(defaults	     ; should be included.
+	     pretty-parens)) ; different paren styles for different modes.
     (add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
     (add-hook 'scheme-mode-hook #'parinfer-mode)
     (add-hook 'lisp-mode-hook #'parinfer-mode)))
 
 (straight-use-package 'yasnippet)
-(straight-use-package 'lsp-mode)
-;; (straight-use-package 'lsp-ui)
-(use-package lsp-ui
+;; (straight-use-package 'lsp-mode)
+(use-package lsp-mode
   :straight t
   :init
-  (define-prefix-command 'lsp-ui-doc-map nil "bindings for lsp-ui-doc-functions")
-  :custom
-  (lsp-ui-doc-enable t)    ;doesn't automatically pop up
-  (lsp-ui-doc-position 'at-point)
-  :bind
-  (([remap xref-find-definitions] . 'lsp-ui-peek-find-definitions)
-   ([remap xref-find-references] . 'lsp-ui-peek-find-references)
-   :map my-keymap
-   ("M-d" . lsp-ui-doc-map)
-   :map lsp-ui-doc-map
-   ("s" . lsp-ui-doc-glance)    ;show doc until a char is typed
-   ("f" . lsp-ui-doc-focus-frame))) ;focus on the doc frame (to scroll and such)
+  ;; lsp ui setup
+  (use-package lsp-ui
+    :straight t
+    ;; :after (lsp-mode)
+    :init
+    (add-hook 'lsp-mode-hook 'lsp-ui-mode)
+    (define-prefix-command 'lsp-ui-doc-map nil "bindings for lsp-ui-doc-functions")
+    :custom
+    (lsp-ui-doc-enable t)    ;doesn't automatically pop up
+    (lsp-ui-doc-position 'at-point)
+    :bind
+    (([remap xref-find-definitions] . 'lsp-ui-peek-find-definitions)
+     ([remap xref-find-references] . 'lsp-ui-peek-find-references)
+     :map my-keymap
+     ("M-d" . lsp-ui-doc-map)
+     :map lsp-ui-doc-map
+     ("s" . lsp-ui-doc-glance)    ;show doc until a char is typed
+     ("f" . lsp-ui-doc-focus-frame)))
+  ;; company lsp setup
+  (use-package company-lsp
+    :straight t))
 
 
+;; (straight-use-package 'lsp-ui)
 
-(add-hook 'lsp-mode-hook 'lsp-ui-mode)
-(straight-use-package 'company-lsp)
+
 ;; (straight-use-package
 ;;  '(lsp-ivy
 ;;    :type git
@@ -431,15 +439,27 @@ Version 2017-11-01"
 ;;     (add-to-list 'company-backends 'company-ghc))
 
 ;; ruby
+(use-package enh-ruby-mode
+  :straight t
+  :after (lsp-mode)
+  :init
+  (add-to-list 'auto-mode-alist '("\\.rb$" . enh-ruby-mode))
+  (add-to-list 'lsp-language-id-configuration '(enh-ruby-mode . "ruby"))
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-stdio-connection '("bundle" "exec solargraph stdio"))
+        :major-modes '(ruby-mode enh-ruby-mode)
+        :priority -1
+        :multi-root t
+        :server-id 'ruby-ls))
+  (add-hook 'enh-ruby-mode-hook 'lsp))
+
+
 (add-hook 'ruby-mode-hook 'lsp)
 ;; (setq lsp-solargraph-use-bundler t)
-;; (customize-set-variable 'lsp-solargraph-use-bundler t)
-(use-package inf-ruby
+(customize-set-variable 'lsp-solargraph-use-bundler t)
+(use-package pry
   :straight t)
-;; (straight-use-package 'robe)
-;; (add-hook 'ruby-mode-hook 'robe-mode)
-;; (if (bound-and-true-p company-candidates)
-;;     (add-to-list 'company-backends 'company-robe))
+
 ;; (with-eval-after-load 'smartparens
 ;;   (sp-with-modes
 ;;       '(ruby-mode)
@@ -460,32 +480,32 @@ Version 2017-11-01"
 (defun c-lineup-arglist-tabs-only (ignored)
   "Line up argument lists by tabs, not spaces"
   (let* ((anchor (c-langelem-pos c-syntactic-element))
-         (column (c-langelem-2nd-pos c-syntactic-element))
-         (offset (- (1+ column) anchor))
-         (steps (floor offset c-basic-offset)))
+	 (column (c-langelem-2nd-pos c-syntactic-element))
+	 (offset (- (1+ column) anchor))
+	 (steps (floor offset c-basic-offset)))
     (* (max steps 1)
        c-basic-offset)))
 
 (c-add-style
  "my-linux-tabs-only"
  '("linux" (c-offsets-alist
-            (arglist-cont-nonempty
-             c-lineup-gcc-asm-reg
-             c-lineup-arglist-tabs-only))
+	    (arglist-cont-nonempty
+	     c-lineup-gcc-asm-reg
+	     c-lineup-arglist-tabs-only))
    (c-basic-offset . 4)))
 
 (defun c-mode-set-smartparens ()
   (with-eval-after-load 'smartparens
     (sp-with-modes
-        '(c++-mode objc-mode c-mode)
-      (sp-local-pair "{" nil :post-handlers '(:add ("||\n[i]" "RET"))))))
+	'(c++-mode objc-mode c-mode
+		   (sp-local-pair "{" nil :post-handlers '(:add ("||\n[i]" "RET")))))))
 
 (add-hook 'c-mode-hook
-          (lambda ()
-            (c-set-style "my-linux-tabs-only")
-            (c-mode-set-smartparens)
-            (setq indent-tabs-mode t)
-            (setq tab-width c-basic-offset)))
+    (lambda ()
+      (c-set-style "my-linux-tabs-only")
+      (c-mode-set-smartparens)
+      (setq indent-tabs-mode t)
+      (setq tab-width c-basic-offset)))
 
 
 
@@ -496,8 +516,8 @@ Version 2017-11-01"
 ;; rust
 (straight-use-package 'rust-mode)
 (add-hook 'rust-mode-hook
-          (lambda ()
-            (local-set-key (kbd "C-c <tab>") #'rust-format-buffer)))
+    (lambda ()
+      (local-set-key (kbd "C-c <tab>") #'rust-format-buffer)))
 (with-eval-after-load 'smartparens
   (sp-with-modes
       '(rust-mode)
@@ -518,11 +538,11 @@ Version 2017-11-01"
 ;; clojure
 (dolist
     (p '(paredit
-         clojure-mode
-         clojure-mode-extra-font-locking
-         rainbow-delimiters
-         inf-clojure
-         cider))
+	 clojure-mode
+	 clojure-mode-extra-font-locking
+	 rainbow-delimiters
+	 inf-clojure
+	 cider))
   (straight-use-package p))
 
 
@@ -539,6 +559,7 @@ Version 2017-11-01"
 ;; python
 ;;  currently using the default python support which is good enough for now
 (add-hook 'python-mode-hook 'lsp)
+
 
 ;; also maybe:
 ;; scala
@@ -562,8 +583,8 @@ Version 2017-11-01"
 (tool-bar-mode -1)
 
 (set-face-attribute 'default nil
-                    :family "Ubuntu Mono"
-		    :height 120)
+        :family "Ubuntu Mono"
+        :height 120)
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
