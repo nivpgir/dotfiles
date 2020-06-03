@@ -388,7 +388,7 @@ Version 2017-11-01"
     (define-prefix-command 'lsp-ui-doc-map nil "bindings for lsp-ui-doc-functions")
     :custom
     (lsp-ui-doc-enable t)    ;doesn't automatically pop up
-    (lsp-ui-doc-position 'at-point)
+    (lsp-ui-doc-position 'bottom)
     :bind
     (([remap xref-find-definitions] . 'lsp-ui-peek-find-definitions)
      ([remap xref-find-references] . 'lsp-ui-peek-find-references)
