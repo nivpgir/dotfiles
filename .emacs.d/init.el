@@ -155,7 +155,7 @@ Version 2017-11-01"
   (interactive)
   (save-excursion
     (indent-region (point-min) (point-max) nil)))
-(define-key (current-global-map) (kbd "M-<tab>") 'indent-buffer)
+(define-key (current-global-map) (kbd "M-<tab>") 'lsp-format-buffer)
 
 ;; go to init.el
 (defun find-user-init-file ()
