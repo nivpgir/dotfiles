@@ -67,6 +67,7 @@
 (define-prefix-command 'my-keymap nil "niv")
 (global-set-key (kbd "M-m") 'my-keymap)
 (define-key 'my-keymap (kbd "t") (lambda () (interactive) (term "/bin/bash")))
+(define-key 'my-keymap (kbd "M-k") 'kill-whole-line)
 
 (defun compose (f g)
   `(lambda (x) (,f (,g x))))
