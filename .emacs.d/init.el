@@ -151,12 +151,6 @@ Version 2017-11-01"
     (setq buffer-offer-save t)
     $buf))
 
-;; indent whole buffer
-(defun indent-buffer ()
-  (interactive)
-  (save-excursion
-    (indent-region (point-min) (point-max) nil)))
-(define-key (current-global-map) (kbd "M-<tab>") 'lsp-format-buffer)
 
 ;; go to init.el
 (defun find-user-init-file ()
@@ -287,9 +281,16 @@ Version 2017-11-01"
 
 ;; Company
 ;; remember that navigating in the popup is done with M-n and M-p
-(straight-use-package 'company)
-(require 'company)
-(add-hook 'after-init-hook 'global-company-mode)
+
+(use-package company
+  :straight t
+  :custom
+  (company-dabbrev-downcase nil)
+  (company-idle-delay 0)
+  (company-minimum-prefix-length 1)
+  (company-tooltip-align-annotations t)
+  :config
+  (add-hook 'after-init-hook 'global-company-mode))
 
 (use-package diminish
   :straight t)
@@ -369,42 +370,29 @@ Version 2017-11-01"
   :init
   (progn
     (setq parinfer-extensions
-          '(defaults	     ; should be included.
-	     pretty-parens)) ; different paren styles for different modes.
+	  '(defaults	   ;should be included.
+	     pretty-parens ; different paren styles for different modes.
+	     smart-yank))
     (add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
     (add-hook 'scheme-mode-hook #'parinfer-mode)
     (add-hook 'lisp-mode-hook #'parinfer-mode)))
 
+
 (straight-use-package 'yasnippet)
 ;; (straight-use-package 'lsp-mode)
+
+
 (use-package lsp-mode
   :straight t
-  :init
-  ;; lsp ui setup
-  (use-package lsp-ui
-    :straight t
-    ;; :after (lsp-mode)
-    :init
-    (add-hook 'lsp-mode-hook 'lsp-ui-mode)
-    (define-prefix-command 'lsp-ui-doc-map nil "bindings for lsp-ui-doc-functions")
-    :custom
-    (lsp-ui-doc-enable t)    ;doesn't automatically pop up
-    (lsp-ui-doc-position 'bottom)
-    :bind
-    (([remap xref-find-definitions] . 'lsp-ui-peek-find-definitions)
-     ([remap xref-find-references] . 'lsp-ui-peek-find-references)
-     :map my-keymap
-     ("M-d" . lsp-ui-doc-map)
-     :map lsp-ui-doc-map
-     ("s" . lsp-ui-doc-glance)    ;show doc until a char is typed
-     ("f" . lsp-ui-doc-focus-frame)))
-  ;; company lsp setup
-  (use-package company-lsp
-    :straight t))
+  :hook (lsp-mode . (lambda ()
+                      (let ((lsp-keymap-prefix "C-c l"))
+                        (lsp-enable-which-key-integration))))
+  :bind
+  (("C-c l" . lsp-command-map)
+   ("M-<tab>" . lsp-format-buffer)))
 
-
-;; (straight-use-package 'lsp-ui)
-
+;; indent whole buffer
+;; (define-key (current-global-map) (kbd "M-<tab>") 'lsp-format-buffer)
 
 ;; (straight-use-package
 ;;  '(lsp-ivy
@@ -412,6 +400,26 @@ Version 2017-11-01"
 ;;    :host github
 ;;    :repo "emacs-lsp/lsp-ivy"
 ;;    ))
+(use-package lsp-ui
+  :straight t
+  ;; :after (lsp-mode)
+  :init
+  (add-hook 'lsp-mode-hook 'lsp-ui-mode)
+  (define-prefix-command 'lsp-ui-doc-map nil "bindings for lsp-ui-doc-functions")
+  :custom
+  (lsp-ui-doc-enable t)
+  (lsp-ui-doc-position 'bottom)
+  :bind
+  (([remap xref-find-definitions] . 'lsp-ui-peek-find-definitions)
+   ([remap xref-find-references] . 'lsp-ui-peek-find-references)
+   :map my-keymap
+   ("M-d" . lsp-ui-doc-map)
+   :map lsp-ui-doc-map
+   ("s" . lsp-ui-doc-glance)    ;show doc until a char is typed
+   ("f" . lsp-ui-doc-focus-frame)))
+
+(use-package company-lsp
+  :straight t)
 
 (straight-use-package
  '(emacs_chrome
@@ -561,6 +569,8 @@ Version 2017-11-01"
 ;;  currently using the default python support which is good enough for now
 (add-hook 'python-mode-hook 'lsp)
 
+(use-package dockerfile-mode
+  :straight t)
 
 ;; also maybe:
 ;; scala
