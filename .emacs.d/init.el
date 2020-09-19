@@ -380,12 +380,17 @@ Version 2017-11-01"
   :init
   (progn
     (setq parinfer-extensions
-	  '(defaults	   ;should be included.
-	     pretty-parens ; different paren styles for different modes.
-	     smart-yank))
+          '(defaults	     ; should be included.
+	     pretty-parens
+	     smart-yank)) ; different paren styles for different modes.
     (add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
     (add-hook 'scheme-mode-hook #'parinfer-mode)
     (add-hook 'lisp-mode-hook #'parinfer-mode)))
+
+(use-package graphviz-dot-mode
+  :straight t
+  :config
+  (setq graphviz-dot-indent-width 4))
 
 
 (straight-use-package 'yasnippet)
@@ -568,6 +573,7 @@ Version 2017-11-01"
 
 (setq cider-default-repl-command "clojure-cli")
 (setq inf-clojure-generic-cmd "clj")
+
 
 
 ;; python
