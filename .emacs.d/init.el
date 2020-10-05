@@ -353,11 +353,15 @@ Version 2017-11-01"
 
 
 ;; magit
-(straight-use-package 'magit)
-(require 'magit)
-(define-key 'my-keymap (kbd "g s") 'magit-status)
-(define-key 'my-keymap (kbd "g b") 'magit-blame)
 
+;; (straight-use-package 'magit)
+;; (require 'magit)
+(use-package magit
+  :straight t
+  :init
+  (define-key 'my-keymap (kbd "g s") 'magit-status)
+  (define-key 'my-keymap (kbd "g b") 'magit-blame)
+  (transient-append-suffix 'magit-pull "-A" '("-f" "ff only" "--ff-only")))
 
 (straight-use-package 'flycheck)
 (add-hook 'after-init-hook 'global-flycheck-mode)
@@ -379,7 +383,6 @@ Version 2017-11-01"
 
 
 (straight-use-package 'yasnippet)
-;; (straight-use-package 'lsp-mode)
 
 
 (use-package lsp-mode
@@ -390,6 +393,13 @@ Version 2017-11-01"
   :bind
   (("C-c l" . lsp-command-map)
    ("M-<tab>" . lsp-format-buffer)))
+
+(use-package dap-mode
+  :straight t
+  :init
+  ;; Enabling only some features
+  (setq dap-auto-configure-features '(sessions locals controls tooltip))
+  (require 'dap-python))
 
 ;; indent whole buffer
 ;; (define-key (current-global-map) (kbd "M-<tab>") 'lsp-format-buffer)
@@ -568,6 +578,7 @@ Version 2017-11-01"
 ;; python
 ;;  currently using the default python support which is good enough for now
 (add-hook 'python-mode-hook 'lsp)
+(setq lsp-clients-python-library-directories "~/.local/")
 
 (use-package dockerfile-mode
   :straight t)
