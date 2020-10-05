@@ -47,3 +47,9 @@ fi
 export PATH="$PATH:$HOME/.rvm/bin"
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+if [ $HOSTNAME == "ARCH-LAPTOP" ] ; then
+    export DISPLAY=:0.0
+    export LIBGL_ALWAYS_INDIRECT=1
+fi
+export NIV_PROFILE=y
