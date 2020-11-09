@@ -351,6 +351,11 @@ Version 2017-11-01"
 (global-set-key (kbd "C-x l") 'counsel-locate)
 
 
+;; direnv
+(use-package direnv
+  :straight t
+  :config
+  (direnv-mode))
 
 ;; magit
 
@@ -361,6 +366,7 @@ Version 2017-11-01"
   :init
   (define-key 'my-keymap (kbd "g s") 'magit-status)
   (define-key 'my-keymap (kbd "g b") 'magit-blame)
+  :config
   (transient-append-suffix 'magit-pull "-A" '("-f" "ff only" "--ff-only")))
 
 (straight-use-package 'flycheck)
@@ -430,17 +436,6 @@ Version 2017-11-01"
 
 (use-package company-lsp
   :straight t)
-
-(straight-use-package
- '(emacs_chrome
-   :type git
-   :host github
-   :repo "stsquad/emacs_chrome"))
-
-(add-to-list 'load-path "~/.emacs.d/straight/repos/emacs_chrome/servers")
-(require 'edit-server)
-(edit-server-start)
-
 
 
 ;; YAML

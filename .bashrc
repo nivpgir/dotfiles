@@ -210,3 +210,8 @@ export WASMER_DIR="/home/nivp/.wasmer"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+
+if [[ -x $HOME/.local/bin/direnv ]] ; then
+    echo found direnv
+    eval "$($HOME/.local/bin/direnv hook bash)"
+fi
