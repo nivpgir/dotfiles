@@ -369,6 +369,14 @@ Version 2017-11-01"
   :config
   (transient-append-suffix 'magit-pull "-A" '("-f" "ff only" "--ff-only")))
 
+
+(use-package forge
+  :straight t
+  :after magit)
+
+(require 'epa-file)
+(epa-file-enable)
+
 (straight-use-package 'flycheck)
 (add-hook 'after-init-hook 'global-flycheck-mode)
 (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
@@ -555,14 +563,11 @@ Version 2017-11-01"
 (straight-use-package 'geiser)
 
 ;; clojure
-(dolist
-    (p '(paredit
-	 clojure-mode
-	 clojure-mode-extra-font-locking
-	 rainbow-delimiters
-	 inf-clojure
-	 cider))
-  (straight-use-package p))
+(straight-use-package 'paredit)
+(straight-use-package 'clojure-mode)
+(straight-use-package 'clojure-mode-extra-font-locking)
+(straight-use-package 'rainbow-delimiters)
+(straight-use-package 'inf-clojure)
 
 
 (add-hook 'clojure-mode-hook #'subword-mode)
@@ -570,6 +575,7 @@ Version 2017-11-01"
 (add-hook 'clojure-mode-hook #'paredit-mode)
 (add-hook 'clojure-mode-hook #'smartparens-strict-mode)
 (add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'clojure-mode-hook #'inf-clojure-minor-mode)
 
 (setq cider-default-repl-command "clojure-cli")
 (setq inf-clojure-generic-cmd "clj")

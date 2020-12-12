@@ -50,6 +50,7 @@ export PATH="$PATH:$HOME/.rvm/bin"
 
 if [ $HOSTNAME == "ARCH-LAPTOP" ] ; then
     export DISPLAY=:0.0
+    export DISPLAY=$(grep -m 1 nameserver /etc/resolv.conf | awk '{print $2}'):$DISPLAY_NUMBER
     export LIBGL_ALWAYS_INDIRECT=1
 fi
 export NIV_PROFILE=y
