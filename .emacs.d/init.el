@@ -69,6 +69,8 @@
 (define-key 'my-keymap (kbd "t") (lambda () (interactive) (term "/bin/bash")))
 (define-key 'my-keymap (kbd "M-k") 'kill-whole-line)
 
+
+
 (defun compose (f g)
   `(lambda (x) (,f (,g x))))
 ;; setup splitting windows
@@ -182,6 +184,13 @@ Version 2017-11-01"
 
 (define-key 'my-keymap (kbd "r") 'rename-file-and-buffer)
 
+(use-package org-mode
+  :bind
+  (("M-m M-o i" . org-insert-item))
+  (("M-m M-o b" . org-ctrl-c-minus))
+  (("M-m M-o r" . org-metaright))
+  (("M-m M-o l" . org-metaleft))
+  )
 
 
 ;;unbinding C-m from RET
@@ -388,17 +397,12 @@ Version 2017-11-01"
   :init
   (progn
     (setq parinfer-extensions
-          '(defaults	     ; should be included.
-	     pretty-parens
-	     smart-yank)) ; different paren styles for different modes.
+	  '(defaults	   ;should be included.
+	     pretty-parens ; different paren styles for different modes.
+	     smart-yank))
     (add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
     (add-hook 'scheme-mode-hook #'parinfer-mode)
     (add-hook 'lisp-mode-hook #'parinfer-mode)))
-
-(use-package graphviz-dot-mode
-  :straight t
-  :config
-  (setq graphviz-dot-indent-width 4))
 
 
 (straight-use-package 'yasnippet)
@@ -581,7 +585,6 @@ Version 2017-11-01"
 (setq inf-clojure-generic-cmd "clj")
 
 
-
 ;; python
 ;;  currently using the default python support which is good enough for now
 (add-hook 'python-mode-hook 'lsp)
@@ -611,9 +614,31 @@ Version 2017-11-01"
 
 (tool-bar-mode -1)
 
-(set-face-attribute 'default nil
-        :family "Ubuntu Mono"
-        :height 120)
+
+
+;;; reminders on how to use fonts:
+;; (seq-map (lambda (font)
+;; 	   (let ((info (font-info font)))
+;; 	     (if info (aref info 1)
+;; 	       nil)))
+;; 	 (font-family-list))
+;; (font-family-list)
+;; (set-face-attribute 'default nil
+;; 		    :family "Ubuntu Mono"
+;; 		    :height 120)
+;; (set-face-attribute 'default nil
+;; 		    :family "Hack"
+;; 		    :height
+
+;;;actual font settings
+(setq my-prefered-font
+      (cond ((eq system-type 'windows-nt) "hack")
+            ((eq system-type 'gnu/linux) "mono")
+            (t nil)))
+
+(when my-prefered-font
+  (set-frame-font my-prefered-font nil t))
+
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
