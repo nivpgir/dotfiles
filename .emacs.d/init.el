@@ -276,6 +276,7 @@ Version 2017-11-01"
 ;; (require 'nano-counsel)
 
 ;; Nano header & mode lines (optional)
+(require 'nano-layout)
 (require 'nano-modeline)
 (require 'nano-help)
 (require 'nano-splash)
