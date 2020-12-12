@@ -45,17 +45,6 @@
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
-;; (defvar bootstrap-version)
-;; (let ((bootstrap-file (concat user-emacs-directory "straight/bootstrap.el"))
-;;       (bootstrap-version 2))
-;;   (unless (file-exists-p bootstrap-file)
-;;     (with-current-buffer
-;;         (url-retrieve-synchronously
-;;          "https://raw.githubusercontent.com/raxod502/straight.el/master/install.el"
-;;          'silent 'inhibit-cookies)
-;;       (goto-char (point-max))
-;;       (eval-print-last-sexp)))
-;;   (load bootstrap-file nil 'nomessage))
 (straight-use-package 'use-package)
 
 
@@ -260,29 +249,39 @@ Version 2017-11-01"
 (straight-use-package 'winum)
 (winum-mode)
 
-;; doom themes
-(use-package doom-themes
-  :straight t
-  :config
-  ;; flashing mode-line on errors
-  (doom-themes-visual-bell-config)
-  ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config)
-  (load-theme 'doom-molokai t))
+;;;; doom themes
+;; (use-package doom-themes
+;;   :straight t
+;;   :config
+;;   ;; flashing mode-line on errors
+;;   (doom-themes-visual-bell-config)
+;;   ;; Corrects (and improves) org-mode's native fontification.
+;;   (doom-themes-org-config)
+;;   (load-theme 'doom-molokai t))
 
+(straight-use-package
+ '(emacs-nano
+   :type git
+   :host github
+   :repo "rougier/nano-emacs"))
+;; Welcome message (optional)
+;; Theme
+(require 'nano-faces)
+(require 'nano-theme-dark)
+(require 'nano-theme)
+;; Nano default settings (optional)
+(require 'nano-defaults)
+;; Nano counsel configuration (optional)
+;; Needs "counsel" package to be installed (M-x: package-install)
+;; (require 'nano-counsel)
 
-;; doom modeline
-(use-package doom-modeline
-  :straight t
-  :hook (after-init . doom-modeline-mode)
-  :custom
-  ;; Don't compact font caches during GC. Windows Laggy Issue
-  (inhibit-compacting-font-caches t)
-  (doom-modeline-minor-modes t)
-  (doom-modeline-icon t)
-  (doom-modeline-major-mode-color-icon t)
-  (doom-modeline-height 15))
+;; Nano header & mode lines (optional)
+(require 'nano-modeline)
+(require 'nano-help)
+(require 'nano-splash)
+(nano-faces)
 
+(nano-theme)
 
 
 ;; wgrep
@@ -326,14 +325,8 @@ Version 2017-11-01"
   :config
   (setq ivy-display-style nil))
 
-;; :map
-;; (global-set-key (kbd "RET") 'ivy-alt-done)
-;; (global-set-key (kbd "<escape>") 'minibuffer-keyboard-quit)
-;; (global-set-key (kbd "C-M-s") 'swiper-query-replace)
 
 (straight-use-package 'avy)
-
-;; (straight-use-package 'counsel)
 
 
 (global-set-key (kbd "C-s") 'swiper-isearch)
@@ -368,8 +361,6 @@ Version 2017-11-01"
 
 ;; magit
 
-;; (straight-use-package 'magit)
-;; (require 'magit)
 (use-package magit
   :straight t
   :init
@@ -426,6 +417,7 @@ Version 2017-11-01"
 
 ;; indent whole buffer
 ;; (define-key (current-global-map) (kbd "M-<tab>") 'lsp-format-buffer)
+
 
 ;; (straight-use-package
 ;;  '(lsp-ivy
@@ -491,10 +483,6 @@ Version 2017-11-01"
 (use-package pry
   :straight t)
 
-;; (with-eval-after-load 'smartparens
-;;   (sp-with-modes
-;;       '(ruby-mode)
-;;     (sp-local-pair "{" nil :post-handlers '(:add ("||\n[i]" "RET")))))
 
 ;; c-c++
 ;; (defun c-mode-set-style ()
@@ -541,9 +529,6 @@ Version 2017-11-01"
 
 
 
-;; dts
-(straight-use-package 'dts-mode)
-
 ;; rust
 (straight-use-package 'rust-mode)
 (add-hook 'rust-mode-hook
@@ -559,9 +544,6 @@ Version 2017-11-01"
 (add-hook 'flycheck-mode-hook 'flycheck-rust-setup)
 (add-hook 'rust-mode-hook 'flycheck-mode)
 
-
-;; lua
-(straight-use-package 'lua-mode)
 
 ;; scheme
 (straight-use-package 'geiser)
@@ -596,10 +578,9 @@ Version 2017-11-01"
 ;; also maybe:
 ;; scala
 ;; elixir
-;; nim
 ;; java
 
-;; get something as emacs help (helpful or something)
+;; get something as emacs help (`helpful' or something)
 
 ;; TODO:
 ;; Consider Using:
@@ -613,7 +594,6 @@ Version 2017-11-01"
 ;; fix RET in terminal
 
 (tool-bar-mode -1)
-
 
 
 ;;; reminders on how to use fonts:
