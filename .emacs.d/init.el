@@ -174,13 +174,27 @@ Version 2017-11-01"
 (define-key 'my-keymap (kbd "r") 'rename-file-and-buffer)
 
 (use-package org-mode
+  :init
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((python . t)
+     (dot . t)))
+  (defun org-summary-todo (n-done n-not-done)
+    "Switch entry to DONE when all subentries are done, to TODO otherwise."
+    (let (org-log-done org-log-states)   ; turn off logging
+      (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+  (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
   :bind
+  ;; (:map my-keymap
+  ;; 	("M-O" . org-mode-map))		; not working, debug sometime
   (("M-m M-o i" . org-insert-item))
   (("M-m M-o b" . org-ctrl-c-minus))
   (("M-m M-o r" . org-metaright))
   (("M-m M-o l" . org-metaleft))
+  (("M-m M-o t" . org-insert-structure-template))
   )
 
+(setq visible-bell t)
 
 ;;unbinding C-m from RET
 ;; (define-key input-decode-map [?\C-m] [C-m]) ;; without this we can't RET doesn't work in terminal
@@ -222,16 +236,19 @@ Version 2017-11-01"
 
 ;; expand region with C-:
 (straight-use-package 'expand-region)
-(global-set-key (kbd "C-;") 'er/expand-region)
+;(define-key (current-global-map) (kbd "M-h") 'er/expand-region)
+;
 ;; undo-tree with diff on visualizing
 (straight-use-package 'undo-tree)
 (global-undo-tree-mode)
 (setq undo-tree-visualizer-diff t)
 ;; comment with C-/
-(global-unset-key (kbd "C-/"))
-(global-unset-key (kbd "C-x C-;"))
-(global-set-key (kbd "C-/") 'comment-line)
-(define-key undo-tree-map (kbd "C-/") nil)
+;; add a binding to comment-line in the global map and then remove
+;; the undo-tree-undo "C-/" binding from undo-tree-map because it
+;; takes precedence over the global map
+(define-key (current-global-map) (kbd "C-/") 'comment-line)
+(define-key undo-tree-map (kbd "C-/") nil) 
+
 (setq winum-keymap
       (let ((map (make-sparse-keymap)))
         (define-key map (kbd "C-`") 'winum-select-window-by-number)
@@ -259,30 +276,26 @@ Version 2017-11-01"
 ;;   (doom-themes-org-config)
 ;;   (load-theme 'doom-molokai t))
 
+(use-package nord-theme
+  :straight t
+  :init
+  (load-theme 'nord t))
+
 (straight-use-package
  '(emacs-nano
    :type git
    :host github
    :repo "rougier/nano-emacs"))
-;; Welcome message (optional)
-;; Theme
-(require 'nano-faces)
-(require 'nano-theme-dark)
-(require 'nano-theme)
-;; Nano default settings (optional)
-(require 'nano-defaults)
-;; Nano counsel configuration (optional)
-;; Needs "counsel" package to be installed (M-x: package-install)
-;; (require 'nano-counsel)
+;; ;; Theme
+;; (require 'nano-faces)
+;; (require 'nano-theme-dark)
+;; (require 'nano-theme)
+;; (nano-faces)
+;; (nano-theme)
 
 ;; Nano header & mode lines (optional)
 (require 'nano-layout)
 (require 'nano-modeline)
-(require 'nano-help)
-(require 'nano-splash)
-(nano-faces)
-
-(nano-theme)
 
 
 ;; wgrep
@@ -436,13 +449,14 @@ Version 2017-11-01"
   (lsp-ui-doc-enable t)
   (lsp-ui-doc-position 'bottom)
   :bind
-  (([remap xref-find-definitions] . 'lsp-ui-peek-find-definitions)
-   ([remap xref-find-references] . 'lsp-ui-peek-find-references)
-   :map my-keymap
-   ("M-d" . lsp-ui-doc-map)
-   :map lsp-ui-doc-map
-   ("s" . lsp-ui-doc-glance)    ;show doc until a char is typed
-   ("f" . lsp-ui-doc-focus-frame)))
+  (:map my-keymap
+	("M-d" . lsp-ui-doc-map))
+  (:map lsp-ui-doc-map
+	("s" . lsp-ui-doc-glance)    ;show doc until a char is typed
+	("f" . lsp-ui-doc-focus-frame)))
+
+;; ([remap xref-find-definitions] . 'lsp-ui-peek-find-definitions)
+;; ([remap xref-find-references] . 'lsp-ui-peek-find-references)
 
 (use-package company-lsp
   :straight t)
@@ -570,8 +584,14 @@ Version 2017-11-01"
 
 ;; python
 ;;  currently using the default python support which is good enough for now
+(use-package pyvenv
+  :straight t
+  :config
+  (setq pyvenv-mode-line-indicator
+        '(pyvenv-virtual-env-name ("[venv:" pyvenv-virtual-env-name "] ")))
+  (pyvenv-mode +1))
 (add-hook 'python-mode-hook 'lsp)
-(setq lsp-clients-python-library-directories "~/.local/")
+;; (setq lsp-clients-python-library-directories "~/.local/")
 
 (use-package dockerfile-mode
   :straight t)
@@ -623,3 +643,4 @@ Version 2017-11-01"
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
+
