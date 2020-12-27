@@ -236,8 +236,8 @@ Version 2017-11-01"
 
 ;; expand region with C-:
 (straight-use-package 'expand-region)
-;(define-key (current-global-map) (kbd "M-h") 'er/expand-region)
-;
+(define-key (current-global-map) (kbd "M-h") 'er/expand-region)
+
 ;; undo-tree with diff on visualizing
 (straight-use-package 'undo-tree)
 (global-undo-tree-mode)
@@ -281,11 +281,11 @@ Version 2017-11-01"
   :init
   (load-theme 'nord t))
 
-(straight-use-package
- '(emacs-nano
-   :type git
-   :host github
-   :repo "rougier/nano-emacs"))
+;; (straight-use-package
+;;  '(emacs-nano
+;;    :type git
+;;    :host github
+;;    :repo "rougier/nano-emacs"))
 ;; ;; Theme
 ;; (require 'nano-faces)
 ;; (require 'nano-theme-dark)
@@ -294,8 +294,8 @@ Version 2017-11-01"
 ;; (nano-theme)
 
 ;; Nano header & mode lines (optional)
-(require 'nano-layout)
-(require 'nano-modeline)
+;; (require 'nano-layout)
+;; (require 'nano-modeline)
 
 
 ;; wgrep
