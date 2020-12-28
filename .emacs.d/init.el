@@ -184,6 +184,10 @@ Version 2017-11-01"
     (let (org-log-done org-log-states)   ; turn off logging
       (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
   (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
+  (setq org-agenda-files (list "~/Sync/organizing/cady-tasks.org"
+                               "~/Sync/organizing/MyTasks.org" 
+                               "~/Sync/organizing/miluim.org" 
+                               "~/Sync/organizing/passerine-tasks.org"))
   :bind
   ;; (:map my-keymap
   ;; 	("M-O" . org-mode-map))		; not working, debug sometime
