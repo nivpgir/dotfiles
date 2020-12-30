@@ -185,8 +185,8 @@ Version 2017-11-01"
       (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
   (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
   (setq org-agenda-files (list "~/Sync/organizing/cady-tasks.org"
-                               "~/Sync/organizing/MyTasks.org" 
-                               "~/Sync/organizing/miluim.org" 
+                               "~/Sync/organizing/MyTasks.org"
+                               "~/Sync/organizing/miluim.org"
                                "~/Sync/organizing/passerine-tasks.org"))
   :bind
   ;; (:map my-keymap
@@ -196,6 +196,7 @@ Version 2017-11-01"
   (("M-m M-o r" . org-metaright))
   (("M-m M-o l" . org-metaleft))
   (("M-m M-o t" . org-insert-structure-template))
+  (("M-m M-o a" . org-agenda))
   )
 
 (setq visible-bell t)
@@ -595,7 +596,15 @@ Version 2017-11-01"
         '(pyvenv-virtual-env-name ("[venv:" pyvenv-virtual-env-name "] ")))
   (pyvenv-mode +1))
 (add-hook 'python-mode-hook 'lsp)
-;; (setq lsp-clients-python-library-directories "~/.local/")
+(add-hook 'python-mode-hook 'dap-mode)
+(add-hook 'python-mode-hook 'dap-ui-mode)
+
+(setq python-shell-interpreter "jupyter"
+      python-shell-interpreter-args "console --simple-prompt"
+      python-shell-prompt-detect-failure-warning nil)
+
+;; (add-to-list 'python-shell-completion-native-disabled-interpreters "jupyter")
+
 
 (use-package dockerfile-mode
   :straight t)
