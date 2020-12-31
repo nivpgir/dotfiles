@@ -179,15 +179,19 @@ Version 2017-11-01"
    'org-babel-load-languages
    '((python . t)
      (dot . t)))
-  (defun org-summary-todo (n-done n-not-done)
-    "Switch entry to DONE when all subentries are done, to TODO otherwise."
-    (let (org-log-done org-log-states)   ; turn off logging
-      (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+  ;; (defun org-summary-todo (n-done n-not-done)
+  ;;   "Switch entry to DONE when all subentries are done, to TODO otherwise."
+  ;;   (let (org-log-done org-log-states)   ; turn off logging
+  ;;     (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+  :custom
+  ;; for more complex stuff look at `org-depend.el'
+  (org-enforce-todo-dependencies t "block setting to DONE until previous siblings and children are DONE")
+  (org-enforce-todo-checkbox-dependencies t "same as above but for checkboxes")
   (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
-  (setq org-agenda-files (list "~/Sync/organizing/cady-tasks.org"
-                               "~/Sync/organizing/MyTasks.org"
-                               "~/Sync/organizing/miluim.org"
-                               "~/Sync/organizing/passerine-tasks.org"))
+  (org-agenda-files (list "~/Sync/organizing/cady-tasks.org"
+                          "~/Sync/organizing/MyTasks.org"
+                          "~/Sync/organizing/miluim.org"
+                          "~/Sync/organizing/passerine-tasks.org"))
   :bind
   ;; (:map my-keymap
   ;; 	("M-O" . org-mode-map))		; not working, debug sometime
@@ -596,15 +600,7 @@ Version 2017-11-01"
         '(pyvenv-virtual-env-name ("[venv:" pyvenv-virtual-env-name "] ")))
   (pyvenv-mode +1))
 (add-hook 'python-mode-hook 'lsp)
-(add-hook 'python-mode-hook 'dap-mode)
-(add-hook 'python-mode-hook 'dap-ui-mode)
-
-(setq python-shell-interpreter "jupyter"
-      python-shell-interpreter-args "console --simple-prompt"
-      python-shell-prompt-detect-failure-warning nil)
-
-;; (add-to-list 'python-shell-completion-native-disabled-interpreters "jupyter")
-
+;; (setq lsp-clients-python-library-directories "~/.local/")
 
 (use-package dockerfile-mode
   :straight t)
