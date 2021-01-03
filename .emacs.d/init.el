@@ -58,7 +58,7 @@
 (define-key 'my-keymap (kbd "t") (lambda () (interactive) (term "/bin/bash")))
 (define-key 'my-keymap (kbd "M-k") 'kill-whole-line)
 
-
+(global-auto-revert-mode t)
 
 (defun compose (f g)
   `(lambda (x) (,f (,g x))))
