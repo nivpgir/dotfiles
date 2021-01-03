@@ -179,19 +179,24 @@ Version 2017-11-01"
    'org-babel-load-languages
    '((python . t)
      (dot . t)))
-  ;; (defun org-summary-todo (n-done n-not-done)
-  ;;   "Switch entry to DONE when all subentries are done, to TODO otherwise."
-  ;;   (let (org-log-done org-log-states)   ; turn off logging
-  ;;     (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+  (defun org-summary-todo (n-done n-not-done)
+    "Switch entry to DONE when all subentries are done, to TODO otherwise."
+    (let (org-log-done org-log-states)   ; turn off logging
+      (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
   :custom
   ;; for more complex stuff look at `org-depend.el'
   (org-enforce-todo-dependencies t "block setting to DONE until previous siblings and children are DONE")
   (org-enforce-todo-checkbox-dependencies t "same as above but for checkboxes")
   (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
+  (org-cycle-separator-lines 0)
+  (org-agenda-start-on-weekday 0)
+  (org-agenda-start-day "+2d")
   (org-agenda-files (list "~/Sync/organizing/cady-tasks.org"
                           "~/Sync/organizing/MyTasks.org"
                           "~/Sync/organizing/miluim.org"
                           "~/Sync/organizing/passerine-tasks.org"))
+  :hook
+  (org-after-todo-statistics . org-summary-todo)
   :bind
   ;; (:map my-keymap
   ;; 	("M-O" . org-mode-map))		; not working, debug sometime
