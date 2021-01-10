@@ -206,7 +206,9 @@ Version 2017-11-01"
   (("M-m M-o l" . org-metaleft))
   (("M-m M-o t" . org-insert-structure-template))
   (("M-m M-o a" . org-agenda))
+  (("M-m M-o s" . org-todo))
   )
+
 
 (setq visible-bell t)
 
