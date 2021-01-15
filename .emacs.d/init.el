@@ -202,8 +202,8 @@ Version 2017-11-01"
   ;; 	("M-O" . org-mode-map))		; not working, debug sometime
   (("M-m M-o i" . org-insert-item))
   (("M-m M-o b" . org-ctrl-c-minus))
-  (("M-m M-o r" . org-metaright))
-  (("M-m M-o l" . org-metaleft))
+  (("M-m M-o f" . org-metaright))
+  (("M-m M-o b" . org-metaleft))
   (("M-m M-o t" . org-insert-structure-template))
   (("M-m M-o a" . org-agenda))
   (("M-m M-o s" . org-todo))
