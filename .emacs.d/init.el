@@ -52,6 +52,7 @@
 (setq-default show-trailing-whitespace t)
 (require 'tramp)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+(setq ediff-split-window-function 'split-window-horizontally)
 ;; My Functions and configs
 (define-prefix-command 'my-keymap nil "niv")
 (global-set-key (kbd "M-m") 'my-keymap)
@@ -183,6 +184,28 @@ Version 2017-11-01"
     "Switch entry to DONE when all subentries are done, to TODO otherwise."
     (let (org-log-done org-log-states)   ; turn off logging
       (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+  ;; diff hooks for org mode
+  ;; Check for org mode and existence of buffer
+  (defun f-ediff-org-showhide(buf command &rest cmdargs)
+    "If buffer exists and is orgmode then execute command"
+    (if buf
+	(if (eq (buffer-local-value 'major-mode (get-buffer buf)) 'org-mode)
+            (save-excursion (set-buffer buf) (apply command cmdargs)))))
+
+  (defun f-ediff-org-unfold-tree-element ()
+    "Unfold tree at diff location"
+    (f-ediff-org-showhide ediff-buffer-A 'org-reveal)
+    (f-ediff-org-showhide ediff-buffer-B 'org-reveal)
+    (f-ediff-org-showhide ediff-buffer-C 'org-reveal))
+
+  (defun f-ediff-org-fold-tree ()
+    "Fold tree back to top level"
+    (f-ediff-org-showhide ediff-buffer-A 'hide-sublevels 1)
+    (f-ediff-org-showhide ediff-buffer-B 'hide-sublevels 1)
+    (f-ediff-org-showhide ediff-buffer-C 'hide-sublevels 1))
+
+  ;; (define-prefix-command 'org-todo-state-map)
+  ;; (define-key org-mode-map (kbd "C-c x") 'org-todo-state-map)
   :custom
   ;; for more complex stuff look at `org-depend.el'
   (org-enforce-todo-dependencies t "block setting to DONE until previous siblings and children are DONE")
@@ -195,11 +218,18 @@ Version 2017-11-01"
                           "~/Sync/organizing/MyTasks.org"
                           "~/Sync/organizing/miluim.org"
                           "~/Sync/organizing/passerine-tasks.org"))
+  (org-refile-use-outline-path 'file)
+  (org-refile-targets '((nil :maxlevel . 3)
+			(org-agenda-files :maxlevel . 9)))
+  (org-agenda-custom-commands '(("d" "" todo "DELEGATED")
+				("c" "" todo "DONE|DEFERRED|CANCELLED")
+				("w" "" todo "WAITING")))
+
   :hook
   (org-after-todo-statistics . org-summary-todo)
+  (ediff-select . f-ediff-org-unfold-tree-element)
+  (ediff-unselect . f-ediff-org-fold-tree)
   :bind
-  ;; (:map my-keymap
-  ;; 	("M-O" . org-mode-map))		; not working, debug sometime
   (("M-m M-o i" . org-insert-item))
   (("M-m M-o b" . org-ctrl-c-minus))
   (("M-m M-o f" . org-metaright))
@@ -207,6 +237,12 @@ Version 2017-11-01"
   (("M-m M-o t" . org-insert-structure-template))
   (("M-m M-o a" . org-agenda))
   (("M-m M-o s" . org-todo))
+  (("C-c x x"   . (lambda nil (interactive) (org-todo "CANCELLED"))))
+  (("C-c x d"   . (lambda nil (interactive) (org-todo "DONE"))))
+  (("C-c x f"   . (lambda nil (interactive) (org-todo "DEFERRED"))))
+  (("C-c x l"   . (lambda nil (interactive) (org-todo "DELEGATED"))))
+  (("C-c x s"   . (lambda nil (interactive) (org-todo "STARTED"))))
+  (("C-c x w"   . (lambda nil (interactive) (org-todo "WAITING"))))
   )
 
 
@@ -235,6 +271,7 @@ Version 2017-11-01"
 ;; match parens
 (show-paren-mode t)
 
+(straight-use-package 'ztree)
 (straight-use-package 'smartparens)
 (require 'smartparens)
 (require 'smartparens-config)
@@ -282,36 +319,11 @@ Version 2017-11-01"
 (straight-use-package 'winum)
 (winum-mode)
 
-;;;; doom themes
-;; (use-package doom-themes
-;;   :straight t
-;;   :config
-;;   ;; flashing mode-line on errors
-;;   (doom-themes-visual-bell-config)
-;;   ;; Corrects (and improves) org-mode's native fontification.
-;;   (doom-themes-org-config)
-;;   (load-theme 'doom-molokai t))
 
 (use-package nord-theme
   :straight t
   :init
   (load-theme 'nord t))
-
-;; (straight-use-package
-;;  '(emacs-nano
-;;    :type git
-;;    :host github
-;;    :repo "rougier/nano-emacs"))
-;; ;; Theme
-;; (require 'nano-faces)
-;; (require 'nano-theme-dark)
-;; (require 'nano-theme)
-;; (nano-faces)
-;; (nano-theme)
-
-;; Nano header & mode lines (optional)
-;; (require 'nano-layout)
-;; (require 'nano-modeline)
 
 
 ;; wgrep
@@ -403,6 +415,7 @@ Version 2017-11-01"
 (use-package forge
   :straight t
   :after magit)
+
 
 (require 'epa-file)
 (epa-file-enable)
@@ -608,6 +621,7 @@ Version 2017-11-01"
   (pyvenv-mode +1))
 (add-hook 'python-mode-hook 'lsp)
 ;; (setq lsp-clients-python-library-directories "~/.local/")
+(setq lsp-pyls-plugins-flake8-max-line-length 100)
 
 (use-package dockerfile-mode
   :straight t)
