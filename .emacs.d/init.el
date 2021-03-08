@@ -53,11 +53,14 @@
 (require 'tramp)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 (setq ediff-split-window-function 'split-window-horizontally)
+(global-unset-key (kbd "M-m"))
+(global-unset-key (kbd "C-o"))
 ;; My Functions and configs
 (define-prefix-command 'my-keymap nil "niv")
-(global-set-key (kbd "M-m") 'my-keymap)
-(define-key 'my-keymap (kbd "t") (lambda () (interactive) (term "/bin/bash")))
-(define-key 'my-keymap (kbd "M-k") 'kill-whole-line)
+;; (global-set-key (kbd "M-m") 'my-keymap)
+(global-set-key (kbd "C-c m") 'my-keymap)
+;; (define-key 'my-keymap (kbd "t") (lambda () (interactive) (term "/bin/bash")))
+(global-set-key (kbd "M-k") 'kill-whole-line)
 
 (global-auto-revert-mode t)
 
@@ -66,7 +69,11 @@
 ;; setup splitting windows
 (define-key 'my-keymap (kbd "-") 'split-window-below)
 (define-key 'my-keymap (kbd "/") 'split-window-right)
-(define-key 'my-keymap (kbd "w <backspace>") 'delete-window)
+(define-key 'my-keymap (kbd "<backspace>") 'delete-window)
+(define-key 'my-keymap (kbd "e f") 'ediff-files)
+(define-key 'my-keymap (kbd "e b") 'ediff-buffers)
+(define-key 'my-keymap (kbd "e c") 'ediff-current-file)
+
 (defun prelude-move-beginning-of-line (arg)
   "Move point back to indentation of beginning of line.
 
@@ -144,35 +151,14 @@ Version 2017-11-01"
     $buf))
 
 
-;; go to init.el
-(defun find-user-init-file ()
-  "Edit the `user-init-file', in another window."
-  (interactive)
-  (find-file user-init-file))
-(define-key 'my-keymap (kbd "I") 'find-user-init-file)
-(define-key (current-global-map) (kbd "M-n") (lambda () (interactive) (scroll-up 1)))
-(define-key (current-global-map) (kbd "M-p") (lambda () (interactive) (scroll-down 1)))
-(defun insert-current-date ()
-  (interactive)
-  (insert (shell-command-to-string "echo -n $(date +%Y-%m-%d)")))
-
-(define-key 'my-keymap (kbd "c") 'compile)
-(define-key 'my-keymap (kbd "nb") 'new-empty-buffer)
-
-(defun rename-file-and-buffer ()
-  "Rename the current buffer and file it is visiting."
-  (interactive)
-  (let ((filename (buffer-file-name)))
-    (if (not (and filename (file-exists-p filename)))
-        (message "Buffer is not visiting a file!")
-      (let ((new-name (read-file-name "New name: " filename)))
-        (cond
-         ((vc-backend filename) (vc-rename-file filename new-name))
-         (t
-          (rename-file filename new-name t)
-          (set-visited-file-name new-name t t)))))))
-
 (define-key 'my-keymap (kbd "r") 'rename-file-and-buffer)
+
+(use-package elgrep
+  :straight t)
+
+(use-package doct
+  :straight t
+  :commands (doct))
 
 (use-package org-mode
   :init
@@ -182,7 +168,7 @@ Version 2017-11-01"
      (dot . t)))
   (defun org-summary-todo (n-done n-not-done)
     "Switch entry to DONE when all subentries are done, to TODO otherwise."
-    (let (org-log-done org-log-states)   ; turn off logging
+    (let (org-log-done org-log-states)	; turn off logging
       (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
   ;; diff hooks for org mode
   ;; Check for org mode and existence of buffer
@@ -204,52 +190,113 @@ Version 2017-11-01"
     (f-ediff-org-showhide ediff-buffer-B 'hide-sublevels 1)
     (f-ediff-org-showhide ediff-buffer-C 'hide-sublevels 1))
 
-  ;; (define-prefix-command 'org-todo-state-map)
-  ;; (define-key org-mode-map (kbd "C-c x") 'org-todo-state-map)
   :custom
   ;; for more complex stuff look at `org-depend.el'
   (org-enforce-todo-dependencies t "block setting to DONE until previous siblings and children are DONE")
   (org-enforce-todo-checkbox-dependencies t "same as above but for checkboxes")
   (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
   (org-cycle-separator-lines 0)
-  (org-agenda-start-on-weekday 0)
-  (org-agenda-start-day "+2d")
+  (org-agenda-start-on-weekday nil)
+  (org-agenda-start-day nil)
   (org-agenda-files (list "~/Sync/organizing/cady-tasks.org"
                           "~/Sync/organizing/MyTasks.org"
                           "~/Sync/organizing/miluim.org"
                           "~/Sync/organizing/passerine-tasks.org"))
+  (org-outline-path-complete-in-steps nil)
   (org-refile-use-outline-path 'file)
   (org-refile-targets '((nil :maxlevel . 3)
 			(org-agenda-files :maxlevel . 9)))
   (org-agenda-custom-commands '(("d" "" todo "DELEGATED")
 				("c" "" todo "DONE|DEFERRED|CANCELLED")
 				("w" "" todo "WAITING")))
-
+  (org-capture-templates (doct
+			  '(("New TODO"
+			     :keys "n"
+			     :file "~/Sync/organizing/new-tasks.org"
+			     :todo-state "TODO"
+			     :template ("* %{todo-state} %^{Description}"
+					":PROPERTIES:"
+					":CREATED: %U"
+					":END:"
+					"%i"
+					"%a"
+					"%?")))))
+  ;; ("j" "Journal" entry (file+datetree "~/Sync/organizing/journal-notes.org")
+  ;;  "* %?\nEntered on %U\n  %i\n  %a")))
   :hook
   (org-after-todo-statistics . org-summary-todo)
   (ediff-select . f-ediff-org-unfold-tree-element)
   (ediff-unselect . f-ediff-org-fold-tree)
   :bind
-  (("M-m M-o i" . org-insert-item))
-  (("M-m M-o b" . org-ctrl-c-minus))
-  (("M-m M-o f" . org-metaright))
-  (("M-m M-o b" . org-metaleft))
-  (("M-m M-o t" . org-insert-structure-template))
-  (("M-m M-o a" . org-agenda))
-  (("M-m M-o s" . org-todo))
-  (("C-c x x"   . (lambda nil (interactive) (org-todo "CANCELLED"))))
-  (("C-c x d"   . (lambda nil (interactive) (org-todo "DONE"))))
-  (("C-c x f"   . (lambda nil (interactive) (org-todo "DEFERRED"))))
-  (("C-c x l"   . (lambda nil (interactive) (org-todo "DELEGATED"))))
-  (("C-c x s"   . (lambda nil (interactive) (org-todo "STARTED"))))
-  (("C-c x w"   . (lambda nil (interactive) (org-todo "WAITING"))))
+  (("C-c a" . org-agenda))
+  (("C-c c" . org-capture))
+  (("M-m i" . org-insert-item))
+  (("M-m f" . org-metaright))
+  (("M-m b" . org-metaleft))
+  (("M-m t" . org-insert-structure-template))
+  (("M-m s" . org-todo))
   )
+
+
+
+(use-package org-expiry
+  :straight org-plus-contrib
+  :init
+
+  (defadvice org-insert-todo-heading (after mrb/created-timestamp-advice activate)
+    "Insert a CREATED property using org-expiry.el for TODO entries"
+    (org-expiry-insert-created))
+  
+  (ad-activate 'org-insert-todo-heading)
+  :custom
+  (org-expiry-created-property-name "CREATED") ; Name of property when an item is created
+  (org-expiry-inactive-timestamps   t)
+  )
+
+
+;; go to init.el
+(defun find-user-init-file ()
+  "Edit the `user-init-file', in another window."
+  (interactive)
+  (find-file user-init-file))
+
+(defun org-time-stamp-no-prompt ()
+  (insert (format-time-string
+	   (org-time-stamp-format 'long)
+	   (org-current-effective-time))))
+
+(defun org-time-stamp-inactive-no-prompt ()
+  (insert (format-time-string
+	   (org-time-stamp-format 'long 'inactive)
+	   (org-current-effective-time))))
+
+(defun rename-file-and-buffer ()
+  "Rename the current buffer and file it is visiting."
+  (interactive)
+  (let ((filename (buffer-file-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (message "Buffer is not visiting a file!")
+      (let ((new-name (read-file-name "New name: " filename)))
+        (cond
+         ((vc-backend filename) (vc-rename-file filename new-name))
+         (t
+          (rename-file filename new-name t)
+          (set-visited-file-name new-name t t)))))))
+
+(define-key 'my-keymap (kbd "I") 'find-user-init-file)
+(define-key (current-global-map) (kbd "M-n") (lambda () (interactive) (scroll-up 1)))
+(define-key (current-global-map) (kbd "M-p") (lambda () (interactive) (scroll-down 1)))
+(define-key 'my-keymap (kbd "b") 'new-empty-buffer)
+(define-key 'my-keymap (kbd "t") 'org-time-stamp-inactive-no-prompt)
+(define-key 'my-keymap (kbd "T") 'org-time-stamp-no-prompt)
+
+
+
+
 
 
 (setq visible-bell t)
 
-;;unbinding C-m from RET
-;; (define-key input-decode-map [?\C-m] [C-m]) ;; without this we can't RET doesn't work in terminal
 ;;use ibuffer instead of list-buffers
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 ;;enable line numbers always
@@ -356,6 +403,12 @@ Version 2017-11-01"
   (use-package counsel
     :straight t
     :diminish
+    :bind
+    (("M-x" . counsel-M-x))
+    (("C-x C-f" . counsel-find-file))
+    (("C-c j" . counsel-git-grep))
+    (:map my-keymap
+	  ("i u" . counsel-unicode-char))
     :config (counsel-mode 1))
   (use-package swiper
     :defer t)
@@ -364,6 +417,9 @@ Version 2017-11-01"
   (ivy-use-virtual-buffers t)
   (ivy-count-format "(%d/%d) ")
   (ivy-initial-inputs-alist nil)
+  :bind
+  (("C-s" . swiper-isearch))
+  (("M-s ." . swiper-isearch-thing-at-point))
   :config
   (setq ivy-display-style nil))
 
@@ -371,28 +427,15 @@ Version 2017-11-01"
 (straight-use-package 'avy)
 
 
-(global-set-key (kbd "C-s") 'swiper-isearch)
-(global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
-;; (global-set-key (kbd "M-m M-s") 'swiper-isearch-thing-at-point)
-(define-key 'my-keymap (kbd "M-s") 'swiper-isearch-thing-at-point)
-;; (global-set-key (kbd "M-m h f") 'counsel-describe-function)
-(define-key 'my-keymap (kbd "h f") 'counsel-describe-function)
-;; (global-set-key (kbd "M-m h v") 'counsel-describe-variable)
-(define-key 'my-keymap (kbd "h v") 'counsel-describe-variable)
-;; (global-set-key (kbd "M-m h l") 'counsel-find-library)
-(define-key 'my-keymap (kbd "h l") 'counsel-find-library)
-;; (global-set-key (kbd "M-m h i") 'counsel-info-lookup-symbol)
-(define-key 'my-keymap (kbd "h i") 'counsel-info-lookup-symbol)
-;; (global-set-key (kbd "M-m i u") 'counsel-unicode-char)
-(define-key 'my-keymap (kbd "i u") 'counsel-unicode-char)
-;; (global-set-key (kbd "C-c c") 'counsel-compile)
-(define-key 'my-keymap (kbd "c") 'counsel-compile)
+;; (global-set-key (kbd "C-s") 'swiper-isearch)
+;; (global-set-key (kbd "M-x") 'counsel-M-x)
+;; (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+;; (global-set-key (kbd "M-s .") 'swiper-isearch-thing-at-point)
 
-(global-set-key (kbd "C-c g") 'counsel-git)
-(global-set-key (kbd "C-c j") 'counsel-git-grep)
-(global-set-key (kbd "C-c k") 'counsel-ag)
-(global-set-key (kbd "C-x l") 'counsel-locate)
+;; (define-key 'my-keymap (kbd "h f") 'counsel-describe-function)
+;; (define-key 'my-keymap (kbd "h v") 'counsel-describe-variable)
+;; (define-key 'my-keymap (kbd "h l") 'counsel-find-library)
+;; (define-key 'my-keymap (kbd "h i") 'counsel-info-lookup-symbol)
 
 
 ;; direnv
@@ -406,8 +449,10 @@ Version 2017-11-01"
 (use-package magit
   :straight t
   :init
-  (define-key 'my-keymap (kbd "g s") 'magit-status)
-  (define-key 'my-keymap (kbd "g b") 'magit-blame)
+  :bind
+  (:map my-keymap
+	("g s" . magit-status)
+	("g b" . magit-blame))
   :config
   (transient-append-suffix 'magit-pull "-A" '("-f" "ff only" "--ff-only")))
 
@@ -442,14 +487,31 @@ Version 2017-11-01"
 (straight-use-package 'yasnippet)
 
 
+
+
+;; YAML
+(use-package yaml-mode
+  :straight t
+  :init
+  (add-to-list 'auto-mode-alist '("//.yml//'" . yaml-mode))
+  (add-to-list 'auto-mode-alist '("//.yaml//'" . yaml-mode)))
+
+;;; Languages:
 (use-package lsp-mode
   :straight t
-  :hook (lsp-mode . (lambda ()
-                      (let ((lsp-keymap-prefix "C-c l"))
-                        (lsp-enable-which-key-integration))))
-  :bind
-  (("C-c l" . lsp-command-map)
-   ("M-<tab>" . lsp-format-buffer)))
+  :hook
+  (lsp-mode . (lambda ()
+                (let ((lsp-keymap-prefix "C-c l"))
+                  (lsp-enable-which-key-integration))))
+  (enh-ruby-mode . lsp)
+  (ruby-mode . lsp)
+  (c-mode . lsp)
+  (c++-mode . lsp)
+  (rust-mode . lsp)
+  (python-mode . lsp)
+  (js-mode . lsp)
+  (jsx-mode . lsp)
+  )
 
 (use-package dap-mode
   :straight t
@@ -477,12 +539,7 @@ Version 2017-11-01"
   :custom
   (lsp-ui-doc-enable t)
   (lsp-ui-doc-position 'bottom)
-  :bind
-  (:map my-keymap
-	("M-d" . lsp-ui-doc-map))
-  (:map lsp-ui-doc-map
-	("s" . lsp-ui-doc-glance)    ;show doc until a char is typed
-	("f" . lsp-ui-doc-focus-frame)))
+  )
 
 ;; ([remap xref-find-definitions] . 'lsp-ui-peek-find-definitions)
 ;; ([remap xref-find-references] . 'lsp-ui-peek-find-references)
@@ -490,15 +547,6 @@ Version 2017-11-01"
 (use-package company-lsp
   :straight t)
 
-
-;; YAML
-(use-package yaml-mode
-  :straight t
-  :init
-  (add-to-list 'auto-mode-alist '("//.yml//'" . yaml-mode))
-  (add-to-list 'auto-mode-alist '("//.yaml//'" . yaml-mode)))
-
-;;; Languages:
 ;; ;; haskell
 ;; (straight-use-package 'haskell-mode)
 ;; (straight-use-package 'company-ghc)
@@ -514,14 +562,13 @@ Version 2017-11-01"
   (add-to-list 'lsp-language-id-configuration '(enh-ruby-mode . "ruby"))
   (lsp-register-client
    (make-lsp-client :new-connection (lsp-stdio-connection '("bundle" "exec solargraph stdio"))
-        :major-modes '(ruby-mode enh-ruby-mode)
-        :priority -1
-        :multi-root t
-        :server-id 'ruby-ls))
-  (add-hook 'enh-ruby-mode-hook 'lsp))
+		    :major-modes '(ruby-mode enh-ruby-mode)
+		    :priority -1
+		    :multi-root t
+		    :server-id 'ruby-ls))
+  )
 
 
-(add-hook 'ruby-mode-hook 'lsp)
 ;; (setq lsp-solargraph-use-bundler t)
 (customize-set-variable 'lsp-solargraph-use-bundler t)
 (use-package pry
@@ -534,9 +581,6 @@ Version 2017-11-01"
 ;; 	tab-width 4		; so we don't overflow lines
 ;; 	indent-tabs-mode t))	; so we use tabs
 ;; (setq c-default-style "linux") ; set style to "linux" cause kernel
-(add-hook 'c-mode-hook 'lsp)
-(add-hook 'c++-mode-hook 'lsp)
-
 
 (setq lsp-clients-clangd-args '("-j=4" "-background-index" "-log=error"))
 
@@ -583,7 +627,6 @@ Version 2017-11-01"
       '(rust-mode)
     (sp-local-pair "{" nil :post-handlers '(:add ("||\n[i]" "RET")))))
 (straight-use-package 'cargo)
-(add-hook 'rust-mode-hook 'lsp)
 (straight-use-package 'flycheck-rust)
 (add-hook 'flycheck-mode-hook 'flycheck-rust-setup)
 (add-hook 'rust-mode-hook 'flycheck-mode)
@@ -619,7 +662,6 @@ Version 2017-11-01"
   (setq pyvenv-mode-line-indicator
         '(pyvenv-virtual-env-name ("[venv:" pyvenv-virtual-env-name "] ")))
   (pyvenv-mode +1))
-(add-hook 'python-mode-hook 'lsp)
 ;; (setq lsp-clients-python-library-directories "~/.local/")
 (setq lsp-pyls-plugins-flake8-max-line-length 100)
 
