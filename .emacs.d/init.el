@@ -230,27 +230,12 @@ Version 2017-11-01"
   :bind
   (("C-c a" . org-agenda))
   (("C-c c" . org-capture))
+  (("C-c o s l" . org-store-link))
   (("M-m i" . org-insert-item))
   (("M-m f" . org-metaright))
   (("M-m b" . org-metaleft))
   (("M-m t" . org-insert-structure-template))
   (("M-m s" . org-todo))
-  )
-
-
-
-(use-package org-expiry
-  :straight org-plus-contrib
-  :init
-
-  (defadvice org-insert-todo-heading (after mrb/created-timestamp-advice activate)
-    "Insert a CREATED property using org-expiry.el for TODO entries"
-    (org-expiry-insert-created))
-  
-  (ad-activate 'org-insert-todo-heading)
-  :custom
-  (org-expiry-created-property-name "CREATED") ; Name of property when an item is created
-  (org-expiry-inactive-timestamps   t)
   )
 
 
@@ -511,6 +496,7 @@ Version 2017-11-01"
   (python-mode . lsp)
   (js-mode . lsp)
   (jsx-mode . lsp)
+  (json-mode . lsp)
   )
 
 (use-package dap-mode
