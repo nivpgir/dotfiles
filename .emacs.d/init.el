@@ -48,31 +48,41 @@
 (straight-use-package 'use-package)
 
 
+(use-package general
+  :straight t
+  :config
+  (general-create-definer my-leader-def :prefix "C-c")
+
+  (my-leader-def
+    "b" (general-key-dispatch (lambda () (interactive) (switch-to-buffer "*scratch*"))
+	  :timeout 0.25
+	  "b" 'new-empty-buffer)
+    "d" 'duplicate-current-line-or-region
+    "-" 'split-window-below
+    "/" 'split-window-right
+    "<backspace>" 'delete-window
+    "r" 'rename-file-and-buffer
+    "I" 'find-user-init-file
+    "<tab>" 'alternate-buffer
+    "RET" 'newline-and-indent
+    )
+
+  (general-def "C-a" 'prelude-move-beginning-of-line)
+  (general-def "M-k" 'kill-whole-line)
+  (general-def "M-n" (lambda () (interactive) (scroll-up 1)))
+  (general-def "M-p" (lambda () (interactive) (scroll-down 1)))
+  )
+
+
+
 (column-number-mode)
 (setq-default show-trailing-whitespace t)
 (require 'tramp)
-(setq ediff-window-setup-function 'ediff-setup-windows-plain)
-(setq ediff-split-window-function 'split-window-horizontally)
 (global-unset-key (kbd "M-m"))
-(global-unset-key (kbd "C-o"))
-;; My Functions and configs
-(define-prefix-command 'my-keymap nil "niv")
-;; (global-set-key (kbd "M-m") 'my-keymap)
-(global-set-key (kbd "C-c m") 'my-keymap)
-;; (define-key 'my-keymap (kbd "t") (lambda () (interactive) (term "/bin/bash")))
-(global-set-key (kbd "M-k") 'kill-whole-line)
-
 (global-auto-revert-mode t)
 
 (defun compose (f g)
   `(lambda (x) (,f (,g x))))
-;; setup splitting windows
-(define-key 'my-keymap (kbd "-") 'split-window-below)
-(define-key 'my-keymap (kbd "/") 'split-window-right)
-(define-key 'my-keymap (kbd "<backspace>") 'delete-window)
-(define-key 'my-keymap (kbd "e f") 'ediff-files)
-(define-key 'my-keymap (kbd "e b") 'ediff-buffers)
-(define-key 'my-keymap (kbd "e c") 'ediff-current-file)
 
 (defun prelude-move-beginning-of-line (arg)
   "Move point back to indentation of beginning of line.
@@ -96,7 +106,21 @@ point reaches the beginning or end of the buffer, stop there."
     (back-to-indentation)
     (when (= orig-point (point))
       (move-beginning-of-line 1))))
-(global-set-key (kbd "C-a") 'prelude-move-beginning-of-line)
+
+
+(use-package ediff
+  :straight t
+  :custom
+  (ediff-window-setup-function 'ediff-setup-windows-plain)
+  (ediff-split-window-function 'split-window-horizontally)
+  :general
+  (my-leader-def
+    "e f" 'ediff-files
+    "e b" 'ediff-buffers
+    "e c" 'ediff-current-file)
+  )
+
+
 (defun duplicate-current-line-or-region (arg)
   "Duplicates the current line or region ARG times.
 If there's no region, the current line will be duplicated. However, if
@@ -116,7 +140,8 @@ there's a region, all lines that region covers will be duplicated."
         (insert region)
         (setq end (point)))
       (goto-char (+ origin (* (length region) arg) arg)))))
-(define-key 'my-keymap (kbd "d") 'duplicate-current-line-or-region)
+
+
 (defun alternate-buffer (&optional window)
   "Switch back and forth between current and last buffer in the
 current window."
@@ -134,7 +159,6 @@ current window."
                      (mapcar #'car (window-prev-buffers window)))
          ;; `other-buffer' honors `buffer-predicate' so no need to filter
          (other-buffer current-buffer t)))))
-(define-key 'my-keymap (kbd "<tab>") 'alternate-buffer)
 
 (defun new-empty-buffer ()
   "Create a new empty buffer.
@@ -151,7 +175,21 @@ Version 2017-11-01"
     $buf))
 
 
-(define-key 'my-keymap (kbd "r") 'rename-file-and-buffer)
+;; (use-package hydra
+;;   :straight t
+;;   :init
+;;   (defhydra hydra-wasd
+;;     (my-keymap
+;;      "C-n"
+;;      :pre (set-cursor-color "#40e0d0")
+;;      :post (progn (set-cursor-color "#ffffff")
+;; 		  (message "Thank you, come again.")))
+;;     "vi"
+;;     ("d" forward-char)
+;;     ("a" backward-char)
+;;     ("s" next-line)
+;;     ("w" previous-line)
+;;     ("q" nil "quit")))
 
 (use-package elgrep
   :straight t)
@@ -160,7 +198,31 @@ Version 2017-11-01"
   :straight t
   :commands (doct))
 
-(use-package org-mode
+
+(defconst org-plus-contrib-fixed-recipe
+  `(org-plus-contrib
+    :type git
+    :repo "https://code.orgmode.org/bzg/org-mode.git"
+    :local-repo "org"
+    :depth full
+    :pre-build ,(list
+		 (concat
+		  (when (eq system-type 'berkeley-unix) "g")
+		  "make")
+		 "autoloads"
+		 (concat "EMACS=" "'" invocation-directory invocation-name "'"))
+    :build
+    (:not autoloads)
+    :files
+    (:defaults "lisp/*.el"
+	       ("etc/styles/" "etc/styles/*")
+	       "contrib/lisp/*.el")
+    :includes org))
+
+(straight-override-recipe org-plus-contrib-fixed-recipe)
+
+(use-package org
+  :straight org-plus-contrib
   :init
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -190,14 +252,24 @@ Version 2017-11-01"
     (f-ediff-org-showhide ediff-buffer-B 'hide-sublevels 1)
     (f-ediff-org-showhide ediff-buffer-C 'hide-sublevels 1))
 
+  (defun org-time-stamp-no-prompt ()
+    (insert (format-time-string)
+	    (org-time-stamp-format 'long)
+	    (org-current-effective-time)))
+
+  (defun org-time-stamp-inactive-no-prompt ()
+    (insert (format-time-string)
+	    (org-time-stamp-format 'long 'inactive)
+	    (org-current-effective-time)))
+
+
   :custom
   ;; for more complex stuff look at `org-depend.el'
   (org-enforce-todo-dependencies t "block setting to DONE until previous siblings and children are DONE")
   (org-enforce-todo-checkbox-dependencies t "same as above but for checkboxes")
-  (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
   (org-cycle-separator-lines 0)
   (org-agenda-start-on-weekday nil)
-  (org-agenda-start-day nil)
+  (org-agenda-start-day "-1")
   (org-agenda-files (list "~/Sync/organizing/cady-tasks.org"
                           "~/Sync/organizing/MyTasks.org"
                           "~/Sync/organizing/miluim.org"
@@ -227,15 +299,29 @@ Version 2017-11-01"
   (org-after-todo-statistics . org-summary-todo)
   (ediff-select . f-ediff-org-unfold-tree-element)
   (ediff-unselect . f-ediff-org-fold-tree)
-  :bind
-  (("C-c a" . org-agenda))
-  (("C-c c" . org-capture))
-  (("C-c o s l" . org-store-link))
-  (("M-m i" . org-insert-item))
-  (("M-m f" . org-metaright))
-  (("M-m b" . org-metaleft))
-  (("M-m t" . org-insert-structure-template))
-  (("M-m s" . org-todo))
+  :general
+  (my-leader-def
+    "a" 'org-agenda
+    "c" 'org-capture
+    )
+  ("M-m s" 'org-todo)
+  ("M-m b" 'org-metaleft)
+  ("M-m f" 'org-metaright)
+  ("C-M-<return>" 'org-insert-subheading)
+  ("M-m t" 'org-insert-structure-template)
+  ("C-M-S-<return>" 'org-insert-todo-subheading)
+  )
+
+
+
+(use-package org-expiry
+  :straight org-plus-contrib
+  :after org
+  :custom
+  (org-expiry-created-property-name "CREATED") ; Name of property when an item is created
+  (org-expiry-inactive-timestamps   t)
+  :config
+  (advice-add 'org-insert-heading :after 'org-expiry-insert-created)
   )
 
 
@@ -245,15 +331,6 @@ Version 2017-11-01"
   (interactive)
   (find-file user-init-file))
 
-(defun org-time-stamp-no-prompt ()
-  (insert (format-time-string
-	   (org-time-stamp-format 'long)
-	   (org-current-effective-time))))
-
-(defun org-time-stamp-inactive-no-prompt ()
-  (insert (format-time-string
-	   (org-time-stamp-format 'long 'inactive)
-	   (org-current-effective-time))))
 
 (defun rename-file-and-buffer ()
   "Rename the current buffer and file it is visiting."
@@ -267,16 +344,6 @@ Version 2017-11-01"
          (t
           (rename-file filename new-name t)
           (set-visited-file-name new-name t t)))))))
-
-(define-key 'my-keymap (kbd "I") 'find-user-init-file)
-(define-key (current-global-map) (kbd "M-n") (lambda () (interactive) (scroll-up 1)))
-(define-key (current-global-map) (kbd "M-p") (lambda () (interactive) (scroll-down 1)))
-(define-key 'my-keymap (kbd "b") 'new-empty-buffer)
-(define-key 'my-keymap (kbd "t") 'org-time-stamp-inactive-no-prompt)
-(define-key 'my-keymap (kbd "T") 'org-time-stamp-no-prompt)
-
-
-
 
 
 
@@ -303,53 +370,59 @@ Version 2017-11-01"
 ;; match parens
 (show-paren-mode t)
 
-(straight-use-package 'ztree)
+(use-package ztree
+  :straight t)
 (straight-use-package 'smartparens)
 (require 'smartparens)
 (require 'smartparens-config)
 (smartparens-global-mode)
 (setq show-paren-style 'expression)
 
-(straight-use-package 'which-key)
-(require 'which-key)
-(which-key-mode t)
-(which-key-setup-minibuffer)
-(setq which-key-popup-type 'minibuffer)
-
-
+(use-package which-key
+  :straight t
+  :config
+  (which-key-mode t)
+  (which-key-setup-minibuffer)
+  :custom
+  (which-key-popup-type 'minibuffer)
+  )
 
 
 ;; expand region with C-:
-(straight-use-package 'expand-region)
-(define-key (current-global-map) (kbd "M-h") 'er/expand-region)
+(use-package expand-region
+  :straight t
+  :general
+  ("M-h" 'er/expand-region))
 
 ;; undo-tree with diff on visualizing
-(straight-use-package 'undo-tree)
-(global-undo-tree-mode)
-(setq undo-tree-visualizer-diff t)
-;; comment with C-/
-;; add a binding to comment-line in the global map and then remove
-;; the undo-tree-undo "C-/" binding from undo-tree-map because it
-;; takes precedence over the global map
-(define-key (current-global-map) (kbd "C-/") 'comment-line)
-(define-key undo-tree-map (kbd "C-/") nil) 
+(use-package undo-tree
+  :straight t
+  :config
+  (global-undo-tree-mode)
+  :custom
+  (undo-tree-visualizer-diff t)
+  :general
+  (undo-tree-map
+   "C-/" nil)
+  ("C-/" 'comment-line)
+  )
 
-(setq winum-keymap
-      (let ((map (make-sparse-keymap)))
-        (define-key map (kbd "C-`") 'winum-select-window-by-number)
-        (define-key map (kbd "M-0") 'winum-select-window-0-or-10)
-        (define-key map (kbd "M-1") 'winum-select-window-1)
-        (define-key map (kbd "M-2") 'winum-select-window-2)
-        (define-key map (kbd "M-3") 'winum-select-window-3)
-        (define-key map (kbd "M-4") 'winum-select-window-4)
-        (define-key map (kbd "M-5") 'winum-select-window-5)
-        (define-key map (kbd "M-6") 'winum-select-window-6)
-        (define-key map (kbd "M-7") 'winum-select-window-7)
-        (define-key map (kbd "M-8") 'winum-select-window-8)
-        (define-key map (kbd "M-9") 'winum-select-window-9)
-        map))
-(straight-use-package 'winum)
-(winum-mode)
+(use-package winum
+  :straight t
+  :config
+  (winum-mode)
+  (general-def winum-keymap
+    "M-0" 'winum-select-window-0-or-10
+    "M-1" 'winum-select-window-1
+    "M-2" 'winum-select-window-2
+    "M-3" 'winum-select-window-3
+    "M-4" 'winum-select-window-4
+    "M-5" 'winum-select-window-5
+    "M-6" 'winum-select-window-6
+    "M-7" 'winum-select-window-7
+    "M-8" 'winum-select-window-8
+    "M-9" 'winum-select-window-9)
+  )
 
 
 (use-package nord-theme
@@ -378,7 +451,6 @@ Version 2017-11-01"
   :straight t)
 
 ;; ivy
-;; (straight-use-package 'ivy)
 (use-package ivy
   :straight t
   :init
@@ -388,39 +460,28 @@ Version 2017-11-01"
   (use-package counsel
     :straight t
     :diminish
-    :bind
-    (("M-x" . counsel-M-x))
-    (("C-x C-f" . counsel-find-file))
-    (("C-c j" . counsel-git-grep))
-    (:map my-keymap
-	  ("i u" . counsel-unicode-char))
-    :config (counsel-mode 1))
+    :general
+    ("M-x" 'counsel-M-x)
+    ("C-x C-f" 'counsel-find-file)
+    ("C-c j" 'counsel-git-grep)
+    :config
+    (counsel-mode 1))
   (use-package swiper
+    :general
+    ("C-s" 'swiper-isearch)
+    ("M-s ." 'swiper-isearch-thing-at-point)
     :defer t)
-  :hook (after-init . ivy-mode)
+  :hook
+  (after-init . ivy-mode)
   :custom
   (ivy-use-virtual-buffers t)
   (ivy-count-format "(%d/%d) ")
   (ivy-initial-inputs-alist nil)
-  :bind
-  (("C-s" . swiper-isearch))
-  (("M-s ." . swiper-isearch-thing-at-point))
-  :config
-  (setq ivy-display-style nil))
+  (ivy-display-style nil)
+  )
 
 
 (straight-use-package 'avy)
-
-
-;; (global-set-key (kbd "C-s") 'swiper-isearch)
-;; (global-set-key (kbd "M-x") 'counsel-M-x)
-;; (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-;; (global-set-key (kbd "M-s .") 'swiper-isearch-thing-at-point)
-
-;; (define-key 'my-keymap (kbd "h f") 'counsel-describe-function)
-;; (define-key 'my-keymap (kbd "h v") 'counsel-describe-variable)
-;; (define-key 'my-keymap (kbd "h l") 'counsel-find-library)
-;; (define-key 'my-keymap (kbd "h i") 'counsel-info-lookup-symbol)
 
 
 ;; direnv
@@ -430,14 +491,13 @@ Version 2017-11-01"
   (direnv-mode))
 
 ;; magit
-
 (use-package magit
   :straight t
   :init
-  :bind
-  (:map my-keymap
-	("g s" . magit-status)
-	("g b" . magit-blame))
+  :general
+  (my-leader-def
+    "g s" 'magit-status
+    "g b" 'magit-blame)
   :config
   (transient-append-suffix 'magit-pull "-A" '("-f" "ff only" "--ff-only")))
 
@@ -450,28 +510,22 @@ Version 2017-11-01"
 (require 'epa-file)
 (epa-file-enable)
 
-(straight-use-package 'flycheck)
-(add-hook 'after-init-hook 'global-flycheck-mode)
-(setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
 
 (use-package parinfer
   :straight t
-  :bind
-  (("C-," . parinfer-toggle-mode))
   :init
-  (progn
-    (setq parinfer-extensions
-	  '(defaults	   ;should be included.
-	     pretty-parens ; different paren styles for different modes.
-	     smart-yank))
-    (add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
-    (add-hook 'scheme-mode-hook #'parinfer-mode)
-    (add-hook 'lisp-mode-hook #'parinfer-mode)))
+  (add-hook 'emacs-lisp-mode-hook 'parinfer-mode)
+  (add-hook 'scheme-mode-hook 'parinfer-mode)
+  (add-hook 'lisp-mode-hook 'parinfer-mode)
+  :general
+  (:keymaps 'parinfer-mode-map
+	    "C-," 'parinfer-toggle-mode)
+  :custom
+  (parinfer-extensions '(defaults pretty-parens smart-yank))
+  )
 
 
 (straight-use-package 'yasnippet)
-
-
 
 
 ;; YAML
@@ -494,9 +548,9 @@ Version 2017-11-01"
   (c++-mode . lsp)
   (rust-mode . lsp)
   (python-mode . lsp)
+  (json-mode . lsp)
   (js-mode . lsp)
   (jsx-mode . lsp)
-  (json-mode . lsp)
   )
 
 (use-package dap-mode
@@ -505,9 +559,6 @@ Version 2017-11-01"
   ;; Enabling only some features
   (setq dap-auto-configure-features '(sessions locals controls tooltip))
   (require 'dap-python))
-
-;; indent whole buffer
-;; (define-key (current-global-map) (kbd "M-<tab>") 'lsp-format-buffer)
 
 
 ;; (straight-use-package
@@ -518,20 +569,19 @@ Version 2017-11-01"
 ;;    ))
 (use-package lsp-ui
   :straight t
-  ;; :after (lsp-mode)
+  :after (lsp-mode)
   :init
-  (add-hook 'lsp-mode-hook 'lsp-ui-mode)
   (define-prefix-command 'lsp-ui-doc-map nil "bindings for lsp-ui-doc-functions")
   :custom
   (lsp-ui-doc-enable t)
   (lsp-ui-doc-position 'bottom)
+  :hook
+  (lsp-mode . lsp-ui-mode)
   )
 
 ;; ([remap xref-find-definitions] . 'lsp-ui-peek-find-definitions)
 ;; ([remap xref-find-references] . 'lsp-ui-peek-find-references)
 
-(use-package company-lsp
-  :straight t)
 
 ;; ;; haskell
 ;; (straight-use-package 'haskell-mode)
@@ -555,7 +605,6 @@ Version 2017-11-01"
   )
 
 
-;; (setq lsp-solargraph-use-bundler t)
 (customize-set-variable 'lsp-solargraph-use-bundler t)
 (use-package pry
   :straight t)
@@ -621,8 +670,21 @@ Version 2017-11-01"
 ;; scheme
 (straight-use-package 'geiser)
 
+(use-package paredit
+  :straight t
+  :hook
+  (clojure-mode . paredit-mode)
+  (emacs-lisp-mode . paredit-mode)
+  :general (:keymaps 'paredit-mode-map
+		     "M-C b" 'paredit-backward
+		     "M-C f" 'paredit-forward
+		     "M-C w" 'paredit-backward-up
+		     "M-C a" 'paredit-backward-down
+		     "M-C s" 'paredit-forward-down
+		     "M-C d" 'paredit-forward-up)
+  )
+
 ;; clojure
-(straight-use-package 'paredit)
 (straight-use-package 'clojure-mode)
 (straight-use-package 'clojure-mode-extra-font-locking)
 (straight-use-package 'rainbow-delimiters)
@@ -668,7 +730,6 @@ Version 2017-11-01"
 ;; - treemacs: https://github.com/Alexander-Miller/treemacs
 ;; - look for useful stuff in: https://github.com/MatthewZMD/.emacs.d#orgd39ff00
 
-(global-set-key (kbd "RET") 'newline-and-indent)
 
 ;; fix RET in terminal
 
