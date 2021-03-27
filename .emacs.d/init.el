@@ -379,11 +379,14 @@ Version 2017-11-01"
 
 (use-package ztree
   :straight t)
-(straight-use-package 'smartparens)
-(require 'smartparens)
-(require 'smartparens-config)
-(smartparens-global-mode)
-(setq show-paren-style 'expression)
+
+(use-package smartparens
+  :straight t
+  :defer t
+  :custom
+  (show-paren-style 'expression)
+  :config
+  (smartparens-global-mode))
 
 (use-package which-key
   :straight t
