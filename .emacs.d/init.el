@@ -269,7 +269,9 @@ Version 2017-11-01"
   (org-enforce-todo-checkbox-dependencies t "same as above but for checkboxes")
   (org-cycle-separator-lines 0)
   (org-agenda-start-on-weekday nil)
-  (org-agenda-start-day "-1")
+  (org-agenda-start-day "-1d")
+  (org-extend-today-until 2)
+  (org-use-effective-time t)
   (org-agenda-files (list "~/Sync/organizing/cady-tasks.org"
                           "~/Sync/organizing/MyTasks.org"
                           "~/Sync/organizing/miluim.org"
@@ -312,7 +314,12 @@ Version 2017-11-01"
   ("C-M-S-<return>" 'org-insert-todo-subheading)
   )
 
-
+(use-package org-habit
+  :straight org-plus-contrib
+  :config
+  (require 'org-habit)
+  :custom
+  (org-habit-preceding-days 30))
 
 (use-package org-expiry
   :straight org-plus-contrib
