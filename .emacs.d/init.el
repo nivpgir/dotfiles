@@ -47,11 +47,14 @@
   (load bootstrap-file nil 'nomessage))
 (straight-use-package 'use-package)
 
+(use-package my-mode
+  :straight '(my-mode :local-repo "my-mode"))
 
 (use-package general
   :straight t
   :config
-  (general-create-definer my-leader-def :prefix "C-c")
+  (general-create-definer my-def :keymaps 'my-mode-map)
+  (general-create-definer my-leader-def :prefix "C-c" :wrapping my-def)
 
   (my-leader-def
     "b" (general-key-dispatch (lambda () (interactive) (switch-to-buffer "*scratch*"))
