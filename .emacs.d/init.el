@@ -305,6 +305,8 @@ Version 2017-11-01"
   (my-leader-def
     "a" 'org-agenda
     "c" 'org-capture
+    "osl" 'org-store-link
+    "odl" 'org-insert-last-stored-link
     )
   ("M-m s" 'org-todo)
   ("M-m b" 'org-metaleft)
