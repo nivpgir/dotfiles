@@ -417,9 +417,19 @@ Version 2017-11-01"
   :custom
   (undo-tree-visualizer-diff t)
   :general
-  (undo-tree-map
-   "C-/" nil)
-  ("C-/" 'comment-line)
+  (:keymaps 'undo-tree-map
+	    "C-/" nil
+	    "C-?" nil
+	    )
+  (my-def
+    "<undo>" 'undo-tree-undo
+    "<redo>" 'undo-tree-redo
+    "C-z" "<undo>"
+    "C-S-z" "<redo>"
+    )
+  ;;this has to stay in the global map otherwise undo-tree thinks it
+  ;;shouldn't be activated, see undo tree documentation for more info
+  ("C-/" 'comment-line)	
   )
 
 (use-package winum
