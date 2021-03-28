@@ -571,7 +571,6 @@ Version 2017-11-01"
   (ruby-mode . lsp)
   (c-mode . lsp)
   (c++-mode . lsp)
-  (rust-mode . lsp)
   (python-mode . lsp)
   (json-mode . lsp)
   (js-mode . lsp)
@@ -668,29 +667,19 @@ Version 2017-11-01"
 		   (sp-local-pair "{" nil :post-handlers '(:add ("||\n[i]" "RET")))))))
 
 (add-hook 'c-mode-hook
-    (lambda ()
-      (c-set-style "my-linux-tabs-only")
-      (c-mode-set-smartparens)
-      (setq indent-tabs-mode t)
-      (setq tab-width c-basic-offset)))
+	  (lambda ()
+	    (c-set-style "my-linux-tabs-only")
+	    (c-mode-set-smartparens)
+	    (setq indent-tabs-mode t)
+	    (setq tab-width c-basic-offset)))
 
 
 
 
 ;; rust
-(straight-use-package 'rust-mode)
-(add-hook 'rust-mode-hook
-    (lambda ()
-      (local-set-key (kbd "C-c <tab>") #'rust-format-buffer)))
-(with-eval-after-load 'smartparens
-  (sp-with-modes
-      '(rust-mode)
-    (sp-local-pair "{" nil :post-handlers '(:add ("||\n[i]" "RET")))))
-(straight-use-package 'cargo)
-(straight-use-package 'flycheck-rust)
-(add-hook 'flycheck-mode-hook 'flycheck-rust-setup)
-(add-hook 'rust-mode-hook 'flycheck-mode)
-
+(use-package rustic
+  :straight t
+  )
 
 ;; scheme
 (straight-use-package 'geiser)
