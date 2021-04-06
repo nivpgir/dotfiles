@@ -464,7 +464,7 @@ Version 2017-11-01"
     )
   ;;this has to stay in the global map otherwise undo-tree thinks it
   ;;shouldn't be activated, see undo tree documentation for more info
-  ("C-/" 'comment-line)	
+  ("C-/" 'comment-line)
   )
 
 (use-package winum
