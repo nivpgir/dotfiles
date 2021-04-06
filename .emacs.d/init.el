@@ -336,6 +336,24 @@ Version 2017-11-01"
   ("C-M-S-<return>" 'org-insert-todo-subheading)
   )
 
+(use-package org-roam
+  :straight t
+  :hook
+  (after-init . org-roam-mode)
+  :custom
+  (org-roam-directory "~/Sync/zettelkasten/")
+  (org-roam-completion-system 'ivy)
+  :general
+  (:keymaps 'org-roam-mode-map
+	    "C-c n l" 'org-roam
+	    "C-c n f" 'org-roam-find-file
+	    "C-c n g" 'org-roam-graph)
+  (:keymaps 'org-mode-map
+	    "C-c n i" 'org-roam-insert
+	    "C-c n I" 'org-roam-insert-immediate))
+
+
+
 (use-package org-habit
   :straight org-plus-contrib
   :config
