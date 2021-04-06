@@ -485,11 +485,35 @@ Version 2017-11-01"
   )
 
 
-(use-package nord-theme
+(use-package solaire-mode
   :straight t
-  :init
-  (load-theme 'nord t))
+  :hook
+  ;; Ensure solaire-mode is running in all solaire-mode buffers
+  (change-major-mode . turn-on-solaire-mode)
+  ;; this prevents solaire-mode from turning itself off every time
+  ;; Emacs reverts the file
+  (after-revert . turn-on-solaire-mode)
+  ;; enable solaire-mode unconditionally for certain modes:
+  :hook (ediff-prepare-buffer . solaire-mode)
+  ;; Highlight the minibuffer when it is activated:
+  :hook (minibuffer-setup . solaire-mode-in-minibuffer)
+  ;; :custom
+  ;; The bright and dark background colors are automatically swapped
+  ;; the first time solaire-mode is activated. Namely, the backgrounds
+  ;; of the `default` and `solaire-default-face` faces are
+  ;; swapped. This is done because the colors are usually the wrong
+  ;; way around. If you don't want this, you can disable it:
+  ;; (solaire-mode-auto-swap-bg nil)
+  :config
+  (solaire-global-mode +1))
 
+(use-package vscode-dark-plus-theme
+  :straight t
+  :after solaire-mode
+  :custom
+  (vscode-dark-plus-invert-hl-todo nil)
+  :config
+  (load-theme 'vscode-dark-plus t))
 
 ;; wgrep
 (straight-use-package 'wgrep)
