@@ -286,18 +286,35 @@ Version 2017-11-01"
   (org-agenda-custom-commands '(("d" "" todo "DELEGATED")
 				("c" "" todo "DONE|DEFERRED|CANCELLED")
 				("w" "" todo "WAITING")))
-  (org-capture-templates (doct
-			  '(("New TODO"
-			     :keys "n"
-			     :file "~/Sync/organizing/new-tasks.org"
-			     :todo-state "TODO"
-			     :template ("* %{todo-state} %^{Description}"
-					":PROPERTIES:"
-					":CREATED: %U"
-					":END:"
-					"%i"
-					"%a"
-					"%?")))))
+
+  (org-capture-templates
+   (doct '(("Todo"
+	    :keys "t"
+	    :file "~/Sync/organizing/new-tasks.org"
+	    :todo-state "TODO"
+	    :template ("* %{todo-state} %^{Description}"
+		       ":PROPERTIES:"
+		       ":CREATED: %U"
+		       ":END:"
+		       "%i"
+		       "%a"
+		       "%?"))
+	   ("Meeting" :keys "m"
+	    :template ("* Meeting %^{Who?}"
+		       ":PROPERTIES:"
+		       ":CREATED: %U"
+		       ":END:"
+		       "%i"
+		       "%a"
+		       "%?")
+	    :children (("Personal"
+			:keys "p"
+			:file "~/Sync/organizing/MyTasks.org"
+			:olp ("Events"))
+		       ("Work"
+			:keys "w"
+			:file "~/Sync/organizing/cady-tasks.org"
+			:olp ("Events")))))))
   ;; ("j" "Journal" entry (file+datetree "~/Sync/organizing/journal-notes.org")
   ;;  "* %?\nEntered on %U\n  %i\n  %a")))
   :hook
