@@ -643,6 +643,28 @@ Version 2017-11-01"
   (setq dap-auto-configure-features '(sessions locals controls tooltip))
   (require 'dap-python))
 
+(use-package tree-sitter
+  :straight t
+  :hook
+  ((c-mode-hook
+    c++-mode-hook
+    css-mode-hook
+    html-mode-hook
+    js-mode-hook
+    js2-mode-hook
+    python-mode-hook
+    ruby-mode-hook
+    rust-mode-hook
+    typescript-mode-hook
+    python-mode
+    rustic-mode) . tree-sitter-hl-mode)
+  )
+
+(use-package tree-sitter-langs
+  :straight t
+  :after tree-sitter
+  )
+
 
 ;; (straight-use-package
 ;;  '(lsp-ivy
