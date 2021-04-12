@@ -275,6 +275,7 @@ Version 2017-11-01"
   (org-agenda-start-day "-1d")
   (org-extend-today-until 2)
   (org-use-effective-time t)
+  (org-log-reschedule 'time)
   (org-agenda-files (list "~/Sync/organizing/cady-tasks.org"
                           "~/Sync/organizing/MyTasks.org"
                           "~/Sync/organizing/miluim.org"
