@@ -265,7 +265,31 @@ Version 2017-11-01"
 	    (org-time-stamp-format 'long 'inactive)
 	    (org-current-effective-time)))
 
+  (defun org-habit-count-completed ()
+    (count-matches
+     (char-to-string org-habit-completed-glyph)
+     (line-beginning-position) (line-end-position)))
 
+  (defun org-habit-line-p (point)
+    (get-text-property point 'org-habit-p))
+
+  (defun insert-on-line-end (string)
+    (save-excursion
+      (end-of-line)
+      (insert string)))
+
+  (defmacro for-each-line-of-buffer (body)
+    `(save-excursion
+       (point-min)
+       (while (not (eobp))
+	 ,body
+	 (forward-line 1))))
+
+  (defun org-habit-streak-count ()
+    (for-each-line-of-buffer
+     (when (org-habit-line-p (point))
+       (insert-on-line-end
+	(number-to-string (org-habit-count-completed))))))
   :hook
   (org-agenda-finalize . org-habit-streak-count)
   (org-after-todo-statistics . org-summary-todo)
