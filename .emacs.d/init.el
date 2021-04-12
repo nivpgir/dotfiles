@@ -276,6 +276,7 @@ Version 2017-11-01"
   (org-extend-today-until 2)
   (org-use-effective-time t)
   (org-log-reschedule 'time)
+  (org-log-into-drawer t)
   (org-agenda-files (list "~/Sync/organizing/cady-tasks.org"
                           "~/Sync/organizing/MyTasks.org"
                           "~/Sync/organizing/miluim.org"
