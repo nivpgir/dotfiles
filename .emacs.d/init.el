@@ -266,6 +266,11 @@ Version 2017-11-01"
 	    (org-current-effective-time)))
 
 
+  :hook
+  (org-agenda-finalize . org-habit-streak-count)
+  (org-after-todo-statistics . org-summary-todo)
+  (ediff-select . f-ediff-org-unfold-tree-element)
+  (ediff-unselect . f-ediff-org-fold-tree)
   :custom
   ;; for more complex stuff look at `org-depend.el'
   (org-enforce-todo-dependencies t "block setting to DONE until previous siblings and children are DONE")
@@ -319,10 +324,6 @@ Version 2017-11-01"
 			:olp ("Events")))))))
   ;; ("j" "Journal" entry (file+datetree "~/Sync/organizing/journal-notes.org")
   ;;  "* %?\nEntered on %U\n  %i\n  %a")))
-  :hook
-  (org-after-todo-statistics . org-summary-todo)
-  (ediff-select . f-ediff-org-unfold-tree-element)
-  (ediff-unselect . f-ediff-org-fold-tree)
   :general
   (my-leader-def
     "a" 'org-agenda
