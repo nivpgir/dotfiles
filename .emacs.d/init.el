@@ -322,8 +322,6 @@ Version 2017-11-01"
 			:keys "w"
 			:file "~/Sync/organizing/cady-tasks.org"
 			:olp ("Events")))))))
-  ;; ("j" "Journal" entry (file+datetree "~/Sync/organizing/journal-notes.org")
-  ;;  "* %?\nEntered on %U\n  %i\n  %a")))
   :general
   (my-leader-def
     "a" 'org-agenda
