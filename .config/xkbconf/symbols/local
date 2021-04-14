@@ -1,0 +1,14 @@
+//make caps lock hyper with mod3
+hidden partial modifier_keys
+xkb_symbols "hyper_caps_mod3" {
+    key <CAPS> { [ Hyper_L ] };
+    modifier_map Mod3 { Hyper_L };
+};
+
+//make both win keys super on mod4
+hidden partial modifier_keys
+xkb_symbols "super_win_mod4" {
+    key <LWIN> { [ Super_L ] };
+    key <RWIN> { [ Super_R ] };
+    modifier_map Mod4 { Super_L, Super_R };
+};
