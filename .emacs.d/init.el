@@ -327,17 +327,16 @@ Version 2017-11-01"
 		       ":PROPERTIES:"
 		       ":CREATED: %U"
 		       ":END:"
-		       "%i"
 		       "%a"
-		       "%?"))
+		       "%i%?"))
 	   ("Meeting" :keys "m"
 	    :template ("* Meeting %^{Who?}"
 		       ":PROPERTIES:"
 		       ":CREATED: %U"
 		       ":END:"
-		       "%i"
+		       "%^{When}T"
 		       "%a"
-		       "%?")
+		       "%i%?")
 	    :children (("Personal"
 			:keys "p"
 			:file "~/Sync/organizing/MyTasks.org"
