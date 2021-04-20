@@ -7,7 +7,10 @@ killall -q polybar
 
 # Launch bar1 and bar2
 echo "---" | tee -a /tmp/polybar.log
-POLYBAR_CMD="$HOME/.local/bin/polybar base"
+
+[[ -f $HOME/.local/bin/polybar  ]] && POLYBAR_BIN="$HOME/.local/bin/polybar"
+[[ `which polybar`  ]] && POLYBAR_BIN="polybar"
+POLYBAR_CMD="$POLYBAR_BIN base"
 POLYBAR_LOG="/tmp/polybar.log"
 POLYBAR_ENV="$HOME/.config/polybar/polybar-env"
 LAUNCH_CMD=$POLYBAR_CMD
