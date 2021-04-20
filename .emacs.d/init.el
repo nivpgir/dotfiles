@@ -309,6 +309,7 @@ Version 2017-11-01"
   (org-agenda-files (list "~/Sync/organizing/cady-tasks.org"
                           "~/Sync/organizing/MyTasks.org"
                           "~/Sync/organizing/miluim.org"
+                          "~/Sync/organizing/important-events.org"
                           "~/Sync/organizing/passerine-tasks.org"))
   (org-outline-path-complete-in-steps nil)
   (org-refile-use-outline-path 'file)
