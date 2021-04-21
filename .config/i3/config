@@ -434,4 +434,4 @@ exec --no-startup-id udiskie
 # set capslock as hyper and others
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec_always --no-startup-id xkbcomp -I$HOME/.config/xkbconf ~/.config/xkbconf/keymap/custom $DISPLAY
-exec syncthingtray
+exec syncthingtray --wait
