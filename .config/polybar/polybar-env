@@ -1,1 +1,2 @@
-export MONITOR=HDMI-1
+PRIM_MONITOR=`xrandr --current  | grep primary`
+export MONITOR=`echo $PRIM_MONITOR | cut -d " " -f1`
