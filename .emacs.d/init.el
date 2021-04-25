@@ -773,6 +773,7 @@
 (when my-prefered-font
   (set-frame-font my-prefered-font nil t))
 
+(set-face-attribute 'default nil :height 120)
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
