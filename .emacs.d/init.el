@@ -250,8 +250,8 @@
 		       ":END:"
 		       "%a"
 		       "%i%?"))
-	   ("Meeting" :keys "m"
-	    :template ("* Meeting %^{Who?}"
+	   ("Event" :keys "m"
+	    :template ("* %^{Who?/What?}"
 		       ":PROPERTIES:"
 		       ":CREATED: %U"
 		       ":END:"
