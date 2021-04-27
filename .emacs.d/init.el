@@ -234,7 +234,7 @@
   (org-agenda-custom-commands '(("d" "" todo "DELEGATED")
 				("c" "" todo "DONE|DEFERRED|CANCELLED")
 				("w" "" todo "WAITING")))
-  (org-agenda-sorting-strategy '((agenda habit-down category-keep tag-up time-up priority-down )
+  (org-agenda-sorting-strategy '((agenda habit-down time-up category-keep tag-up priority-down)
 				 (todo priority-down category-keep)
 				 (tags priority-down category-keep)
 				 (search category-keep)))
