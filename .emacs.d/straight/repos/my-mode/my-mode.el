@@ -125,4 +125,24 @@ Version 2017-11-01"
           (rename-file filename new-name t)
           (set-visited-file-name new-name t t)))))))
 
+(defun my-describe-all-keymaps ()
+  "Describe all keymaps in currently-defined variables."
+  (interactive)
+  (with-output-to-temp-buffer "*keymaps*"
+    (let (symbs seen)
+      (mapatoms (lambda (s)
+                  (when (and (boundp s) (keymapp (symbol-value s)))
+                    (push (indirect-variable s) symbs))))
+      (dolist (keymap symbs)
+        (unless (memq keymap seen)
+          (princ (format "* %s\n\n" keymap))
+          (princ (substitute-command-keys (format "\\{%s}" keymap)))
+          (princ (format "\f\n%s\n\n" (make-string (min 80 (window-width)) ?-)))
+          (push keymap seen))))
+    (with-current-buffer standard-output ;; temp buffer
+      (setq help-xref-stack-item (list #'my-describe-all-keymaps)))))
+
+
 (provide 'my-mode)
+
+
