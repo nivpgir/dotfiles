@@ -207,7 +207,6 @@
        (insert-on-line-end
 	(number-to-string (org-habit-count-completed))))))
   :hook
-  (org-agenda-finalize . org-habit-streak-count)
   (org-after-todo-statistics . org-summary-todo)
   (ediff-select . f-ediff-org-unfold-tree-element)
   (ediff-unselect . f-ediff-org-fold-tree)
@@ -216,28 +215,14 @@
   (org-enforce-todo-dependencies t "block setting to DONE until previous siblings and children are DONE")
   (org-enforce-todo-checkbox-dependencies t "same as above but for checkboxes")
   (org-cycle-separator-lines 0)
-  (org-agenda-start-on-weekday nil)
-  (org-agenda-start-day "-1d")
   (org-extend-today-until 2)
   (org-use-effective-time t)
   (org-log-reschedule 'time)
   (org-log-into-drawer t)
-  (org-agenda-files (list "~/Sync/organizing/cady-tasks.org"
-                          "~/Sync/organizing/MyTasks.org"
-                          "~/Sync/organizing/miluim.org"
-                          "~/Sync/organizing/important-events.org"
-                          "~/Sync/organizing/passerine-tasks.org"))
   (org-outline-path-complete-in-steps nil)
   (org-refile-use-outline-path 'file)
   (org-refile-targets '((nil :maxlevel . 3)
 			(org-agenda-files :maxlevel . 9)))
-  (org-agenda-custom-commands '(("d" "" todo "DELEGATED")
-				("c" "" todo "DONE|DEFERRED|CANCELLED")
-				("w" "" todo "WAITING")))
-  (org-agenda-sorting-strategy '((agenda habit-down time-up category-keep tag-up priority-down)
-				 (todo priority-down category-keep)
-				 (tags priority-down category-keep)
-				 (search category-keep)))
 
   (org-capture-templates
    (doct '(("Todo"
@@ -268,7 +253,6 @@
 			:olp ("Events")))))))
   :general
   (my-leader-def
-    "a" 'org-agenda
     "c" 'org-capture
     "osl" 'org-store-link
     "odl" 'org-insert-last-stored-link
@@ -279,6 +263,46 @@
   ("C-M-<return>" 'org-insert-subheading)
   ("M-m t" 'org-insert-structure-template)
   ("C-M-S-<return>" 'org-insert-todo-subheading)
+  :config
+  )
+
+(use-package org-agenda
+  :straight org
+  :after org
+  :hook
+  (org-agenda-finalize . org-habit-streak-count)
+  :general
+  (my-leader-def
+    "a" 'org-agenda)
+  :custom
+  (org-agenda-files (list "~/Sync/organizing/cady-tasks.org"
+                          "~/Sync/organizing/MyTasks.org"
+                          "~/Sync/organizing/miluim.org"
+                          "~/Sync/organizing/important-events.org"
+                          "~/Sync/organizing/passerine-tasks.org"))
+  (org-agenda-start-on-weekday nil)
+  (org-agenda-start-day "-1d")
+  (org-agenda-custom-commands nil)
+  (org-agenda-sorting-strategy '((agenda habit-down time-up category-keep tag-up priority-down))
+			       (todo priority-down category-keep)
+			       (tags priority-down category-keep)
+			       (search category-keep))
+  (org-agenda-prefix-format '((agenda . " %i %-12:c%?-12t% s")
+                              ;; Indent todo items by level to show nesting
+                              (todo . " %i %-12:c%l")
+                              (tags . " %i %-12:c")
+                              (search . " %i %-12:c")))
+  :config
+  (add-to-list 'org-agenda-custom-commands
+	       '("d" agenda "Todays agenda" ((org-agenda-span 'day))))
+  (add-to-list 'org-agenda-custom-commands
+	       '("w" agenda "Todays agenda"
+		 ((org-agenda-files '("~/Sync/organizing/cady-tasks.org"))
+		  (org-agenda-span 'day))))
+  (add-to-list 'org-agenda-custom-commands
+	       '("p" agenda "Todays agenda"
+		 ((org-agenda-files '("~/Sync/organizing/MyTasks.org"))
+		  (org-agenda-span 'day))))
   )
 
 (use-package org-habit
@@ -286,7 +310,7 @@
   :config
   (require 'org-habit)
   :custom
-  (org-habit-preceding-days 30))
+  (org-habit-preceding-days 60))
 
 (use-package org-expiry
   :straight org-plus-contrib
