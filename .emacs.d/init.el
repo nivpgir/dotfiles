@@ -280,8 +280,8 @@
                           "~/Sync/organizing/miluim.org"
                           "~/Sync/organizing/important-events.org"
                           "~/Sync/organizing/passerine-tasks.org"))
-  (org-agenda-start-on-weekday nil)
-  (org-agenda-start-day "-1d")
+  (org-agenda-start-on-weekday 5)
+  ;; (org-agenda-start-day "-1d")
   (org-agenda-custom-commands nil)
   (org-agenda-sorting-strategy '((agenda habit-down time-up category-keep tag-up priority-down))
 			       (todo priority-down category-keep)
@@ -294,15 +294,20 @@
                               (search . " %i %-12:c")))
   :config
   (add-to-list 'org-agenda-custom-commands
-	       '("d" agenda "Todays agenda" ((org-agenda-span 'day))))
+	       '("d" . "Todays views"))
   (add-to-list 'org-agenda-custom-commands
-	       '("w" agenda "Todays agenda"
+	       '("da" agenda "Todays agenda" ((org-agenda-span 'day))))
+  (add-to-list 'org-agenda-custom-commands
+	       '("dc" agenda "Cadys agenda"
 		 ((org-agenda-files '("~/Sync/organizing/cady-tasks.org"))
+		  (org-agenda-start-day ".")
 		  (org-agenda-span 'day))))
   (add-to-list 'org-agenda-custom-commands
-	       '("p" agenda "Todays agenda"
+	       '("dm" agenda "My agenda"
 		 ((org-agenda-files '("~/Sync/organizing/MyTasks.org"))
+		  (org-agenda-start-day ".")
 		  (org-agenda-span 'day))))
+  (setq org-agenda-log-mode-items '(closed clock state))
   )
 
 (use-package org-habit
@@ -456,6 +461,7 @@
   :straight t
   :after solaire-mode
   :custom
+  (vscode-dark-plus-scale-org-faces nil)
   (vscode-dark-plus-invert-hl-todo nil)
   :config
   (load-theme 'vscode-dark-plus t))
@@ -797,7 +803,7 @@
 (when my-prefered-font
   (set-frame-font my-prefered-font nil t))
 
-(set-face-attribute 'default nil :height 120)
+(set-face-attribute 'default nil :height 110)
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
