@@ -270,6 +270,7 @@
   :straight org
   :after org
   :hook
+  (org-agenda-after-show . view-mode-enter)
   (org-agenda-finalize . org-habit-streak-count)
   :general
   (my-leader-def
@@ -292,6 +293,7 @@
                               (todo . " %i %-12:c%l")
                               (tags . " %i %-12:c")
                               (search . " %i %-12:c")))
+  (org-agenda-log-mode-items '(closed clock state))
   :config
   (add-to-list 'org-agenda-custom-commands
 	       '("d" . "Todays views"))
@@ -307,7 +309,6 @@
 		 ((org-agenda-files '("~/Sync/organizing/MyTasks.org"))
 		  (org-agenda-start-day ".")
 		  (org-agenda-span 'day))))
-  (setq org-agenda-log-mode-items '(closed clock state))
   )
 
 (use-package org-habit
