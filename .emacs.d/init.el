@@ -298,7 +298,7 @@
   (add-to-list 'org-agenda-custom-commands
 	       '("d" . "Todays views"))
   (add-to-list 'org-agenda-custom-commands
-	       '("da" agenda "Todays agenda" ((org-agenda-span 'day))))
+	       '("dd" agenda "Todays agenda" ((org-agenda-span 'day))))
   (add-to-list 'org-agenda-custom-commands
 	       '("dc" agenda "Cadys agenda"
 		 ((org-agenda-files '("~/Sync/organizing/cady-tasks.org"))
