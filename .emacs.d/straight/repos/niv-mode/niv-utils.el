@@ -1,6 +1,4 @@
 
-
-
 (require 'org-ql)
 (require 'org-ql-view)
 (require 'ts)
@@ -119,8 +117,6 @@ Version 2017-11-01"
     (with-current-buffer standard-output ;; temp buffer
       (setq help-xref-stack-item (list 'niv/describe-all-keymaps)))))
 
-(defvar my-tasks "~/Sync/organizing/MyTasks.org")
-
 (defun get-last-friday (&optional from-time)
   (let* ((from-time (or from-time (ts-adjust 'day -1 (ts-now))))
 	 (adjust-prev-friday (- (mod (- (ts-dow from-time) 5) 7))))
@@ -132,6 +128,6 @@ Version 2017-11-01"
 	 `(and
 	   (planning :from ,(ts-adjust 'day -7 (get-last-friday)))
 	   (planning :to ,(ts-adjust 'day -1 (get-last-friday))))))
-    (org-ql-search my-tasks query)))
+    (org-ql-search org-agenda-files query)))
 
 (provide 'niv-utils)

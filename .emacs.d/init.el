@@ -53,6 +53,8 @@
 (use-package niv-mode
   :after org-ql
   :straight '(niv-mode :local-repo "niv-mode")
+  :config
+  (require 'niv-utils)
   )
 
 
