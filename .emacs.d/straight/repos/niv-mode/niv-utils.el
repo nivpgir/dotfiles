@@ -119,15 +119,15 @@ Version 2017-11-01"
 
 (defun get-last-friday (&optional from-time)
   (let* ((from-time (or from-time (ts-adjust 'day -1 (ts-now))))
-	 (adjust-prev-friday (- (mod (- (ts-dow from-time) 5) 7))))
+         (adjust-prev-friday (- (mod (- (ts-dow from-time) 5) 7))))
     (ts-adjust 'day adjust-prev-friday from-time)))
 
 (defun report-last-week-tasks ()
   (interactive)
   (let ((query
-	 `(and
-	   (planning :from ,(ts-adjust 'day -7 (get-last-friday)))
-	   (planning :to ,(ts-adjust 'day -1 (get-last-friday))))))
+         `(and
+             (planning :from ,(ts-adjust 'day -7 (get-last-friday)))
+             (planning :to ,(ts-adjust 'day -1 (get-last-friday))))))
     (org-ql-search org-agenda-files query)))
 
 (provide 'niv-utils)
