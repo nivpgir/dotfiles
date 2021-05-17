@@ -50,10 +50,10 @@
 
 
 
-;; (use-package niv-mode
-;;   :after org-ql
-;;   :straight '(niv-mode :local-repo "niv-mode")
-;;   )
+(use-package niv-mode
+  :after org-ql
+  :straight '(niv-mode :local-repo "niv-mode")
+  )
 
 
 (use-package general
