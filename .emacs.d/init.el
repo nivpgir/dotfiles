@@ -2,6 +2,7 @@
 ;;; init.el --- -*- lexical-binding: t -*-
 ;;; Commentary: Emacs Startup File --- initialization for Emacs
 
+(setq package-enable-at-startup nil)
 (setq gc-cons-threshold 100000000)
 
 (defvar file-name-handler-alist-original file-name-handler-alist)
@@ -47,31 +48,36 @@
   (load bootstrap-file nil 'nomessage))
 (straight-use-package 'use-package)
 
-(use-package my-mode
-  :straight '(my-mode :local-repo "my-mode"))
+
+
+;; (use-package niv-mode
+;;   :after org-ql
+;;   :straight '(niv-mode :local-repo "niv-mode")
+;;   )
+
 
 (use-package general
   :straight t
   :config
-  (general-create-definer my-def :keymaps 'my-mode-map)
+  (general-create-definer my-def :keymaps 'niv-mode-map)
   (general-create-definer my-leader-def :prefix "C-c" :wrapping my-def)
 
   (my-leader-def
     "b" (general-key-dispatch (lambda () (interactive) (switch-to-buffer "*scratch*"))
 	  :timeout 0.25
-	  "b" 'new-empty-buffer)
-    "d" 'duplicate-current-line-or-region
+	  "b" 'niv/new-empty-buffer)
+    "d" 'niv/duplicate-current-line-or-region
     "-" 'split-window-below
     "/" 'split-window-right
     "<backspace>" 'delete-window
-    "r" 'rename-file-and-buffer
-    "I" 'find-user-init-file
-    "<tab>" 'alternate-buffer
+    "r" 'niv/rename-file-and-buffer
+    "I" 'niv/find-user-init-file
+    "<tab>" 'niv/alternate-buffer
     "RET" 'newline-and-indent
     )
 
-  (general-def "C-a" 'prelude-move-beginning-of-line)
-  (general-def "M-k" 'kill-whole-line)
+  (general-def "C-a" 'niv/prelude-move-beginning-of-line)
+  (general-def "M-k" 'niv/kill-whole-line)
   (general-def "M-n" (lambda () (interactive) (scroll-up 1)))
   (general-def "M-p" (lambda () (interactive) (scroll-down 1)))
   )
@@ -139,6 +145,7 @@
     :includes org))
 
 (straight-override-recipe org-plus-contrib-fixed-recipe)
+
 
 (use-package org
   :straight org-plus-contrib
@@ -266,6 +273,9 @@
   :config
   )
 
+(use-package org-ql
+  :straight t)
+
 (use-package org-agenda
   :straight org
   :after org
@@ -309,6 +319,31 @@
 		 ((org-agenda-files '("~/Sync/organizing/MyTasks.org"))
 		  (org-agenda-start-day ".")
 		  (org-agenda-span 'day))))
+  (add-to-list 'org-agenda-custom-commands
+               '("w" . "Weekly views"))
+  (add-to-list 'org-agenda-custom-commands
+               '("ww" "Weekly summary"
+		 agenda ""
+		 ((org-agenda-start-day "-1w")
+                  (org-agenda-span 7)
+                  (org-agenda-start-with-log-mode '(closed))
+                  (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp "^\\*\\* DONE ")))))
+  (add-to-list 'org-agenda-custom-commands
+               '("wc" "Cady weekly view"
+		 agenda ""
+		 ((org-agenda-files '("~/Sync/organizing/cady-tasks.org"))
+		  (org-agenda-start-day "-1w")
+                  (org-agenda-span 7)
+                  (org-agenda-start-with-log-mode '(closed))
+                  (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp "^\\*\\* DONE ")))))
+  (add-to-list 'org-agenda-custom-commands
+               '("wm" "My weekly view"
+		 agenda ""
+		 ((org-agenda-files '("~/Sync/organizing/MyTasks.org"))
+		  (org-agenda-start-day "-1w")
+                  (org-agenda-span 7)
+		  (org-agenda-start-with-log-mode '(closed))
+                  (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp "^\\*\\* DONE ")))))
   )
 
 (use-package org-habit

@@ -1,37 +1,14 @@
-;; Main use is to have my key bindings have the highest priority
-;; https://github.com/kaushalmodi/.emacs.d/blob/master/elisp/modi-mode.el
 
-(defvar my-mode-map (make-sparse-keymap)
-  "Keymap for `my-mode'.")
 
-;;;###autoload
-(define-minor-mode my-mode
-  "A minor mode so that my key settings override annoying major modes."
-  ;; If init-value is not set to t, this mode does not get enabled in
-  ;; `fundamental-mode' buffers even after doing \"(global-my-mode 1)\".
-  ;; More info: http://emacs.stackexchange.com/q/16693/115
-  :init-value t
-  :lighter " my-mode"
-  :keymap my-mode-map)
 
-;;;###autoload
-(define-globalized-minor-mode global-my-mode my-mode my-mode)
+(require 'org-ql)
+(require 'org-ql-view)
+(require 'ts)
 
-;; https://github.com/jwiegley/use-package/blob/master/bind-key.el
-;; The keymaps in `emulation-mode-map-alists' take precedence over
-;; `minor-mode-map-alist'
-(add-to-list 'emulation-mode-map-alists `((my-mode . ,my-mode-map)))
-
-;; Turn off the minor mode in the minibuffer
-(defun turn-off-my-mode ()
-  "Turn off my-mode."
-  (my-mode -1))
-(add-hook 'minibuffer-setup-hook #'turn-off-my-mode)
-
-(defun compose (f g)
+(defun niv/compose (f g)
   `(lambda (x) (,f (,g x))))
 
-(defun prelude-move-beginning-of-line (arg)
+(defun niv/prelude-move-beginning-of-line (arg)
   "Move point back to indentation of beginning of line.
 
 Move point to the first non-whitespace character on this line.
@@ -54,7 +31,7 @@ point reaches the beginning or end of the buffer, stop there."
     (when (= orig-point (point))
       (move-beginning-of-line 1))))
 
-(defun duplicate-current-line-or-region (arg)
+(defun niv/duplicate-current-line-or-region (arg)
   "Duplicates the current line or region ARG times.
 If there's no region, the current line will be duplicated. However, if
 there's a region, all lines that region covers will be duplicated."
@@ -74,7 +51,7 @@ there's a region, all lines that region covers will be duplicated."
         (setq end (point)))
       (goto-char (+ origin (* (length region) arg) arg)))))
 
-(defun alternate-buffer (&optional window)
+(defun niv/alternate-buffer (&optional window)
   "Switch back and forth between current and last buffer in the
 current window."
   (interactive)
@@ -92,7 +69,7 @@ current window."
          ;; `other-buffer' honors `buffer-predicate' so no need to filter
          (other-buffer current-buffer t)))))
 
-(defun new-empty-buffer ()
+(defun niv/new-empty-buffer ()
   "Create a new empty buffer.
 New buffer will be named “untitled” or “untitled<2>”, “untitled<3>”, etc.
 
@@ -107,12 +84,12 @@ Version 2017-11-01"
     $buf))
 
 ;; go to init.el
-(defun find-user-init-file ()
+(defun niv/find-user-init-file ()
   "Edit the `user-init-file', in another window."
   (interactive)
   (find-file user-init-file))
 
-(defun rename-file-and-buffer ()
+(defun niv/rename-file-and-buffer ()
   "Rename the current buffer and file it is visiting."
   (interactive)
   (let ((filename (buffer-file-name)))
@@ -125,7 +102,7 @@ Version 2017-11-01"
           (rename-file filename new-name t)
           (set-visited-file-name new-name t t)))))))
 
-(defun my-describe-all-keymaps ()
+(defun niv/describe-all-keymaps ()
   "Describe all keymaps in currently-defined variables."
   (interactive)
   (with-output-to-temp-buffer "*keymaps*"
@@ -140,9 +117,21 @@ Version 2017-11-01"
           (princ (format "\f\n%s\n\n" (make-string (min 80 (window-width)) ?-)))
           (push keymap seen))))
     (with-current-buffer standard-output ;; temp buffer
-      (setq help-xref-stack-item (list #'my-describe-all-keymaps)))))
+      (setq help-xref-stack-item (list 'niv/describe-all-keymaps)))))
 
+(defvar my-tasks "~/Sync/organizing/MyTasks.org")
 
-(provide 'my-mode)
+(defun get-last-friday (&optional from-time)
+  (let* ((from-time (or from-time (ts-adjust 'day -1 (ts-now))))
+	 (adjust-prev-friday (- (mod (- (ts-dow from-time) 5) 7))))
+    (ts-adjust 'day adjust-prev-friday from-time)))
 
+(defun report-last-week-tasks ()
+  (interactive)
+  (let ((query
+	 `(and
+	   (planning :from ,(ts-adjust 'day -7 (get-last-friday)))
+	   (planning :to ,(ts-adjust 'day -1 (get-last-friday))))))
+    (org-ql-search my-tasks query)))
 
+(provide 'niv-utils)
