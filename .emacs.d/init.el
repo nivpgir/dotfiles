@@ -228,6 +228,7 @@
   (org-use-effective-time t)
   (org-log-reschedule 'time)
   (org-log-into-drawer t)
+  (org-log-done 'time)
   (org-outline-path-complete-in-steps nil)
   (org-refile-use-outline-path 'file)
   (org-refile-targets '((nil :maxlevel . 3)
