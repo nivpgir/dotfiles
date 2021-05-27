@@ -1,6 +1,7 @@
 
 (require 'org-ql)
 (require 'org-ql-view)
+(require 'org-ql-search)
 (require 'ts)
 
 (defun niv/compose (f g)
@@ -118,9 +119,10 @@ Version 2017-11-01"
       (setq help-xref-stack-item (list 'niv/describe-all-keymaps)))))
 
 (defun get-last-friday (&optional from-time)
-  (let* ((from-time (or from-time (ts-adjust 'day -1 (ts-now))))
+  (let* ((from-time (or from-time (ts-adjust (ts-now))))
          (adjust-prev-friday (- (mod (- (ts-dow from-time) 5) 7))))
     (ts-adjust 'day adjust-prev-friday from-time)))
+
 
 (defun report-last-week-tasks ()
   (interactive)

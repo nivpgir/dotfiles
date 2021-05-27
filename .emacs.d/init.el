@@ -79,7 +79,7 @@
     )
 
   (general-def "C-a" 'niv/prelude-move-beginning-of-line)
-  (general-def "M-k" 'niv/kill-whole-line)
+  (general-def "M-k" 'kill-whole-line)
   (general-def "M-n" (lambda () (interactive) (scroll-up 1)))
   (general-def "M-p" (lambda () (interactive) (scroll-down 1)))
   )
