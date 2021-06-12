@@ -224,7 +224,7 @@
   (org-enforce-todo-dependencies t "block setting to DONE until previous siblings and children are DONE")
   (org-enforce-todo-checkbox-dependencies t "same as above but for checkboxes")
   (org-cycle-separator-lines 0)
-  (org-extend-today-until 2)
+  (org-extend-today-until 3)
   (org-use-effective-time t)
   (org-log-reschedule 'time)
   (org-log-into-drawer t)
