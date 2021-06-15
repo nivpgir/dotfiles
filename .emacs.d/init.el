@@ -584,15 +584,27 @@
 (epa-file-enable)
 
 
-(use-package parinfer-rust-mode
+(use-package parinfer
   :straight t
   :init
-  (setq parinfer-rust-auto-download t)
-  :hook
-  '(emacs-lisp-mode scheme-mode lisp-mode)
+  (add-hook 'emacs-lisp-mode-hook 'parinfer-mode)
+  (add-hook 'scheme-mode-hook 'parinfer-mode)
+  (add-hook 'lisp-mode-hook 'parinfer-mode)
+  :general
+  (:keymaps 'parinfer-mode-map
+	    "C-," 'parinfer-toggle-mode)
   :custom
-  (parinfer-rust-preferred-mode 'paren)
+  (parinfer-extensions '(defaults pretty-parens smart-yank))
   )
+;; (use-package parinfer-rust-mode
+;;   :straight t
+;;   :init
+;;   (setq parinfer-rust-auto-download t)
+;;   :hook
+;;   '(emacs-lisp-mode scheme-mode lisp-mode)
+;;   :custom
+;;   (parinfer-rust-preferred-mode 'paren)
+;;   )
 
 
 (straight-use-package 'yasnippet)
