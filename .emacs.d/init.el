@@ -245,7 +245,7 @@
 		       ":END:"
 		       "%a"
 		       "%i%?"))
-	   ("Event" :keys "m"
+	   ("Event" :keys "e"
 	    :template ("* %^{Who?/What?}"
 		       ":PROPERTIES:"
 		       ":CREATED: %U"
@@ -273,7 +273,6 @@
   ("C-M-<return>" 'org-insert-subheading)
   ("M-m t" 'org-insert-structure-template)
   ("C-M-S-<return>" 'org-insert-todo-subheading)
-  :config
   )
 
 (use-package org-ql
