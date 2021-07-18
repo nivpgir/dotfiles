@@ -293,7 +293,7 @@
                           "~/Sync/organizing/miluim.org"
                           "~/Sync/organizing/important-events.org"
                           "~/Sync/organizing/passerine-tasks.org"))
-  (org-agenda-start-on-weekday 5)
+  (org-agenda-start-on-weekday 6)
   ;; (org-agenda-start-day "-1d")
   (org-agenda-custom-commands nil)
   (org-agenda-sorting-strategy '((agenda habit-down time-up category-keep tag-up priority-down))
