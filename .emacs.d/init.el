@@ -282,7 +282,6 @@
   :straight org
   :after org
   :hook
-  (org-agenda-after-show . view-mode-enter)
   (org-agenda-finalize . org-habit-streak-count)
   :general
   (my-leader-def
