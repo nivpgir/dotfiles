@@ -364,22 +364,6 @@
   (advice-add 'org-insert-heading :after 'org-expiry-insert-created)
   )
 
-(use-package org-roam
-  :straight t
-  :hook
-  (after-init . org-roam-mode)
-  :custom
-  (org-roam-directory "~/Sync/knowlege-base/")
-  (org-roam-completion-system 'ivy)
-  :general
-  (:keymaps 'org-roam-mode-map
-	    "C-c n l" 'org-roam
-	    "C-c n f" 'org-roam-find-file
-	    "C-c n g" 'org-roam-graph)
-  (:keymaps 'org-mode-map
-	    "C-c n i" 'org-roam-insert
-	    "C-c n I" 'org-roam-insert-immediate))
-
 
 (setq visible-bell t)
 
@@ -472,31 +456,8 @@
   )
 
 
-(use-package solaire-mode
-  :straight t
-  :hook
-  ;; Ensure solaire-mode is running in all solaire-mode buffers
-  (change-major-mode . turn-on-solaire-mode)
-  ;; this prevents solaire-mode from turning itself off every time
-  ;; Emacs reverts the file
-  (after-revert . turn-on-solaire-mode)
-  ;; enable solaire-mode unconditionally for certain modes:
-  :hook (ediff-prepare-buffer . solaire-mode)
-  ;; Highlight the minibuffer when it is activated:
-  :hook (minibuffer-setup . solaire-mode-in-minibuffer)
-  ;; :custom
-  ;; The bright and dark background colors are automatically swapped
-  ;; the first time solaire-mode is activated. Namely, the backgrounds
-  ;; of the `default` and `solaire-default-face` faces are
-  ;; swapped. This is done because the colors are usually the wrong
-  ;; way around. If you don't want this, you can disable it:
-  ;; (solaire-mode-auto-swap-bg nil)
-  :config
-  (solaire-global-mode +1))
-
 (use-package vscode-dark-plus-theme
   :straight t
-  :after solaire-mode
   :custom
   (vscode-dark-plus-scale-org-faces nil)
   (vscode-dark-plus-invert-hl-todo nil)
