@@ -218,4 +218,9 @@ fi
 
 export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
 
-export PATH=$PATH:./node_modules/.bin
+
+IOPATH="/c/IoLanguage"
+IOBIN=$IOPATH/bin
+IOLIB=$IOPATH/lib
+export PATH="$PATH:$IOBIN:$IOLIB"
+
