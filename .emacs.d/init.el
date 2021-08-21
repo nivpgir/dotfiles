@@ -596,7 +596,12 @@
   (json-mode . lsp)
   (js-mode . lsp)
   (jsx-mode . lsp)
+  (dart-mode . lsp)
+  :custom
+  (lsp-lens-enable t)
+  (lsp-signature-auto-activate nil)
   )
+
 
 (use-package dap-mode
   :straight t
@@ -676,6 +681,26 @@
 (use-package pry
   :straight t)
 
+
+;; (dart-mode lsp-mode lsp-dart lsp-treemacs flycheck company
+;; 	   ;; Optional packages
+;; 	   lsp-ui company hover)
+
+(use-package dart-mode
+  :straight t)
+
+(use-package lsp-dart
+  :straight t
+  :after lsp-mode
+  :config
+  (setq read-process-output-max (* 1024 1024)))
+
+(use-package flycheck
+  :straight t)
+
+(use-package hover
+  :straight t
+  :after lsp-dart)
 
 ;; c-c++
 ;; (defun c-mode-set-style ()
