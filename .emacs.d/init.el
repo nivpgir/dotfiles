@@ -126,31 +126,31 @@
   :commands (doct))
 
 
-(defconst org-plus-contrib-fixed-recipe
-  `(org-plus-contrib
-    :type git
-    :repo "https://code.orgmode.org/bzg/org-mode.git"
-    :local-repo "org"
-    :depth full
-    :pre-build ,(list
-		 (concat
-		  (when (eq system-type 'berkeley-unix) "g")
-		  "make")
-		 "autoloads"
-		 (concat "EMACS=" "'" invocation-directory invocation-name "'"))
-    :build
-    (:not autoloads)
-    :files
-    (:defaults "lisp/*.el"
-	       ("etc/styles/" "etc/styles/*")
-	       "contrib/lisp/*.el")
-    :includes org))
+;; (defconst org-plus-contrib-fixed-recipe
+;;   `(org-plus-contrib
+;;     :type git
+;;     :repo "https://code.orgmode.org/bzg/org-mode.git"
+;;     :local-repo "org"
+;;     :depth full
+;;     :pre-build ,(list
+;; 		 (concat
+;; 		  (when (eq system-type 'berkeley-unix) "g")
+;; 		  "make")
+;; 		 "autoloads"
+;; 		 (concat "EMACS=" "'" invocation-directory invocation-name "'"))
+;;     :build
+;;     (:not autoloads)
+;;     :files
+;;     (:defaults "lisp/*.el"
+;; 	       ("etc/styles/" "etc/styles/*")
+;; 	       "contrib/lisp/*.el")
+;;     :includes org))
 
-(straight-override-recipe org-plus-contrib-fixed-recipe)
+;; (straight-override-recipe org-plus-contrib-fixed-recipe)
 
 
 (use-package org
-  :straight org-plus-contrib
+  :straight org-contrib
   :init
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -348,14 +348,14 @@
   )
 
 (use-package org-habit
-  :straight org-plus-contrib
+  :straight org-contrib
   :config
   (require 'org-habit)
   :custom
   (org-habit-preceding-days 60))
 
 (use-package org-expiry
-  :straight org-plus-contrib
+  :straight org-contrib
   :after org
   :custom
   (org-expiry-created-property-name "CREATED") ; Name of property when an item is created
