@@ -2,36 +2,39 @@
 ;;; init.el --- -*- lexical-binding: t -*-
 ;;; Commentary: Emacs Startup File --- initialization for Emacs
 
-(setq package-enable-at-startup nil)
-(setq gc-cons-threshold 100000000)
+(let ((bootstrap-file (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory)))
+  (when (file-exists-p bootstrap-file)
+    (setq package-enable-at-startup nil)
+    (setq gc-cons-threshold 100000000)
 
-(defvar file-name-handler-alist-original file-name-handler-alist)
-(setq file-name-handler-alist nil)
+    (defvar file-name-handler-alist-original file-name-handler-alist)
+    (setq file-name-handler-alist nil)
 
-(defvar better-gc-cons-threshold 67108864) ; 64mb
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (setq gc-cons-threshold better-gc-cons-threshold)
-            (setq file-name-handler-alist file-name-handler-alist-original)
-            (makunbound 'file-name-handler-alist-original)))
+    (defvar better-gc-cons-threshold 67108864) ; 64mb
+    (add-hook 'emacs-startup-hook
+              (lambda ()
+		(setq gc-cons-threshold better-gc-cons-threshold)
+		(setq file-name-handler-alist file-name-handler-alist-original)
+		(makunbound 'file-name-handler-alist-original)))
 
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (if (boundp 'after-focus-change-function)
-                (add-function :after after-focus-change-function
-                              (lambda ()
-                                (unless (frame-focus-state)
-                                  (garbage-collect))))
-              (add-hook 'after-focus-change-function 'garbage-collect))
-            (defun gc-minibuffer-setup-hook ()
-              (setq gc-cons-threshold (* better-gc-cons-threshold 2)))
+    (add-hook 'emacs-startup-hook
+              (lambda ()
+		(if (boundp 'after-focus-change-function)
+                    (add-function :after after-focus-change-function
+				  (lambda ()
+                                    (unless (frame-focus-state)
+                                      (garbage-collect))))
+		  (add-hook 'after-focus-change-function 'garbage-collect))
+		(defun gc-minibuffer-setup-hook ()
+		  (setq gc-cons-threshold (* better-gc-cons-threshold 2)))
 
-            (defun gc-minibuffer-exit-hook ()
-              (garbage-collect)
-              (setq gc-cons-threshold better-gc-cons-threshold))
+		(defun gc-minibuffer-exit-hook ()
+		  (garbage-collect)
+		  (setq gc-cons-threshold better-gc-cons-threshold))
 
-            (add-hook 'minibuffer-setup-hook #'gc-minibuffer-setup-hook)
-            (add-hook 'minibuffer-exit-hook #'gc-minibuffer-exit-hook)))
+		(add-hook 'minibuffer-setup-hook #'gc-minibuffer-setup-hook)
+		(add-hook 'minibuffer-exit-hook #'gc-minibuffer-exit-hook)))
+    ))
 
 
 (defvar bootstrap-version)
@@ -46,6 +49,7 @@
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
+
 (straight-use-package 'use-package)
 
 
