@@ -291,11 +291,7 @@
   (my-leader-def
     "a" 'org-agenda)
   :custom
-  (org-agenda-files (list "~/Sync/organizing/cady-tasks.org"
-                          "~/Sync/organizing/MyTasks.org"
-                          "~/Sync/organizing/miluim.org"
-                          "~/Sync/organizing/important-events.org"
-                          "~/Sync/organizing/passerine-tasks.org"))
+  (org-agenda-files (list "~/Sync/organizing"))
   (org-agenda-start-on-weekday 6)
   ;; (org-agenda-start-day "-1d")
   (org-agenda-custom-commands nil)
