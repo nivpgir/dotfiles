@@ -743,6 +743,15 @@
   :straight t
   )
 
+(use-package pest-mode
+  :straight (pest-mode
+	     :type git
+	     :host github
+	     :repo "ksqsf/pest-mode")
+  ;; :quelpa (pest-mode :fetcher github :repo "ksqsf/pest-mode")
+  :mode "\\.pest\\'"
+  :hook (pest-mode . flymake-mode))
+
 ;; scheme
 (straight-use-package 'geiser)
 
