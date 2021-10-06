@@ -263,7 +263,7 @@
 			:olp ("Events"))
 		       ("Work"
 			:keys "w"
-			:file "~/Sync/organizing/cady-tasks.org"
+			:file "~/Sync/organizing/cady/tasks.org"
 			:olp ("Events")))))))
   :general
   (my-leader-def
@@ -312,7 +312,7 @@
 	       '("dd" agenda "Todays agenda" ((org-agenda-span 'day))))
   (add-to-list 'org-agenda-custom-commands
 	       '("dc" agenda "Cadys agenda"
-		 ((org-agenda-files '("~/Sync/organizing/cady-tasks.org"))
+		 ((org-agenda-files '("~/Sync/organizing/cady/tasks.org"))
 		  (org-agenda-start-day ".")
 		  (org-agenda-span 'day))))
   (add-to-list 'org-agenda-custom-commands
@@ -332,7 +332,7 @@
   (add-to-list 'org-agenda-custom-commands
                '("wc" "Cady weekly view"
 		 agenda ""
-		 ((org-agenda-files '("~/Sync/organizing/cady-tasks.org"))
+		 ((org-agenda-files '("~/Sync/organizing/cady/tasks.org"))
 		  (org-agenda-start-day "-1w")
                   (org-agenda-span 7)
                   (org-agenda-start-with-log-mode '(closed))
