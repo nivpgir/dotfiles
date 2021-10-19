@@ -241,7 +241,7 @@
   (org-capture-templates
    (doct '(("Todo"
 	    :keys "t"
-	    :file "~/Sync/organizing/new-tasks.org"
+	    :file "~/Sync/organizing/pending-tasks.org"
 	    :todo-state "TODO"
 	    :template ("* %{todo-state} %^{Description}"
 		       ":PROPERTIES:"
@@ -259,7 +259,7 @@
 		       "%i%?")
 	    :children (("Personal"
 			:keys "p"
-			:file "~/Sync/organizing/MyTasks.org"
+			:file "~/Sync/organizing/personal.org"
 			:olp ("Events"))
 		       ("Work"
 			:keys "w"
@@ -268,7 +268,10 @@
   :general
   (my-leader-def
     "c" 'org-capture
-    "osl" 'org-store-link
+    "os" (general-key-dispatch 'org-sort
+	   :timeout 0.25
+	   "l" 'org-store-link)
+    ;; "osl" 'org-store-link
     "odl" 'org-insert-last-stored-link
     )
   ("M-m s" 'org-todo)
@@ -317,7 +320,7 @@
 		  (org-agenda-span 'day))))
   (add-to-list 'org-agenda-custom-commands
 	       '("dm" agenda "My agenda"
-		 ((org-agenda-files '("~/Sync/organizing/MyTasks.org"))
+		 ((org-agenda-files '("~/Sync/organizing/personal.org"))
 		  (org-agenda-start-day ".")
 		  (org-agenda-span 'day))))
   (add-to-list 'org-agenda-custom-commands
@@ -340,7 +343,7 @@
   (add-to-list 'org-agenda-custom-commands
                '("wm" "My weekly view"
 		 agenda ""
-		 ((org-agenda-files '("~/Sync/organizing/MyTasks.org"))
+		 ((org-agenda-files '("~/Sync/organizing/personal.org"))
 		  (org-agenda-start-day "-1w")
                   (org-agenda-span 7)
 		  (org-agenda-start-with-log-mode '(closed))
@@ -604,7 +607,8 @@
   :init
   ;; Enabling only some features
   (setq dap-auto-configure-features '(sessions locals controls tooltip))
-  (require 'dap-python))
+  (require 'dap-python)
+  (require 'dap-cpptools))
 
 (use-package tree-sitter
   :straight t
@@ -643,6 +647,7 @@
   :custom
   (lsp-ui-doc-enable t)
   (lsp-ui-doc-position 'bottom)
+  (lsp-ui-doc-delay 1)
   :hook
   (lsp-mode . lsp-ui-mode)
   )
@@ -738,17 +743,25 @@
 	    (setq tab-width c-basic-offset)))
 
 
+(use-package yasnippet
+  :ensure
+  :config
+  (yas-reload-all)
+  (add-hook 'prog-mode-hook 'yas-minor-mode)
+  (add-hook 'text-mode-hook 'yas-minor-mode))
+
 ;; rust
 (use-package rustic
   :straight t
+  :hook (rustic-mode . electric-pair-local-mode)
   )
+
 
 (use-package pest-mode
   :straight (pest-mode
 	     :type git
 	     :host github
 	     :repo "ksqsf/pest-mode")
-  ;; :quelpa (pest-mode :fetcher github :repo "ksqsf/pest-mode")
   :mode "\\.pest\\'"
   :hook (pest-mode . flymake-mode))
 
