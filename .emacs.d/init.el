@@ -754,6 +754,33 @@
 (use-package rustic
   :straight t
   :hook (rustic-mode . electric-pair-local-mode)
+  :config
+  ;;; cargo make
+
+  (defun rustic-cargo-make-installed-p ()
+    "Check if cargo-edit is installed. If not, ask the user if he wants to install it."
+    (if (executable-find "cargo-make")
+	t
+      (rustic-cargo-install-crate-p "cargo-make") nil))
+
+  (defun rustic-cargo-make (&optional arg)
+    "Add crate to Cargo.toml using 'cargo add'.
+     If running with prefix command `C-u', read whole command from minibuffer."
+    (interactive "P")
+    (when (rustic-cargo-make-installed-p)
+      (let* ((command (if arg
+                          (read-from-minibuffer "Cargo make command: " "cargo make ")
+			(concat rustic-cargo-bin " make "
+				(read-from-minibuffer
+				 "Run arguments: "
+				 (car compile-history)
+				 nil nil
+				 'compile-history)))))
+	;; (concat "cargo make " (read-from-minibuffer "Crate: "))
+	(rustic-run-cargo-command command))))
+
+  (setq rustic-popup-commands
+	(add-to-list 'rustic-popup-commands '(?m "make" 'rustic-cargo-make) t))
   )
 
 
