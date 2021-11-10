@@ -792,6 +792,10 @@
   :mode "\\.pest\\'"
   :hook (pest-mode . flymake-mode))
 
+;; raku
+(use-package raku-mode
+  :straight t)
+
 ;; scheme
 (straight-use-package 'geiser)
 
