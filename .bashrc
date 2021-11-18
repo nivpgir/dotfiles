@@ -60,47 +60,7 @@ function venv_name {
     fi
 }
 
-set_prompt(){
-    Last_Command=$? # Must come first!
-    Blue='\[\e[01;34m\]'
-    White='\[\e[01;37m\]'
-    BoldRed='\[\e[01;31m\]'
-    Red='\[\e[00;31m\]'
-    Green='\[\e[01;32m\]'
-    Yellow='\[\e[1;32m\]'
-    Orange='\[\e[38;5;202m\]'
-    Swamp='\[\e[38;5;58m\]'
-    LightSwamp='\[\e[38;5;106m\]'
-    Orcam1='\[\e[01;36m\]'
-    Orcam2='\[\e[01;33m\]'
-    Reset='\[\e[0m\]'
-    FancyX='\342\234\227'
-    Checkmark='\342\234\223'
-    NoColor='\[\e[0m\]'
-    OrangeBG='\[\e[48;5;202m\]'
-    SwampBG='\[\e[48;5;58m\]'
-    git_branch_bg=$Orange
-    py_venv_bg=$LightSwamp
-
-
-    PS1=""
-    # If it was successful, print a green check mark. Otherwise, print
-    # a red X.
-    if [[ $Last_Command == 0 ]]; then
-        PS1="$Green$Checkmark "
-	PS1XTERM="${Green}V "
-    else
-        PS1="$Red$FancyX "
-	PS1XTERM="${Red}X "
-    fi
-
-    # export PS1="${PS1}${White}"'[\t] [\[\033[0;31m\]\u@\h\[\033[00m\]] [\[\033[1;36m\]\w\[\033[00m\]]$(parse_git_branch)$(venv_name)\n\[\033[1;32m\]$ \[\033[00m\]'
-    local time=`date +%T`
-    export PS1="${PS1}${White}""[${time}] [$Red\u@\h$Reset] [$Orcam1\w$Reset]$git_branch_bg$(parse_git_branch)$Reset$py_venv_bg$(venv_name)$Reset\n$Yellow$ $Reset"
-
-}
-export PROMPT_COMMAND="set_prompt"
-
+eval "$(starship init bash)"
 
 # append to the history file, don't overwrite it
 shopt -s histappend
