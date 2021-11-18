@@ -60,6 +60,7 @@ function venv_name {
     fi
 }
 
+# install/update with:`sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- -b ~/.local/bin/ -V`
 eval "$(starship init bash)"
 
 # append to the history file, don't overwrite it
