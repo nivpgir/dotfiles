@@ -172,11 +172,6 @@ export WASMER_DIR="/home/nivp/.wasmer"
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 
-if [[ -x $HOME/.local/bin/direnv ]] ; then
-    echo found direnv
-    eval "$($HOME/.local/bin/direnv hook bash)"
-fi
-
 export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
 
 
@@ -185,3 +180,21 @@ IOBIN=$IOPATH/bin
 IOLIB=$IOPATH/lib
 export PATH="$PATH:$IOBIN:$IOLIB"
 
+
+eval "$(direnv hook bash)"
+
+_direnv_hook() {
+  local previous_exit_status=$?;
+  eval "$(MSYS_NO_PATHCONV=1 "direnv.exe" export bash | sed 's|export PATH=|export _X_DIRENV_PATH=|g')";
+  if [ -n "$_X_DIRENV_PATH" ]; then
+    _X_DIRENV_PATH=$(cygpath -p "$_X_DIRENV_PATH")
+    export "PATH=$_X_DIRENV_PATH"
+    unset _X_DIRENV_PATH
+  fi
+  return $previous_exit_status;
+};
+
+
+if ! [[ "$PROMPT_COMMAND" =~ _direnv_hook ]]; then
+  PROMPT_COMMAND="_direnv_hook;$PROMPT_COMMAND"
+fi
