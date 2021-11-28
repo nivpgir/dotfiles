@@ -11,7 +11,7 @@ layout_pipenv() {
   fi
 
   # VIRTUAL_ENV=$(pipenv --venv 2>/dev/null  | tr -d '\r\n' ; true)
-  VIRTUAL_ENV=$(cygpath $(pipenv --venv 2>/dev/null ; true))
+  VIRTUAL_ENV=$(cygpath $(pipenv --venv 2>/dev/null ; true) 2>/dev/null)
   echo VIRTUAL_ENV is $VIRTUAL_ENV
 
   if [[  $PIPENV_ACTIVE -ne 1 ]] && [[ -z $VIRTUAL_ENV || ! -d $VIRTUAL_ENV ]]; then
