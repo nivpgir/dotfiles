@@ -10,18 +10,21 @@ layout_pipenv() {
     exit 2
   fi
 
-  # VIRTUAL_ENV=$(pipenv --venv 2>/dev/null  | tr -d '\r\n' ; true)
-  VIRTUAL_ENV=$(cygpath $(pipenv --venv 2>/dev/null ; true) 2>/dev/null)
-  echo VIRTUAL_ENV is $VIRTUAL_ENV
+  # VIRTUAL_ENV=$(pipenv --venv ; true)
+  VIRTUAL_ENV=$(cygpath -m $(pipenv --venv | tr -d '\r' 2>/dev/null ; true))
+  VIRTUAL_ENV_UNIX_FORM=$(cygpath -u $VIRTUAL_ENV 2>/dev/null)
+  echo VIRTUAL_ENV_UNIX_FORM is $VIRTUAL_ENV_UNIX_FORM
 
-  if [[  $PIPENV_ACTIVE -ne 1 ]] && [[ -z $VIRTUAL_ENV || ! -d $VIRTUAL_ENV ]]; then
+  if [[ -z $VIRTUAL_ENV_UNIX_FORM || ! -d $VIRTUAL_ENV_UNIX_FORM ]]; then
     pipenv install --dev
     # VIRTUAL_ENV=$(pipenv --venv ; true)
-    VIRTUAL_ENV=$(cygpath $(pipenv --venv 2>/dev/null ; true))
+    VIRTUAL_ENV=$(cygpath -m $(pipenv --venv | tr -d '\r' 2>/dev/null ; true))
   fi
 
+
   export PIPENV_ACTIVE=1
-  PATH_add "$VIRTUAL_ENV/bin"
+  PATH_add "$VIRTUAL_ENV_UNIX_FORM/bin"
+  PATH_add "$VIRTUAL_ENV_UNIX_FORM/Scripts"
   export VIRTUAL_ENV
 }
 
