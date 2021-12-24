@@ -62,6 +62,10 @@
   )
 
 
+(use-package emacs
+  :hook
+  (prog-mode . electric-pair-local-mode))
+
 (use-package general
   :straight t
   :config
@@ -480,6 +484,7 @@
   (company-idle-delay 0)
   (company-minimum-prefix-length 1)
   (company-tooltip-align-annotations t)
+  (lsp-completion-provider :capf)
   :config
   (add-hook 'after-init-hook 'global-company-mode))
 
@@ -753,7 +758,9 @@
 ;; rust
 (use-package rustic
   :straight t
-  :hook (rustic-mode . electric-pair-local-mode))
+  ;; :hook
+  ;; (rustic-mode . electric-pair-local-mode)
+  )
 
 
 (use-package pest-mode
@@ -805,13 +812,25 @@
 
 ;; python
 ;;  currently using the default python support which is good enough for now
-(use-package pyvenv
+;; (use-package pyvenv
+;;   :straight t
+;;   :config
+;;   (setq pyvenv-mode-line-indicator
+;;         '(pyvenv-virtual-env-name ("[venv:" pyvenv-virtual-env-name "] ")))
+;;   (pyvenv-mode +1))
+;; (setq lsp-clients-python-library-directories "~/.local/")
+(when (executable-find "ipython")
+  (setq python-shell-interpreter "ipython"
+	python-shell-interpreter-args "-i --simple-prompt --InteractiveShell.display_page=True"))
+(use-package auto-virtualenv
   :straight t
   :config
-  (setq pyvenv-mode-line-indicator
-        '(pyvenv-virtual-env-name ("[venv:" pyvenv-virtual-env-name "] ")))
-  (pyvenv-mode +1))
-;; (setq lsp-clients-python-library-directories "~/.local/")
+  (require 'auto-virtualenv)
+  :hook
+  (python-mode . auto-virtualenv-set-virtualenv)
+  (focus-in . auto-virtualenv-set-virtualenv)
+  (window-configuration-change . auto-virtualenv-set-virtualenv))
+
 (setq lsp-pyls-plugins-flake8-max-line-length 100)
 
 (use-package dockerfile-mode
@@ -875,3 +894,11 @@
 	     :repo "psibi/justl\.el")
   :custom
   (justl-executable "c:/Users/Niv/.local/scoop/shims/just.exe"))
+
+;; kmonad - kbd mode
+(use-package kbd-mode
+  :straight (kbd-mode
+	     :type git
+	     :host github
+	     :repo "kmonad/kbd-mode")
+  )
