@@ -32,9 +32,12 @@
 
 
 (defalias
-  mdb (layer-toggle modded-base)
-  mdn (layer-toggle arrow-navigation-layer)
-  cap (tap-hold 200 (around-next-timeout 2000 @mdb caps) @mdn)
+  adn (layer-add navigation-layer)
+  rmn (layer-rem navigation-layer)
+  pyc (layer-toggle pycharm-keys)
+
+  cpt (tap-hold 300 caps @pyc)
+  cap (multi-tap 300 @adn @cpt)
   )
 
 (defalias
@@ -43,19 +46,19 @@
   ex  S-f10
   dbg S-f9)
 
-(deflayer modded-base
+(deflayer pycharm-keys
   _    _    _    _    _    _    _    _    _    _    _    _    _          _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
-  _    _    _    @ex  _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
-  caps _    _    @dbg _    _    _    _    _    _    _    _    _                         _    _    _
-  _    @tsk _    _    @int _    _    _    _    _    _    _    _               _         _    _    _    _
+  _    f9   f10  f11  f12  _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
+  @cap _    _    _    _    _    _    _    _    _    _    _    _                         _    _    _
+  _    @tsk _    _    _    _    _    _    _    _    _    _    _               _         _    _    _    _
   _    _    _              _                   _    _    _    _          _    _    _    _    _)
 
-(deflayer arrow-navigation-layer
+(deflayer navigation-layer
   _    _    _    _    _    _    _    _    _    _    _    _    _          _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
   _    home up   end  pgup _    _    home up   end  pgup _    _    _     _    _    _    _    _    _    _
-  _    left down rght pgdn _    _    left down rght pgdn _    _                         _    _    _
-  _    _    _    _    @int _    _    _    _    _    _    _    _               _         _    _    _    _
+  @rmn left down rght pgdn _    _    left down rght pgdn _    _                         _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _               _         _    _    _    _
   _    _    _              _                   _    _    _    _          _    _    _    _    _
   )
