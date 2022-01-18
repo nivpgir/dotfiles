@@ -125,6 +125,44 @@
 ;;     ("s" next-line)
 ;;     ("w" previous-line)
 ;;     ("q" nil "quit")))
+(defun rk/open-compilation-buffer (&optional buffer-or-name shackle-alist shackle-plist)
+  "Helper for selecting window for opening *compilation* buffers."
+  ;; find existing compilation window left of the current window or left-most window
+  (let ((win (or (loop for win = (if win (window-left win) (get-buffer-window))
+                       when (or (not (window-left win))
+                                (string-prefix-p "*compilation" (buffer-name (window-buffer win))))
+                       return win)
+                 (get-buffer-window))))
+    ;; if the window is dedicated to a non-compilation buffer, use the current one instead
+    (when (window-dedicated-p win)
+      (let ((buf-name (buffer-name (window-buffer win))))
+        (unless (string-prefix-p "*compilation" buf-name)
+          (setq win (get-buffer-window)))))
+    (set-window-buffer win (get-buffer buffer-or-name))
+    (set-frame-selected-window (window-frame win) win)))
+
+
+(use-package shackle
+  :straight t
+  :diminish
+  :custom
+  (shackle-rules '((compilation-mode :custom rk/open-compilation-buffer :select t)
+		   ("\\*rustic-compilation\\*" :custom rk/open-compilation-buffer :select t :inhibit-window-quit t)
+		   ("\\*Apropos\\|Help\\|Occur\\|tide-references\\*" :regexp t :same t :select t :inhibit-window-quit t)
+		   ("\\*magit" :regexp t :same t :select t)
+		   ("\\*shell.*" :regexp t :same t :select t)
+		   ("\\*PowerShell.*" :regexp t :same t :select t)
+		   ("\\*Cargo.*" :regexp t :other t :select nil)
+		   ("*Messages*" :select nil :other t)
+		   ("*go-guru-output*" :select t :same t)
+		   ("*Proced*" :select t :same t)
+		   ("*Buffer List*" :select t :same t)
+		   ("\\*Pp Eval" :regexp t :same nil :select t :other t)
+		   ("*Messages*" :same nil :other t :select t :inhibit-window-quit t)))
+
+  (shackle-default-rule nil)
+  :config
+  (shackle-mode))
 
 (use-package elgrep
   :straight t)
@@ -588,6 +626,7 @@
 ;;; Languages:
 (use-package lsp-mode
   :straight t
+  :commands lsp
   :hook
   (lsp-mode . (lambda ()
                 (let ((lsp-keymap-prefix "C-c l"))
@@ -602,6 +641,12 @@
   (jsx-mode . lsp)
   (dart-mode . lsp)
   :custom
+  :custom
+  ;; what to use when checking on-save. "check" is default, I prefer clippy
+  (lsp-rust-analyzer-cargo-watch-command "clippy")
+  (lsp-eldoc-render-all t)
+  (lsp-idle-delay 0.6)
+  (lsp-rust-analyzer-server-display-inlay-hints t)
   (lsp-lens-enable t)
   (lsp-signature-auto-activate nil)
   )
@@ -647,25 +692,16 @@
 (use-package lsp-ui
   :straight t
   :after (lsp-mode)
-  :init
-  (define-prefix-command 'lsp-ui-doc-map nil "bindings for lsp-ui-doc-functions")
+  :commands lsp-ui-mode
   :custom
-  (lsp-ui-doc-enable t)
+  (lsp-ui-peek-always-show t)
+  (lsp-ui-sideline-show-hover t)
+  (lsp-ui-doc-enable nil)
   (lsp-ui-doc-position 'bottom)
   (lsp-ui-doc-delay 1)
   :hook
   (lsp-mode . lsp-ui-mode)
   )
-
-;; ([remap xref-find-definitions] . 'lsp-ui-peek-find-definitions)
-;; ([remap xref-find-references] . 'lsp-ui-peek-find-references)
-
-
-;; ;; haskell
-;; (straight-use-package 'haskell-mode)
-;; (straight-use-package 'company-ghc)
-;; (if (bound-and-true-p company-candidates)
-;;     (add-to-list 'company-backends 'company-ghc))
 
 ;; ruby
 (use-package enh-ruby-mode
@@ -687,10 +723,6 @@
 (use-package pry
   :straight t)
 
-
-;; (dart-mode lsp-mode lsp-dart lsp-treemacs flycheck company
-;; 	   ;; Optional packages
-;; 	   lsp-ui company hover)
 
 (use-package dart-mode
   :straight t)
@@ -760,8 +792,22 @@
   :straight t
   ;; :hook
   ;; (rustic-mode . electric-pair-local-mode)
-  )
+  :general
+  (:keymaps 'rustic-mode-map
+	    "M-j"  'lsp-ui-imenu
+	    "M-?"  'lsp-find-references
+	    "C-c C-c l"  'flycheck-list-errors
+	    "C-c C-c a"  'lsp-execute-code-action
+	    "C-c C-c r"  'lsp-rename
+	    "C-c C-c q"  'lsp-workspace-restart
+	    "C-c C-c Q"  'lsp-workspace-shutdown
+	    "C-c C-c s"  'lsp-rust-analyzer-status)
+  :config
+  (setq lsp-eldoc-hook nil)
+  (setq lsp-rust-analyzer-server-display-inlay-hints t))
 
+(use-package rust-playground
+  :straight t)
 
 (use-package pest-mode
   :straight (pest-mode
