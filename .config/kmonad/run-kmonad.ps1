@@ -1,2 +1,12 @@
-# when inkoking in task scheduler use: "-windowstyle hidden -File /path/to/script
-Invoke-Expression "& `"C:/Users/Niv/.local/bin/kmonad.exe`" c:/Users/Niv/.config/kmonad/config.kbd"
+$processOptions = @{
+  FilePath = "kmonad.exe"
+  WindowStyle = "hidden"
+  ArgumentList = "C`:/Users/Niv/.config/kmonad/config.kbd","-l","debug","-c"
+  # Verb = "RunAs"
+  RedirectStandardOutput = "config.kbd.log"
+}
+echo ----
+echo $processOptions
+
+echo ----
+Start-Process @processOptions
