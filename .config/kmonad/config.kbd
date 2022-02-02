@@ -16,49 +16,66 @@
 )
 
 
-(defalias
-  sl (sticky-key 5000 lsft)
-  sr (sticky-key 5000 rsft))
+;; (defalias
+;;   sl (sticky-key 5000 lsft)
+;;   sr (sticky-key 5000 rsft))
 
 
 (deflayer qwertybase
   esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12        ssrq slck pause
-  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc  ins  home pgup  nlck kp/  kp*  kp-
+  @arr 1    2    3    4    5    6    7    8    9    0    -    =    bspc  ins  home pgup  nlck kp/  kp*  kp-
   tab  q    w    e    r    t    y    u    i    o    p    [    ]    ret   del  end  pgdn  kp7  kp8  kp9  kp+
   @cap a    s    d    f    g    h    j    k    l    ;    '    \                          kp4  kp5  kp6
-  lsft 102d z    x    c    v    b    n    m    ,    .    /    rsft            up         kp1  kp2  kp3  kprt
+  lsft @bs  z    x    c    v    b    n    m    ,    .    /    rsft            up         kp1  kp2  kp3  kprt
   lctl lmet lalt           spc                 ralt rmet cmp  rctl       left down rght  kp0  kp.
   )
 
 
 (defalias
-  adn (layer-add navigation-layer)
-  rmn (layer-rem navigation-layer)
   pyc (layer-toggle pycharm-keys)
+  bs  (tap-hold 300 102d @pyc)
 
-  cpt (tap-hold 300 caps @pyc)
-  cap (multi-tap 300 @adn @cpt)
+  nav (layer-toggle right-navigation-layer)
+  arr (tap-hold 200 grv @nav)
+
+  wm  (layer-toggle wm-control)
+  cap (tap-hold 500 caps @wm)
   )
 
-(defalias
-  int C-c
-  tsk C-S-esc
-  ex  S-f10
-  dbg S-f9)
 
 (deflayer pycharm-keys
   _    _    _    _    _    _    _    _    _    _    _    _    _          _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
   _    f9   f10  f11  f12  _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
-  @cap _    _    _    _    _    _    _    _    _    _    _    _                         _    _    _
-  _    @tsk _    _    _    _    _    _    _    _    _    _    _               _         _    _    _    _
+  _    f5   f6   f7   f8   _    _    _    _    _    _    _    _                         _    _    _
+  _    _    f1   f2   f3   f4   _    _    _    _    _    _    _               _         _    _    _    _
   _    _    _              _                   _    _    _    _          _    _    _    _    _)
 
-(deflayer navigation-layer
+(deflayer right-navigation-layer
   _    _    _    _    _    _    _    _    _    _    _    _    _          _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
-  _    home up   end  pgup _    _    home up   end  pgup _    _    _     _    _    _    _    _    _    _
-  @rmn left down rght pgdn _    _    left down rght pgdn _    _                         _    _    _
+  _    rsft rctl _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
+  lsft _    _    _    _    _    _    home up   end  pgup _    _    _     _    _    _    _    _    _    _
+  lctl _    _    _    _    _    _    left down rght pgdn _    _                         _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _               _         _    _    _    _
   _    _    _              _                   _    _    _    _          _    _    _    _    _
   )
+
+(defalias
+  fl (cmd-button "komorebic move left >> /c/kmonad.wtf/left.txt")
+  fr (cmd-button "komorebic move right >> /c/kmonad.wtf/right.txt")
+  fu (cmd-button "komorebic move up >> /c/kmonad.wtf/up.txt")
+  fd (cmd-button "komorebic move down >> /c/kmonad.wtf/down.txt")
+  ;; pwd (cmd-button "echo PWD >> C:/kmonad.wtf/pwd.txt")
+  pwd (cmd-button "\"c:/Program Files/Git/bin/bash.exe\" -c \"echo $PATH > c:/Users/Niv/kmonad_path.txt\"")
+  ini (cmd-button "C:/Users/Niv/.config/komorebi/init.sh > /c/kmonad.wtf/init.txt")
+  )
+
+(deflayer wm-control
+  _    _    _    _    _    _    _    _    _    _    _    _    _          _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
+  _    _    @fu  @pwd _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
+  _    @fl  @fd  @fr  _    _    _    _    _    _    _    _    _                         _    _    _
+  _    @ini _    _    _    _    _    _    _    _    _    _    _               _         _    _    _    _
+  _    _    _              @ini                _    _    _    _          _    _    _    _    _
+  )
+
