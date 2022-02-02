@@ -22,7 +22,7 @@
 
 
 (deflayer qwertybase
-  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12        ssrq slck pause
+  @krl  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12        ssrq slck pause
   @arr 1    2    3    4    5    6    7    8    9    0    -    =    bspc  ins  home pgup  nlck kp/  kp*  kp-
   tab  q    w    e    r    t    y    u    i    o    p    [    ]    ret   del  end  pgdn  kp7  kp8  kp9  kp+
   @cap a    s    d    f    g    h    j    k    l    ;    '    \                          kp4  kp5  kp6
@@ -32,6 +32,7 @@
 
 
 (defalias
+  krl  (tap-hold 500 esc (layer-toggle kmonad-reboot))
   pyc (layer-toggle pycharm-keys)
   bs  (tap-hold 300 102d @pyc)
 
@@ -43,6 +44,21 @@
   )
 
 
+(defalias
+  kil (cmd-button "powershell C:/Users/Niv/.config/kmonad/service-kmonad.ps1 kill-kmonad")
+  res (cmd-button "powershell C:/Users/Niv/.config/kmonad/service-kmonad.ps1 restart-kmonad")
+  )
+
+(deflayer kmonad-reboot
+  _    _    _    _    @kil @res _    _    _    _    _    _    _          _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _                         _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _               _         _    _    _    _
+  _    _    _              _                   _    _    _    _          _    _    _    _    _
+
+
+  )
 (deflayer pycharm-keys
   _    _    _    _    _    _    _    _    _    _    _    _    _          _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
@@ -57,23 +73,45 @@
   lsft _    _    _    _    _    _    home up   end  pgup _    _    _     _    _    _    _    _    _    _
   lctl _    _    _    _    _    _    left down rght pgdn _    _                         _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _               _         _    _    _    _
-  _    _    _              _                   _    _    _    _          _    _    _    _    _
-  )
+  _    _    _              _                   _    _    _    _          _    _    _    _    _)
+
 
 (defalias
   fl (cmd-button "komorebic move left >> /c/kmonad.wtf/left.txt")
   fr (cmd-button "komorebic move right >> /c/kmonad.wtf/right.txt")
   fu (cmd-button "komorebic move up >> /c/kmonad.wtf/up.txt")
   fd (cmd-button "komorebic move down >> /c/kmonad.wtf/down.txt")
-  ;; pwd (cmd-button "echo PWD >> C:/kmonad.wtf/pwd.txt")
-  pwd (cmd-button "\"c:/Program Files/Git/bin/bash.exe\" -c \"echo $PATH > c:/Users/Niv/kmonad_path.txt\"")
-  ini (cmd-button "C:/Users/Niv/.config/komorebi/init.sh > /c/kmonad.wtf/init.txt")
-  )
+
+  ;; ;; commands that don't work because of space and quotation rules:
+  ;; pwd (cmd-button "C:\\Program Files\\Mozilla Firefox\\firefox.exe")
+  ;; pwd (cmd-button "C:/Program Files/Mozilla Firefox/firefox.exe")
+  ;; pwd (cmd-button "\"\"\"C:/Program Files/Mozilla Firefox/firefox.exe\"\"\"")
+  ;; pwd (cmd-button "firefox.exe")
+
+  ;; ;; commands that WORK:
+  ;; pwd (cmd-button "tasklist >> C:/users/niv/kmonad.wtf/pwd.txt")
+  ;; pwd (cmd-button "C:\\msys64\\msys2_shell.cmd >> C:/users/niv/kmonad.wtf/pwd.txt")
+  ;; pwd (cmd-button "C:\\msys64\\msys2_shell.cmd")
+  ;; pwd (cmd-button "\"\"C:\\Program Files\\Mozilla Firefox\\firefox.exe\"\"")
+  ;; pwd (cmd-button "\"C:\\Program Files\\Mozilla Firefox\\firefox.exe\"")
+  ;; pwd (cmd-button "\"C:\\msys64\\msys2_shell.cmd\"")
+  ;; pwd (cmd-button "\"\"C:/Program Files/Mozilla Firefox/firefox.exe\"\"")
+  ;; pwd (cmd-button "\"\"C:\\Program Files\\Mozilla Firefox\\firefox.exe\"\"")
+
+  ;; ;; doesn't work because of cygwin error:
+  ;; ;; the error message is: 0 [main] bash 4113 dtable::stdio_init: couldn't make stderr distinct from stdout, Win32 error 6
+  ;; pwd (cmd-button "\"\"c:/Program Files/Git/bin/bash.exe\" -c \"echo $PATH > c:/Users/Niv/kmonad_path.txt\"\"")
+
+
+  trm (cmd-button "C:/Users/Niv/scoop/shims/alacritty.exe")
+  web (cmd-button "\"C:/Program Files/Mozilla Firefox/firefox.exe\"")
+  ini (cmd-button "C:/Users/Niv/.config/komorebi/init.sh > /c/kmonad.wtf/init.txt"))
+  
 
 (deflayer wm-control
   _    _    _    _    _    _    _    _    _    _    _    _    _          _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
-  _    _    @fu  @pwd _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
+  _    _    @fu  _    _    _    _    _    @web _    _    _    _    @trm  _    _    _    _    _    _    _
   _    @fl  @fd  @fr  _    _    _    _    _    _    _    _    _                         _    _    _
   _    @ini _    _    _    _    _    _    _    _    _    _    _               _         _    _    _    _
   _    _    _              @ini                _    _    _    _          _    _    _    _    _

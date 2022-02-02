@@ -703,6 +703,19 @@
   (lsp-mode . lsp-ui-mode)
   )
 
+
+;; haskell
+(use-package haskell-mode
+  :straight t)
+
+;; (use-package company-ghc
+;;   :straight t
+;;   :config
+;;   (if (bound-and-true-p company-candidates)
+;;       (add-to-list 'company-backends 'company-ghc))
+;;   )
+
+
 ;; ruby
 (use-package enh-ruby-mode
   :straight t
