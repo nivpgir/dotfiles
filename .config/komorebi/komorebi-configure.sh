@@ -12,4 +12,7 @@ komorebic workspace-padding 0 0 $WORKSPACE_PADDING
 
 komorebic change-layout ultrawide-vertical-stack
 
+komorebic identify-tray-application exe Todoist.exe
+komorebic identify-border-overflow exe Todoist.exe
+
 komorebic retile
