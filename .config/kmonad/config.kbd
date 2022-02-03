@@ -40,7 +40,7 @@
   arr (tap-hold 200 grv @nav)
 
   wm  (layer-toggle wm-control)
-  cap (tap-hold 500 caps @wm)
+  cap (tap-hold 300 caps @wm)
   )
 
 
@@ -77,10 +77,10 @@
 
 
 (defalias
-  fl (cmd-button "komorebic move left >> /c/kmonad.wtf/left.txt")
-  fr (cmd-button "komorebic move right >> /c/kmonad.wtf/right.txt")
-  fu (cmd-button "komorebic move up >> /c/kmonad.wtf/up.txt")
-  fd (cmd-button "komorebic move down >> /c/kmonad.wtf/down.txt")
+  fl (cmd-button "komorebic focus left")
+  fr (cmd-button "komorebic focus right")
+  fu (cmd-button "komorebic focus up")
+  fd (cmd-button "komorebic focus down")
 
   ;; ;; commands that don't work because of space and quotation rules:
   ;; pwd (cmd-button "C:\\Program Files\\Mozilla Firefox\\firefox.exe")
@@ -101,19 +101,21 @@
   ;; ;; doesn't work because of cygwin error:
   ;; ;; the error message is: 0 [main] bash 4113 dtable::stdio_init: couldn't make stderr distinct from stdout, Win32 error 6
   ;; pwd (cmd-button "\"\"c:/Program Files/Git/bin/bash.exe\" -c \"echo $PATH > c:/Users/Niv/kmonad_path.txt\"\"")
-
+  wms (cmd-button "powershell -file c:/Users/Niv/.config/komorebi/komorebi.init.ps1")
+  wmk (cmd-button "komorebic stop")
+  wmr (cmd-button "c:/Users/Niv/.config/komorebi/komorebi-configure.sh")
 
   trm (cmd-button "C:/Users/Niv/scoop/shims/alacritty.exe")
   web (cmd-button "\"C:/Program Files/Mozilla Firefox/firefox.exe\"")
   ini (cmd-button "C:/Users/Niv/.config/komorebi/init.sh > /c/kmonad.wtf/init.txt"))
-  
+
 
 (deflayer wm-control
-  _    _    _    _    _    _    _    _    _    _    _    _    _          _    _    _
+  _    _    _    @wms @wmk @wmr _    _    _    _    _    _    _          _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
   _    _    @fu  _    _    _    _    _    @web _    _    _    _    @trm  _    _    _    _    _    _    _
   _    @fl  @fd  @fr  _    _    _    _    _    _    _    _    _                         _    _    _
-  _    @ini _    _    _    _    _    _    _    _    _    _    _               _         _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _               _         _    _    _    _
   _    _    _              @ini                _    _    _    _          _    _    _    _    _
   )
 
