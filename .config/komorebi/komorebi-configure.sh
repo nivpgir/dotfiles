@@ -1,7 +1,7 @@
 #!/bin/bash
 
 komorebic manage-rule exe alacritty.exe
-komorebic float-rule exe Wox.exe
+komorebic float-rule class "Launchy options"
 komorebic float-rule class SunAwtDialog
 komorebic float-rule class TWizardForm
 
