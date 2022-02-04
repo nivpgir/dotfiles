@@ -34,13 +34,13 @@
 (defalias
   krl  (tap-hold 500 esc (layer-toggle kmonad-reboot))
   pyc (layer-toggle pycharm-keys)
-  bs  (tap-hold 300 102d @pyc)
+  bs  (tap-hold 200 102d @pyc)
 
   nav (layer-toggle right-navigation-layer)
   arr (tap-hold 200 grv @nav)
 
   wm  (around (layer-toggle wm-base) (layer-toggle right-navigation-layer))
-  cap (tap-hold 300 caps @wm)
+  cap (tap-hold 200 caps @wm)
   )
 
 
@@ -83,6 +83,7 @@
   fd (cmd-button "komorebic focus down")
   fn (cmd-button "komorebic cycle-focus next")
   fp (cmd-button "komorebic cycle-focus previous")
+  flt (cmd-button "komorebic toggle-float")
 
   wms (cmd-button "powershell -file c:/Users/Niv/.config/komorebi/komorebi.init.ps1")
   wmk (cmd-button "komorebic stop")
@@ -92,10 +93,10 @@
   web (cmd-button "\"C:/Program Files/Mozilla Firefox/firefox.exe\"")
 
 
-  mvw (around lsft (layer-toggle wm-move))
+  mvw (around (layer-toggle wm-move) lsft)
 
-  run A-f12
-  rmw (around lalt f4)
+  run A-pause
+  rmw A-f4
 
   ml (cmd-button "komorebic move left")
   mr (cmd-button "komorebic move right")
@@ -110,9 +111,9 @@
   _    _    _    @wms @wmk @wmr _    _    _    _    _    _    _          _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
   _    _    @fu  _    @run _    _    _    @web _    @fp  _    _    @trm  _    _    _    _    _    _    _
-  _    @fl  @fd  @fr  _    _    _    _    _    _    _    _    _                         _    _    _
-  @mvw _    _    _    _    _    _    @fn  _    _    _    _    _               _         _    _    _    _
-  _    _    _              @max                _    _    _    _          _    _    _    _    _
+  _    @fl  @fd  @fr  @flt _    _    _    _    _    _    _    _                         _    _    _
+  _    _    _    _    _    _    _    @fn  _    _    _    _    _               _         _    _    _    _
+  @mvw _    _              @max                _    _    _    _          _    _    _    _    _
   )
 
 
