@@ -81,8 +81,8 @@
   fr (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control focus right")
   fu (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control focus up")
   fd (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control focus down")
-  fn (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control cycle-focus next")
-  fp (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control cycle-focus previous")
+  fn (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control cycle-stack next")
+  fp (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control cycle-stack previous")
   flt (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control toggle-float")
 
   wms (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-restart")
