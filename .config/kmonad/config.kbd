@@ -45,8 +45,8 @@
 
 
 (defalias
-  kil (cmd-button "powershell C:/Users/Niv/.config/kmonad/service-kmonad.ps1 kill-kmonad")
-  res (cmd-button "powershell C:/Users/Niv/.config/kmonad/service-kmonad.ps1 restart-kmonad")
+  kil (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh kill-kmonad")
+  res (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh restart-kmonad")
   )
 
 (deflayer kmonad-reboot
@@ -77,20 +77,20 @@
 
 
 (defalias
-  fl (cmd-button "komorebic focus left")
-  fr (cmd-button "komorebic focus right")
-  fu (cmd-button "komorebic focus up")
-  fd (cmd-button "komorebic focus down")
-  fn (cmd-button "komorebic cycle-focus next")
-  fp (cmd-button "komorebic cycle-focus previous")
-  flt (cmd-button "komorebic toggle-float")
+  fl (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control focus left")
+  fr (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control focus right")
+  fu (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control focus up")
+  fd (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control focus down")
+  fn (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control cycle-focus next")
+  fp (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control cycle-focus previous")
+  flt (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control toggle-float")
 
-  wms (cmd-button "powershell -file c:/Users/Niv/.config/komorebi/komorebi.init.ps1")
-  wmk (cmd-button "komorebic stop")
-  wmr (cmd-button "c:/Users/Niv/.config/komorebi/komorebi-configure.sh")
+  wms (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-restart")
+  wmk (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control stop")
+  wmr (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-config")
 
-  trm (cmd-button "C:/Users/Niv/scoop/shims/alacritty.exe")
-  web (cmd-button "\"C:/Program Files/Mozilla Firefox/firefox.exe\"")
+  trm (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh terminal")
+  web (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh web-browser")
 
 
   mvw (around (layer-toggle wm-move) lsft)
@@ -98,12 +98,12 @@
   run A-pause
   rmw A-f4
 
-  ml (cmd-button "komorebic move left")
-  mr (cmd-button "komorebic move right")
-  mu (cmd-button "komorebic move up")
-  md (cmd-button "komorebic move down")
+  ml (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control move left")
+  mr (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control move right")
+  mu (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control move up")
+  md (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control move down")
 
-  max (cmd-button "komorebic toggle-monocle")
+  max (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control toggle-monocle")
   )
 
 
