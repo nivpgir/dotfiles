@@ -1,0 +1,8 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\.sh]
+@="bash.exe"
+
+
+[HKEY_CLASSES_ROOT\Applications\bash.exe\shell\open\command]
+@="\"C:\\Program Files\\Git\\bin\\bash.exe\" %0 %*"

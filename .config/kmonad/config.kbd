@@ -93,7 +93,7 @@
   web (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh web-browser")
 
 
-  mvw (around (layer-toggle wm-move) lsft)
+  mvw (around (layer-toggle wm-move) lctl)
 
   run A-pause
   rmw A-f4
