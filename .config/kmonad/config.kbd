@@ -70,8 +70,8 @@
 (deflayer right-navigation-layer
   _    _    _    _    _    _    _    _    _    _    _    _    _          _    _    _
   _    rsft rctl _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
-  _    _    _    _    _    _    _    home up   end  pgup _    _    _     _    _    _    _    _    _    _
-  _    _    _    _    _    _    _    left down rght pgdn _    _                         _    _    _
+  _    _    _    _    _    _    pgup home up   end  _    _    _    _     _    _    _    _    _    _    _
+  _    _    _    _    _    _    pgdn left down rght _    _    _                         _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _               _         _    _    _    _
   _    _    _              _                   _    _    _    _          _    _    _    _    _)
 
@@ -93,6 +93,7 @@
   web (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh web-browser")
 
 
+  stw (layer-toggle wm-stack)
   mvw (around (layer-toggle wm-move) lctl)
 
   run A-pause
@@ -103,6 +104,12 @@
   mu (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control move up")
   md (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control move down")
 
+  sp (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control unstack")
+  sl (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control stack left")
+  sr (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control stack right")
+  su (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control stack up")
+  sd (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control stack down")
+
   max (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control toggle-monocle")
   )
 
@@ -110,12 +117,20 @@
 (deflayer wm-base
   _    _    _    @wms @wmk @wmr _    _    _    _    _    _    _          _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
-  _    _    @fu  _    @run _    _    _    @web _    @fp  _    _    @trm  _    _    _    _    _    _    _
+  @stw _    @fu  _    @run _    _    _    @web _    @fp  _    _    @trm  _    _    _    _    _    _    _
   _    @fl  @fd  @fr  @flt _    _    _    _    _    _    _    _                         _    _    _
   _    _    _    _    _    _    _    @fn  _    _    _    _    _               _         _    _    _    _
   @mvw _    _              @max                _    _    _    _          _    _    _    _    _
   )
 
+
+(deflayer wm-stack
+  _    _    _    _    _    _    _    _    _    _    _    _    _          _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
+  _    @sp  @su  _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
+  _    @sl  @sd  @sr  _    _    _    _    _    _    _    _    _                         _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _               _         _    _    _    _
+  _    _    _              _                   _    _    _    _          _    _    _    _    _)
 
 (deflayer wm-move
   _    _    _    _    _    _    _    _    _    _    _    _    _          _    _    _
