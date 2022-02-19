@@ -39,6 +39,10 @@ function restart-kmonad(){
     powershell -File $DIR/service-kmonad.ps1 -Action restart-kmonad
 }
 
+function wm-help(){
+    komorebic --help 2>&1 | ./slint-show.sh
+}
+
 echo HIIII
 CMD=$1
 shift

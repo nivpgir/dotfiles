@@ -88,6 +88,7 @@
   wms (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-restart")
   wmk (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-control stop")
   wmr (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh window-manager-config")
+  wmh (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh wm-help")
 
   trm (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh terminal")
   web (cmd-button "C:/Users/Niv/.config/kmonad/do-shortcut.sh web-browser")
@@ -115,7 +116,7 @@
 
 
 (deflayer wm-base
-  _    _    _    @wms @wmk @wmr _    _    _    _    _    _    _          _    _    _
+  @rmw @wmh _    @wms @wmk @wmr _    _    _    _    _    _    _          _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
   @stw _    @fu  _    @run _    _    _    @web _    @fp  _    _    @trm  _    _    _    _    _    _    _
   _    @fl  @fd  @fr  @flt _    _    _    _    _    _    _    _                         _    _    _
@@ -135,7 +136,7 @@
 (deflayer wm-move
   _    _    _    _    _    _    _    _    _    _    _    _    _          _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
-  _    @rmw @mu  _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
+  _    _    @mu  _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
   _    @ml  @md  @mr  _    _    _    _    _    _    _    _    _                         _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _               _         _    _    _    _
   _    _    _              _                   _    _    _    _          _    _    _    _    _
