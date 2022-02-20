@@ -1,0 +1,41 @@
+Entry : @ {
+  headline => Headline \
+  content => Content \
+  ast("entry")
+}
+
+NL : @{ '\r'?'\n' }
+
+Stars : @{ '*'+ }
+
+Headline : @ {
+  Stars + ' ' + Line
+}
+
+Content : @ {
+  { Block _* }*
+}
+
+Block : @ {
+  Paragraph+ ast("paragraph")
+}
+
+Line : @{
+  { [^\r\n]+ NL? }
+}
+
+Paragraph : @ {
+   { peek not Headline } \
+   Line+ { NL ; EOF } $0
+}
+
+
+# '* entry'
+# print("headline:" $snote_ast["children"]["children"]["headline"]) \
+# print("content:\n" + $snote_ast["children"]["children"]["content"]["children"]["paragraph"])
+snote_ast => Entry+ \
+print("headline:" $snote_ast[0]["children"]["headline"]) \
+print("content:" $snote_ast[0]["children"]["content"]) \
+print("\n") \
+print("headline:" $snote_ast[1]["children"]["headline"]) \
+print("content:" $snote_ast[1]["children"]["content"]["value"])
