@@ -40,7 +40,7 @@
   arr (tap-hold 200 grv @nav)
 
   wm  (around (layer-toggle wm-base) (layer-toggle right-navigation-layer))
-  cap (tap-hold 200 caps @wm)
+  cap @wm
   )
 
 
