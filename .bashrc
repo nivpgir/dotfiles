@@ -143,6 +143,10 @@ export WORKON_HOME=~/.py_venvs
 ### RUST setup ###
 [[ -f $HOME/.cargo/env ]] && source $HOME/.cargo/env
 
+# TODO: make this apply only on Windows
+[[ -d $HOME/.rustup ]] && PATH="$PATH:$(ls -d $HOME/.rustup/toolchains/*/bin | tr '\r\n' :)"
+
+
 ### nix setup ###
 [[ -f $HOME/.nix-profile/etc/profile.d/nix.sh ]] && . $HOME/.nix-profile/etc/profile.d/nix.sh
 
