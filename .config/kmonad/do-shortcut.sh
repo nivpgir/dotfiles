@@ -10,16 +10,19 @@ export DIR=$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )
 
 echo $DIR-$(date) | tee ./tst.txt
 
+WM_CONF_DIR=$DIR/../komorebi
+PATH=$DIR:$WM_CONF_DIR:$PATH
+
 function terminal(){
     alacritty
 }
 
 function web-browser(){
-    firefox.exe
+    firefox
 }
 
 function window-manager-restart(){
-    powershell -File $DIR/../komorebi/komorebi.init.ps1
+    powershell -File $WM_CONF_DIR/komorebi.init.ps1
 }
 
 function window-manager-control(){
@@ -27,9 +30,8 @@ function window-manager-control(){
 }
 
 function window-manager-config(){
-    $DIR/../komorebi/komorebi-configure.sh
+    komorebi-configure.sh
 }
-
 
 function kill-kmonad(){
     powershell -File $DIR/service-kmonad.ps1 -Action kill-kmonad
@@ -40,10 +42,9 @@ function restart-kmonad(){
 }
 
 function wm-help(){
-    komorebic --help 2>&1 | ./slint-show.sh
+    komorebic --help 2>&1 | slint-show.sh
 }
 
-echo HIIII
 CMD=$1
 shift
 $CMD $@
