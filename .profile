@@ -8,49 +8,66 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
-# if running bash
-if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-	. "$HOME/.bashrc"
+PATH=$HOME/.local/bin:$PATH
+
+SCOOP_SHIMS=$(cygpath -u $SCOOP)
+PATH=$SCOOP_SHIMS/shims:$PATH
+
+
+
+source <(direnv stdlib)
+
+PATH_add_if_exists(){
+    local new_path=$1
+    if test -d $new_path ; then
+	PATH_add $new_path
     fi
+}
+
+
+PATH_add_if_exists $HOME/bin
+
+PATH_add_if_exists $HOME/.python3.7.7/bin
+
+PATH_add_if_exists $HOME/.gem/ruby/2.5.0/bin
+
+### RUST setup ###
+PATH_add_if_exists $HOME/.cargo/bin
+[[ -f $HOME/.cargo/env ]] && source $HOME/.cargo/env
+
+PATH_add_if_exists $HOME/.npm-packages
+
+# TODO: make this apply only on Windows
+if [[ $OS == "Windows_NT" ]] ; then
+    export MSYS2_ARG_CONV_EXCL=/C
+
+    for d in $HOME/.rustup/toolchains/*/bin ; do
+	PATH_add_if_exists $d
+    done
 fi
 
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
-fi
+IOPATH="/c/IoLanguage"
+IOBIN=$IOPATH/bin
+IOLIB=$IOPATH/lib
 
-if [ -d "$HOME/.python3.7.7/bin" ] ; then
-    export PATH="$HOME/.python3.7.7/bin:$PATH"
-fi
+PATH_add_if_exists $IOPATH/bin
+PATH_add_if_exists $IOPATH/lib
 
-if [ -d "$HOME/.gem/ruby/2.5.0/bin" ] ; then
-    export PATH="$HOME/.gem/ruby/2.5.0/bin:$PATH"
-fi
-
-# set PATH so it includes cargo's bin if it exists
-if [ -d "$HOME/.cargo/bin" ] ; then
-    export PATH="$HOME/.cargo/bin:$PATH"
-fi
-
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/.local/bin" ] ; then
-    export PATH="$HOME/.local/bin:$PATH"
-fi
-
-if [ $HOSTNAME == "amdroid" ] ; then
-    export TERMINAL="alacritty"
-fi
+export TERMINAL="alacritty"
+export EDITOR=em
+export VISUAL=emacs
+export BROWSER=firefox
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
+PATH_add_if_exists $HOME/.rvm/bin
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
-if [ $HOSTNAME == "ARCH-LAPTOP" ] ; then
-    export DISPLAY=:0.0
-    export DISPLAY=$(grep -m 1 nameserver /etc/resolv.conf | awk '{print $2}'):$DISPLAY_NUMBER
-    export LIBGL_ALWAYS_INDIRECT=1
+# if running bash
+if [ -n "$BASH_VERSION" ]; then
+    BASHRC=$HOME/.bashrc
+    # If running interactively, and .bashrc if it exists, source it
+    if [[ $- == *i* ]] && [[ -f $BASHRC ]] ; then
+	. $BASHRC
+    fi
 fi
-export NIV_PROFILE=y

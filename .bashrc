@@ -1,13 +1,10 @@
 #
 # ~/.bashrc
-#
 
-# If not running interactively, don't do anything
-[[ $- != *i* ]] && return
 
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+if [ -f $HOME/.bash_aliases ]; then
+    . $HOME/.bash_aliases
 fi
 
 ### Completioning ###
@@ -26,26 +23,19 @@ fi
 # completions may be installed in various locations when installing to the global env
 # since we are trying to emulate that same env under ~/.local we need to source
 # the same locations.
-if test -d ~/.local/share/bash-completion/completions/ ; then
-    for bcfile in ~/.local/share/bash-completion/completions/* ; do
+if test -d $HOME/.local/share/bash-completion/completions/ ; then
+    for bcfile in $HOME/.local/share/bash-completion/completions/* ; do
 	$bcfile
 	. $bcfile
     done
 fi
-if test -d ~/.local/etc/bash_completion.d ; then
-    if [ -d ~/.local/etc/bash_completion.d ]; then
-	for f in ~/.local/etc/bash_completion.d/*; do
+if test -d $HOME/.local/etc/bash_completion.d ; then
+    if [ -d $HOME/.local/etc/bash_completion.d ]; then
+	for f in $HOME/.local/etc/bash_completion.d/*; do
             . $f
 	done
     fi
 fi
-
-export EDITOR=em
-export VISUAL=emacs
-export BROWSER='chromium'
-
-RUBY_BUNDLE_BIN_DIR=$HOME/.gem/ruby/2.3.0/bin
-[ -d $RUBY_BUNDLE_BIN_DIR ] && export PATH=$RUBY_BUNDLE_BIN_DIR:$PATH
 
 function parse_git_branch {
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
@@ -59,9 +49,6 @@ function venv_name {
 	echo "($venvname)"
     fi
 }
-
-# install/update with:`sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- -b ~/.local/bin/ -V`
-eval "$(starship init bash)"
 
 # append to the history file, don't overwrite it
 shopt -s histappend
@@ -80,12 +67,13 @@ shopt -s checkwinsize
 shopt -s globstar
 
 # make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+[ -x /usr/bin/lesspipe ] && source <(SHELL=/bin/sh lesspipe)
 
 
 # enable color support of ls
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    # test -r $HOME/.dircolors && eval "$(dircolors -b $HOME/.dircolors)" || eval "$(dircolors -b)"
+    test -r $HOME/.dircolors && source <(dircolors -b $HOME/.dircolors) || source <(dircolors -b)
 fi
 
 # colored GCC warnings and errors
@@ -97,7 +85,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 
 ### UTILITIES ###
-function until_fail() {
+function until-fail() {
     local cmd=$@
     echo executing: $cmd
     local i=0
@@ -122,8 +110,7 @@ function mount-tar(){
 
 
 ### NPM ###
-NPM_PACKAGES="${HOME}/.npm-packages"
-export PATH="$PATH:$NPM_PACKAGES/bin"
+
 # Preserve MANPATH if I already defined it somewhere in my config.
 export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
 
@@ -132,29 +119,15 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-### Ruby Setup ###
-RUBY_BIN_PATH=$HOME/.gem/ruby/2.3.0/bin/
-[[ -d $RUBY_BIN_PATH ]] && PATH=$PATH:$RUBY_BIN_PATH
-
 ### Python virtualenv ###
-export WORKON_HOME=~/.py_venvs
-[[ -f ~/.local/bin/virtualenvwrapper.sh ]] && source ~/.local/bin/virtualenvwrapper.sh
-
-### RUST setup ###
-[[ -f $HOME/.cargo/env ]] && source $HOME/.cargo/env
-
-# TODO: make this apply only on Windows
-[[ -d $HOME/.rustup ]] && PATH="$PATH:$(ls -d $HOME/.rustup/toolchains/*/bin | tr '\r\n' :)"
+export WORKON_HOME=$HOME/.py_venvs
+[[ -f $HOME/.local/bin/virtualenvwrapper.sh ]] && source $HOME/.local/bin/virtualenvwrapper.sh
 
 
 ### nix setup ###
 [[ -f $HOME/.nix-profile/etc/profile.d/nix.sh ]] && . $HOME/.nix-profile/etc/profile.d/nix.sh
 
 [[ -f $HOME/.local_bashrc ]] && . $HOME/.local_bashrc
-
-
-alias vq="vaquero"
-alias vqrepl="rlwrap vaquero repl"
 
 
 if command -v pueue >/dev/null 2>&1 ; then
@@ -174,22 +147,15 @@ export WASMER_DIR="/home/nivp/.wasmer"
 
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
 
 export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
 
 
-IOPATH="/c/IoLanguage"
-IOBIN=$IOPATH/bin
-IOLIB=$IOPATH/lib
-export PATH="$PATH:$IOBIN:$IOLIB"
-
-
-eval "$(direnv hook bash)"
+source <(direnv hook bash)
 
 _direnv_hook() {
   local previous_exit_status=$?;
-  eval "$(MSYS_NO_PATHCONV=1 "direnv.exe" export bash | sed 's|export PATH=|export _X_DIRENV_PATH=|g')";
+  source <(MSYS_NO_PATHCONV=1 "direnv.exe" export bash | sed 's|export PATH=|export _X_DIRENV_PATH=|g')
   if [ -n "$_X_DIRENV_PATH" ]; then
     _X_DIRENV_PATH=$(cygpath -p "$_X_DIRENV_PATH")
     export "PATH=$_X_DIRENV_PATH"
@@ -202,3 +168,6 @@ _direnv_hook() {
 if ! [[ "$PROMPT_COMMAND" =~ _direnv_hook ]]; then
   PROMPT_COMMAND="_direnv_hook;$PROMPT_COMMAND"
 fi
+
+# install/update with:`sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- -b ~/.local/bin/ -V`
+source <(starship init bash)
