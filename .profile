@@ -14,7 +14,6 @@ SCOOP_SHIMS=$(cygpath -u $SCOOP)
 PATH=$SCOOP_SHIMS/shims:$PATH
 
 
-
 source <(direnv stdlib)
 
 PATH_add_if_exists(){
