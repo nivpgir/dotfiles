@@ -34,11 +34,11 @@ function window-manager-config(){
 }
 
 function kill-kmonad(){
-    powershell -File $SCRIPT_DIR/service-kmonad.ps1 -Action kill-kmonad
+    powershell -File $SCRIPT_DIR/kmonad-service.ps1 -Action kill-kmonad
 }
 
 function restart-kmonad(){
-    powershell -File $SCRIPT_DIR/service-kmonad.ps1 -Action restart-kmonad
+    powershell -File $SCRIPT_DIR/kmonad-service.ps1 -Action restart-kmonad
 }
 
 function wm-help(){
