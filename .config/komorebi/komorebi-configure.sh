@@ -14,6 +14,9 @@ komorebic workspace-padding 0 0 $WORKSPACE_PADDING
 komorebic change-layout ultrawide-vertical-stack
 
 
+komorebic identify-tray-application exe Battle.net.exe
+komorebic identify-border-overflow exe Battle.net.exe
+
 komorebic identify-tray-application exe Element.exe
 
 komorebic identify-tray-application exe Discord.exe
