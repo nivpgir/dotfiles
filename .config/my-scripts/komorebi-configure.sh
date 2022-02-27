@@ -1,9 +1,5 @@
 #!/bin/bash
 
-komorebic manage-rule exe alacritty.exe
-komorebic float-rule class "Launchy options"
-komorebic float-rule class SunAwtDialog
-komorebic float-rule class TWizardForm
 
 WORKSPACE_PADDING=0
 CONTAINER_PADDING=3
@@ -11,8 +7,13 @@ CONTAINER_PADDING=3
 komorebic container-padding 0 0 $CONTAINER_PADDING
 komorebic workspace-padding 0 0 $WORKSPACE_PADDING
 
-komorebic change-layout ultrawide-vertical-stack
+komorebic manage-rule exe alacritty.exe
+komorebic float-rule class "Launchy options"
+komorebic float-rule class SunAwtDialog
+komorebic float-rule class TWizardForm
+komorebic float-rule exe flux.exe
 
+komorebic change-layout ultrawide-vertical-stack
 
 komorebic identify-tray-application exe Element.exe
 

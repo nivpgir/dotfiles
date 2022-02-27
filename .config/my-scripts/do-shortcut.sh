@@ -8,8 +8,6 @@ done
 
 export SCRIPT_DIR=$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )
 
-echo $SCRIPT_DIR-$(date) | tee ./kmonad-shortcut.log.txt
-
 WM_CONF_DIR=$SCRIPT_DIR/../komorebi
 PATH=$SCRIPT_DIR:$WM_CONF_DIR:$PATH
 
@@ -42,7 +40,7 @@ function restart-kmonad(){
 }
 
 function wm-help(){
-    komorebic --help 2>&1 | $SCRIPT_DIR/slint-show.sh
+    komorebic --help 2>&1 | runner $SCRIPT_DIR/egui-show.rs
 }
 
 CMD=$1

@@ -40,7 +40,7 @@ match io::stdin().read_to_string(&mut app.text) {
 };
 
 let native_options = eframe::NativeOptions{
-    transparent: true,
+    transparent: false,
     decorated: false,
     ..Default::default()
 };
