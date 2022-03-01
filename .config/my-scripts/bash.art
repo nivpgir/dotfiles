@@ -1,0 +1,9 @@
+#!/usr/bin/env arturo
+logfile: ~"|env\HOME|.my-log.txt"
+quote: function [text] [~"\"|text|\""]
+makeLogEntry: function [text] [~"|now|: |text|\n"]
+log: function [text] [write.append logfile makeLogEntry text]
+cmd: ~"|quote env\WINBASH| --noprofile " ++ join.with:" " arg
+log cmd
+out: execute cmd
+log out
