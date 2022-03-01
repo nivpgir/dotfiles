@@ -10,8 +10,8 @@
 
 PATH=$HOME/.local/bin:$PATH
 
-SCOOP_SHIMS=$(cygpath -u $SCOOP)
-PATH=$SCOOP_SHIMS/shims:$PATH
+SCOOP_SHIMS=$(cygpath -u $SCOOP)/shims
+PATH=$SCOOP_SHIMS:$PATH
 
 
 source <(direnv stdlib)
@@ -61,6 +61,20 @@ export BROWSER=firefox
 PATH_add_if_exists $HOME/.rvm/bin
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+export PROG_FILES_UNIX_PATH=$(cygpath -u "$PROGRAMFILES")
+if [[ -f "$PROG_FILES_UNIX_PATH/SyncTrayzor/syncthing.exe" ]] ; then
+    export ST_EXE_PATH="$PROG_FILES_UNIX_PATH/SyncTrayzor/syncthing.exe"
+    export ST_SYNC_DIR=$(cygpath -u $("$ST_EXE_PATH" -paths | rg -i 'default sync folder directory' -A1 | tail -n 1 | tr -d ' \t\r\n'))
+fi
+
+if [[ ! -z "$ST_SYNC_DIR" ]] ; then
+    # compgen -G ~/Sync/utility-software/arturo-\*Win\*
+    ARTURO_HOME="${ST_SYNC_DIR}/utility-software/arturo-*Win*"
+    [[ -d "$ARTURO_HOME" ]] && export ARTURO_HOME
+    PATH_add_if_exists "$ARTURO_HOME"
+fi
+
 
 # if running bash
 if [ -n "$BASH_VERSION" ]; then

@@ -40,9 +40,11 @@ function restart-kmonad(){
 }
 
 function wm-help(){
-    komorebic --help 2>&1 | runner $SCRIPT_DIR/egui-show.rs
+    source $HOME/.profile
+    # komorebic --help 2>&1 | runner $SCRIPT_DIR/egui-show.rs
+    arturo <<< 'webview replace execute "komorebic --help" "\n" "<br>"'
 }
 
 CMD=$1
 shift
-$CMD $@ >> kmonad-shortcut.log.txt
+$CMD $@

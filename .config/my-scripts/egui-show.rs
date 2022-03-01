@@ -1,4 +1,4 @@
-//:-s
+//: -s
 use eframe::{egui, epi};
 
 #[derive(Default)]
