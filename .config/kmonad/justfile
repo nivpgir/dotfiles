@@ -1,0 +1,14 @@
+
+set windows-powershell := true
+
+CONFIG_DIR := parent_directory(justfile_directory())
+SCRIPTS_DIR := join(CONFIG_DIR,"my-scripts")
+KMONAD_DIR := join(CONFIG_DIR,"kmonad")
+
+kill:
+	start-process powershell -windowstyle hidden -verb runas -argumentlist "-command", "& {stop-process -name kmonad}"
+
+restart:
+	start-process powershell -windowstyle hidden -verb runas -argumentlist "-command", "& {just -f {{justfile()}} kill ; just -f {{justfile()}} start }"
+start:
+	start-process kmonad.exe -argumentlist {{KMONAD_DIR}}/config.kbd,-l,debug,-c  -workingdirectory {{SCRIPTS_DIR}} -windowstyle hidden -verb runas

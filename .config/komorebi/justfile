@@ -1,0 +1,38 @@
+
+restart:
+	komorebic stop | true
+	sleep 1
+	start /b komorebi && exit
+	sleep 1
+	just window-manager-config
+
+command +ARGS:
+	komorebic {{ARGS}}
+
+configure:
+	WORKSPACE_PADDING=0
+	CONTAINER_PADDING=3
+
+	komorebic container-padding 0 0 $CONTAINER_PADDING
+	komorebic workspace-padding 0 0 $WORKSPACE_PADDING
+
+	komorebic manage-rule exe alacritty.exe
+	komorebic float-rule class "Launchy options"
+	komorebic float-rule class SunAwtDialog
+	komorebic float-rule class TWizardForm
+	komorebic float-rule exe flux.exe
+
+	komorebic change-layout ultrawide-vertical-stack
+
+	komorebic identify-tray-application exe Element.exe
+
+	komorebic identify-tray-application exe Discord.exe
+	komorebic identify-border-overflow exe Discord.exe
+
+	komorebic identify-tray-application exe Todoist.exe
+	komorebic identify-border-overflow exe Todoist.exe
+
+
+	komorebic.exe focus-follows-mouse enable
+	komorebic retile
+

@@ -23,6 +23,7 @@ PATH_add_if_exists(){
     fi
 }
 
+export PIAMH_CONF_DIR=$HOME/.config/
 
 PATH_add_if_exists $HOME/bin
 

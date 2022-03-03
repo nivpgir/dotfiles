@@ -1,11 +1,13 @@
-# set shell := ["powershell.exe", "-c"]
 set shell := ["cmd.exe", "/c"]
+# set shell := ["powershell.exe", "-c"]
 
 # PROG_FILES_UNIX_PATH := `cygpath -u "$PROGRAMFILES"`
 # ST_EXE_PATH := "$PROG_FILES_UNIX_PATH/SyncTrayzor/syncthing.exe"
 # ST_SYNC_DIR := `cygpath -u $:
 
-SCRIPT_DIR := "{{justfile_directory()}}"
+JUST_DIR := "{{justfile_directory()}}"
+KOMOREBI_DIR := "{{JUST_DIR}}/../komorebi"
+KMONADC_DIR := "{{JUST_DIR}}/../kmonad"
 
 terminal:
 	alacritty
@@ -14,27 +16,16 @@ web-browser:
 	firefox
 
 file-explorer:
-	Xplorer
+	start ~
 
-	# MSYS_NO_PATHCONV=1 cmd /c start /b komorebi "&&" "exit"
-window-manager-restart:
-	komorebic stop | true
-	sleep 1
-	start /b komorebi && exit
-	sleep 1
-	just window-manager-config
+wm-restart:
+	just {{KOMOREBI_DIR}}/restart
 
-window-manager-control +ARGS:
-	komorebic {{ARGS}}
+wm-command +ARGS:
+	just {{KOMOREBI_DIR}}/command {{ARGS}}
 
-window-manager-config:
-	komorebi-configure.sh
-
-kill-kmonad:
-	powershell -File kmonad-service.ps1 -Action kill-kmonad
-
-restart-kmonad:
-	-File kmonad-service.ps1 -Action restart-kmonad
+wm-configure:
+	just {{KOMOREBI_DIR}}/configure
 
 wm-help:
 	komorebic --help | just wm-show
