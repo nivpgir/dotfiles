@@ -615,6 +615,25 @@
 
 (straight-use-package 'yasnippet)
 
+(use-package quickrun
+  :straight t
+  :general
+  (my-leader-def
+    "x" 'quickrun)
+  :config
+  (quickrun-add-command "arturo"
+    '((:command . "c:/Users/Niv/Sync/utility-software/arturo-0.9.78-Windows-full/arturo.exe")
+      (:exec    . "%c %s"))
+    :mode 'art-mode)
+
+  ;; When file suffix is '.art', then `quickrun' uses "arturo" command-key.
+  (add-to-list 'quickrun-file-alist '("\\.art$" . "arturo")))
+
+(use-package deadgrep
+  :straight t
+  :general
+  (my-leader-def
+    "f" 'deadgrep))
 
 ;; YAML
 (use-package yaml-mode

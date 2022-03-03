@@ -1,0 +1,49 @@
+# set shell := ["powershell.exe", "-c"]
+set shell := ["cmd.exe", "/c"]
+
+# PROG_FILES_UNIX_PATH := `cygpath -u "$PROGRAMFILES"`
+# ST_EXE_PATH := "$PROG_FILES_UNIX_PATH/SyncTrayzor/syncthing.exe"
+# ST_SYNC_DIR := `cygpath -u $:
+
+SCRIPT_DIR := "{{justfile_directory()}}"
+
+terminal:
+	alacritty
+
+web-browser:
+	firefox
+
+file-explorer:
+	Xplorer
+
+	# MSYS_NO_PATHCONV=1 cmd /c start /b komorebi "&&" "exit"
+window-manager-restart:
+	komorebic stop | true
+	sleep 1
+	start /b komorebi && exit
+	sleep 1
+	just window-manager-config
+
+window-manager-control +ARGS:
+	komorebic {{ARGS}}
+
+window-manager-config:
+	komorebi-configure.sh
+
+kill-kmonad:
+	powershell -File kmonad-service.ps1 -Action kill-kmonad
+
+restart-kmonad:
+	-File kmonad-service.ps1 -Action restart-kmonad
+
+wm-help:
+	komorebic --help | just wm-show
+
+wm-show:
+	#!/usr/bin/env arturo
+	a: []
+	loop.forever ['a] [] [try? [a: a ++ input ""] else [break]]
+	webview join.with:"<br>" a
+
+quick-edit:
+	alacritty.exe -o window.decorations=none -e micro
