@@ -5,9 +5,10 @@ set shell := ["cmd.exe", "/c"]
 # ST_EXE_PATH := "$PROG_FILES_UNIX_PATH/SyncTrayzor/syncthing.exe"
 # ST_SYNC_DIR := `cygpath -u $:
 
-JUST_DIR := "{{justfile_directory()}}"
-KOMOREBI_DIR := "{{JUST_DIR}}/../komorebi"
-KMONADC_DIR := "{{JUST_DIR}}/../kmonad"
+CONFIG_DIR := parent_directory(justfile_directory())
+SCRIPTS_DIR := justfile_directory()
+KMONAD_DIR := join(CONFIG_DIR,"kmonad")
+KOMOREBI_DIR := join(CONFIG_DIR,"komorebi")
 
 terminal:
 	alacritty
@@ -18,14 +19,11 @@ web-browser:
 file-explorer:
 	start ~
 
-wm-restart:
-	just {{KOMOREBI_DIR}}/restart
+wm +ARGS:
+	just -f {{KOMOREBI_DIR}}/justfile {{ARGS}}
 
-wm-command +ARGS:
-	just {{KOMOREBI_DIR}}/command {{ARGS}}
-
-wm-configure:
-	just {{KOMOREBI_DIR}}/configure
+kmonad +ARGS:
+	just -f {{KMONAD_DIR}}/justfile {{ARGS}}
 
 wm-help:
 	komorebic --help | just wm-show

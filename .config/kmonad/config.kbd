@@ -45,8 +45,8 @@
 
 
 (defalias
-  kil (cmd-button "C:/Users/Niv/.config/my-scripts/do-shortcut.sh kill-kmonad")
-  res (cmd-button "C:/Users/Niv/.config/my-scripts/do-shortcut.sh restart-kmonad")
+  kil (cmd-button "just kmonad kill")
+  res (cmd-button "just kmonad restart")
   )
 
 (deflayer kmonad-reboot
@@ -77,21 +77,21 @@
 
 
 (defalias
-  fl (cmd-button "C:/Users/Niv/.config/my-scripts/do-shortcut.sh window-manager-control focus left")
-  fr (cmd-button "C:/Users/Niv/.config/my-scripts/do-shortcut.sh window-manager-control focus right")
-  fu (cmd-button "C:/Users/Niv/.config/my-scripts/do-shortcut.sh window-manager-control focus up")
-  fd (cmd-button "C:/Users/Niv/.config/my-scripts/do-shortcut.sh window-manager-control focus down")
-  fn (cmd-button "C:/Users/Niv/.config/my-scripts/do-shortcut.sh window-manager-control cycle-stack next")
-  fp (cmd-button "C:/Users/Niv/.config/my-scripts/do-shortcut.sh window-manager-control cycle-stack previous")
-  flt (cmd-button "C:/Users/Niv/.config/my-scripts/do-shortcut.sh window-manager-control toggle-float")
+  fl (cmd-button "just wm command focus left")
+  fr (cmd-button "just wm command focus right")
+  fu (cmd-button "just wm command focus up")
+  fd (cmd-button "just wm command focus down")
+  fn (cmd-button "just wm command cycle-stack next")
+  fp (cmd-button "just wm command cycle-stack previous")
+  flt (cmd-button "just wm command toggle-float")
 
-  wms (cmd-button "C:/Users/Niv/.config/my-scripts/do-shortcut.sh window-manager-restart")
-  wmk (cmd-button "C:/Users/Niv/.config/my-scripts/do-shortcut.sh window-manager-control stop")
-  wmr (cmd-button "C:/Users/Niv/.config/my-scripts/do-shortcut.sh window-manager-config")
-  wmh (cmd-button "C:/Users/Niv/.config/my-scripts/do-shortcut.sh wm-help")
+  wms (cmd-button "just wm restart")
+  wmk (cmd-button "just wm command stop")
+  wmr (cmd-button "just wm config")
+  wmh (cmd-button "just wm help")
 
-  trm (cmd-button "C:/Users/Niv/.config/my-scripts/do-shortcut.sh terminal")
-  web (cmd-button "C:/Users/Niv/.config/my-scripts/do-shortcut.sh web-browser")
+  trm (cmd-button "just terminal")
+  web (cmd-button "just web-browser")
 
 
   stw (layer-toggle wm-stack)
@@ -100,18 +100,18 @@
   run A-pause
   rmw A-f4
 
-  ml (cmd-button "C:/Users/Niv/.config/my-scripts/do-shortcut.sh window-manager-control move left")
-  mr (cmd-button "C:/Users/Niv/.config/my-scripts/do-shortcut.sh window-manager-control move right")
-  mu (cmd-button "C:/Users/Niv/.config/my-scripts/do-shortcut.sh window-manager-control move up")
-  md (cmd-button "C:/Users/Niv/.config/my-scripts/do-shortcut.sh window-manager-control move down")
+  ml (cmd-button "just wm command move left")
+  mr (cmd-button "just wm command move right")
+  mu (cmd-button "just wm command move up")
+  md (cmd-button "just wm command move down")
 
-  sp (cmd-button "C:/Users/Niv/.config/my-scripts/do-shortcut.sh window-manager-control unstack")
-  sl (cmd-button "C:/Users/Niv/.config/my-scripts/do-shortcut.sh window-manager-control stack left")
-  sr (cmd-button "C:/Users/Niv/.config/my-scripts/do-shortcut.sh window-manager-control stack right")
-  su (cmd-button "C:/Users/Niv/.config/my-scripts/do-shortcut.sh window-manager-control stack up")
-  sd (cmd-button "C:/Users/Niv/.config/my-scripts/do-shortcut.sh window-manager-control stack down")
+  sp (cmd-button "just wm command unstack")
+  sl (cmd-button "just wm command stack left")
+  sr (cmd-button "just wm command stack right")
+  su (cmd-button "just wm command stack up")
+  sd (cmd-button "just wm command stack down")
 
-  max (cmd-button "C:/Users/Niv/.config/my-scripts/do-shortcut.sh window-manager-control toggle-monocle")
+  max (cmd-button "just wm command toggle-monocle")
   )
 
 

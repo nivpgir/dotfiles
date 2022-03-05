@@ -1,20 +1,23 @@
+set windows-powershell := true
+
+CONFIG_DIR := parent_directory(justfile_directory())
+SCRIPTS_DIR := join(CONFIG_DIR,"my-scripts")
 
 restart:
-	komorebic stop | true
+	komorebic stop ; true
 	sleep 1
-	start /b komorebi && exit
+	cmd /c "start /b komorebi"
 	sleep 1
-	just window-manager-config
+	just configure
 
 command +ARGS:
 	komorebic {{ARGS}}
 
+WORKSPACE_PADDING := "0"
+CONTAINER_PADDING := "3"
 configure:
-	WORKSPACE_PADDING=0
-	CONTAINER_PADDING=3
-
-	komorebic container-padding 0 0 $CONTAINER_PADDING
-	komorebic workspace-padding 0 0 $WORKSPACE_PADDING
+	komorebic container-padding 0 0 {{CONTAINER_PADDING}}
+	komorebic workspace-padding 0 0 {{WORKSPACE_PADDING}}
 
 	komorebic manage-rule exe alacritty.exe
 	komorebic float-rule class "Launchy options"
@@ -39,3 +42,5 @@ configure:
 	komorebic.exe focus-follows-mouse enable
 	komorebic retile
 
+help:
+	komorebic --help | just -f {{SCRIPTS_DIR}}/justfile wm-show
