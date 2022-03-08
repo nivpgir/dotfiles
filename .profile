@@ -54,7 +54,7 @@ PATH_add_if_exists $IOPATH/bin
 PATH_add_if_exists $IOPATH/lib
 
 export TERMINAL="alacritty"
-export EDITOR=em
+export EDITOR=micro
 export VISUAL=emacs
 export BROWSER=firefox
 
