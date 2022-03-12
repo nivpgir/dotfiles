@@ -32,10 +32,6 @@ PATH_add_if_exists $HOME/.python3.7.7/bin
 PATH_add_if_exists $HOME/.gem/ruby/2.5.0/bin
 
 ### RUST setup ###
-PATH_add_if_exists $HOME/.cargo/bin
-[[ -f $HOME/.cargo/env ]] && source $HOME/.cargo/env
-
-PATH_add_if_exists $HOME/.npm-packages
 
 # TODO: make this apply only on Windows
 if [[ $OS == "Windows_NT" ]] ; then
@@ -45,6 +41,11 @@ if [[ $OS == "Windows_NT" ]] ; then
 	PATH_add_if_exists $d
     done
 fi
+
+PATH_add_if_exists $HOME/.cargo/bin
+[[ -f $HOME/.cargo/env ]] && source $HOME/.cargo/env
+
+PATH_add_if_exists $HOME/.npm-packages
 
 IOPATH="/c/IoLanguage"
 IOBIN=$IOPATH/bin
