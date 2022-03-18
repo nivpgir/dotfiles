@@ -37,6 +37,10 @@ if test -d $HOME/.local/etc/bash_completion.d ; then
     fi
 fi
 
+function timestamp {
+    date '+%Y-%m-%d %H:%M:%S'
+}
+
 function parse_git_branch {
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
@@ -134,17 +138,6 @@ export WORKON_HOME=$HOME/.py_venvs
 [[ -f $HOME/.local_bashrc ]] && . $HOME/.local_bashrc
 
 
-if command -v pueue >/dev/null 2>&1 ; then
-    alias pue="pueue"
-    alias puest="pue status"
-    alias puead="pue add --"
-    alias puel="pue log"
-    alias puesh="pue show"
-    # echo trying to start pueue daemon...
-    # pueued --daemonize
-fi
-
-
 # Wasmer
 export WASMER_DIR="/home/nivp/.wasmer"
 [ -s "$WASMER_DIR/wasmer.sh" ] && source "$WASMER_DIR/wasmer.sh"
@@ -172,6 +165,8 @@ _direnv_hook() {
 if ! [[ "$PROMPT_COMMAND" =~ _direnv_hook ]]; then
   PROMPT_COMMAND="_direnv_hook;$PROMPT_COMMAND"
 fi
+
+
 
 # install/update with:`sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- -b ~/.local/bin/ -V`
 source <(starship init bash)

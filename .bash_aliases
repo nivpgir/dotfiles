@@ -98,3 +98,30 @@ function todec() {
 alias ducks='du -cksh * | sort -rh | head -11'
 
 alias luajit="rlwrap luajit"
+
+if command -v pueue >/dev/null 2>&1 ; then
+    alias pue="pueue"
+    alias puest="pue status"
+    alias puead="pue add --"
+    alias puel="pue log"
+    alias puesh="pue show"
+    # echo trying to start pueue daemon...
+    # pueued --daemonize
+fi
+
+function timestamp {
+    date '+%Y-%m-%d %H:%M:%S'
+}
+
+function parse_git_branch {
+    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
+
+function venv_name {
+    local venvname=${VIRTUAL_ENV##*/}
+    if [[ -z "$venvname" ]]; then
+	echo ""
+    else
+	echo "($venvname)"
+    fi
+}
