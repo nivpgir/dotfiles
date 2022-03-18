@@ -2,7 +2,7 @@ set windows-powershell := true
 
 WIN_HOME_DIR := env_var_or_default("USERPROFILE", "")
 UNIX_HOME_DIR := env_var_or_default("HOME", "")
-HOME_DIR := if "true" == path_exists(UNIX_HOME_DIR) { UNIX_HOME_DIR } else { WIN_HOME_DIR }
+HOME_DIR := if path_exists(UNIX_HOME_DIR) == "true" { UNIX_HOME_DIR } else { WIN_HOME_DIR }
 
 SCRIPTS_DIR := justfile_directory()
 
@@ -27,10 +27,6 @@ log-activity WHAT *COMMENTS:
 	printf "%s,%s\n" $(date '+%Y-%m-%d %H:%M:%S') {{COMMENTS}} >> {{HOME_DIR}}/Sync/activities_log/{{WHAT}}.csv
 	git --git-dir={{SYNCTHING_DIR}}/activities_log/.git --work-tree={{SYNCTHING_DIR}}/activities_log add {{WHAT}}.csv
 	git --git-dir={{SYNCTHING_DIR}}/activities_log/.git --work-tree={{SYNCTHING_DIR}}/activities_log commit -m 'new entry for "{{WHAT}}"'
-
-# PROG_FILES_UNIX_PATH := `cygpath -u "$PROGRAMFILES"`
-# ST_EXE_PATH := "$PROG_FILES_UNIX_PATH/SyncTrayzor/syncthing.exe"
-# ST_SYNC_DIR := `cygpath -u $:
 
 
 terminal:
