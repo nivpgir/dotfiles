@@ -9,6 +9,15 @@
 #umask 022
 
 
+SOURCE=${BASH_SOURCE[0]}
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+    DIR=$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )
+    SOURCE=$(readlink "$SOURCE")
+    [[ $SOURCE != /* ]] && SOURCE=$DIR/$SOURCE # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+
+export PIAMH_CONF_DIR=$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )
+
 PATH=$HOME/.local/bin:$PATH
 if [[ $OS == "Windows_NT" ]] ; then
     SCOOP_SHIMS=$(cygpath -u $SCOOP)/shims
@@ -24,7 +33,6 @@ PATH_add_if_exists(){
     fi
 }
 
-export PIAMH_CONF_DIR=$HOME/.config/
 
 PATH_add_if_exists $HOME/bin
 
@@ -65,14 +73,11 @@ PATH_add_if_exists $HOME/.rvm/bin
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
-
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
-    BASHRC=$HOME/.bashrc
     # If running interactively, and .bashrc if it exists, source it
+    BASHRC=$PIAMH_CONF_DIR/.bashrc
     if [[ $- == *i* ]] && [[ -f $BASHRC ]] ; then
 	. $BASHRC
     fi
 fi
-
-[[ -f $HOME/.profile.local ]] && . $HOME/.profile.local

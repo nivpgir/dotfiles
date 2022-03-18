@@ -3,8 +3,8 @@
 
 
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
-if [ -f $HOME/.bash_aliases ]; then
-    . $HOME/.bash_aliases
+if [ -f .bash_aliases ]; then
+    . .bash_aliases
 fi
 
 ### Completioning ###
@@ -117,8 +117,6 @@ export WORKON_HOME=$HOME/.py_venvs
 
 ### nix setup ###
 [[ -f $HOME/.nix-profile/etc/profile.d/nix.sh ]] && . $HOME/.nix-profile/etc/profile.d/nix.sh
-
-[[ -f $HOME/.local_bashrc ]] && . $HOME/.local_bashrc
 
 
 # Wasmer
