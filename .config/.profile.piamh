@@ -51,8 +51,8 @@ if [[ $OS == "Windows_NT" ]] ; then
     done
 fi
 
-PATH_add_if_exists $HOME/.cargo/bin
-[[ -f $HOME/.cargo/env ]] && source $HOME/.cargo/env
+CARGO_HOME=$HOME/.cargo
+[[ -f $CARGO_HOME/.cargo/env ]] && source $CARGO_HOME/.cargo/env
 
 PATH_add_if_exists $HOME/.npm-packages
 
