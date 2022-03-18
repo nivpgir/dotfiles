@@ -4,12 +4,17 @@ WIN_HOME_DIR := env_var_or_default("USERPROFILE", "")
 UNIX_HOME_DIR := env_var_or_default("HOME", "")
 HOME_DIR := if "true" == path_exists(UNIX_HOME_DIR) { UNIX_HOME_DIR } else { WIN_HOME_DIR }
 
-CONFIG_DIR := join(HOME_DIR,".config")
-SYNCTHING_DIR := HOME_DIR + "/Sync"
-export SCOOP_BUCKET_DIR := join(HOME_DIR,"buckets/my-bucket")
-export KMONAD_DIR := join(CONFIG_DIR,"kmonad")
-export KOMOREBI_DIR := join(CONFIG_DIR,"komorebi")
-export CONF_SCRIPTS_DIR := join(CONFIG_DIR,"my-scripts")
+SCRIPTS_DIR := justfile_directory()
+
+CONFIG_DIR := join(justfile_directory(),".config")
+KMONAD_DIR := join(CONFIG_DIR,"kmonad")
+KOMOREBI_DIR := join(CONFIG_DIR,"komorebi")
+SYNCTHING_DIR := env_var_or_default("SYNCTHING_DIR", join(HOME_DIR,"Sync"))
+KMONAD_DIR := join(CONFIG_DIR,"kmonad")
+KOMOREBI_DIR := join(CONFIG_DIR,"komorebi")
+CONF_SCRIPTS_DIR := join(CONFIG_DIR,"my-scripts")
+SCOOP_DIR := env_var_or_default("SCOOP_DIR", join(HOME_DIR,"scoop"))
+SCOOP_BUCKET_DIR := join(SCOOP_DIR,"buckets","my-bucket")
 
 
 ENV_VAR_ACCESS := "$" + if os_family() == "windows" { "env:" } else { "" }
@@ -22,3 +27,35 @@ log-activity WHAT *COMMENTS:
 	printf "%s,%s\n" $(date '+%Y-%m-%d %H:%M:%S') {{COMMENTS}} >> {{HOME_DIR}}/Sync/activities_log/{{WHAT}}.csv
 	git --git-dir={{SYNCTHING_DIR}}/activities_log/.git --work-tree={{SYNCTHING_DIR}}/activities_log add {{WHAT}}.csv
 	git --git-dir={{SYNCTHING_DIR}}/activities_log/.git --work-tree={{SYNCTHING_DIR}}/activities_log commit -m 'new entry for "{{WHAT}}"'
+
+# PROG_FILES_UNIX_PATH := `cygpath -u "$PROGRAMFILES"`
+# ST_EXE_PATH := "$PROG_FILES_UNIX_PATH/SyncTrayzor/syncthing.exe"
+# ST_SYNC_DIR := `cygpath -u $:
+
+
+terminal:
+	alacritty
+
+web-browser:
+	firefox
+
+file-explorer:
+	start ~
+
+wm +ARGS:
+	just -f {{KOMOREBI_DIR}}/justfile {{ARGS}}
+
+kmonad +ARGS:
+	just -f {{KMONAD_DIR}}/justfile {{ARGS}}
+
+wm-help:
+	komorebic --help | just wm-show
+
+wm-show:
+	#!/usr/bin/env arturo
+	a: []
+	loop.forever ['a] [] [try? [a: a ++ input ""] else [break]]
+	webview join.with:"<br>" a
+
+quick-edit:
+	alacritty.exe -o window.decorations=none -e micro
