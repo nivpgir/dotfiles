@@ -4,14 +4,10 @@ WIN_HOME_DIR := env_var_or_default("USERPROFILE", "")
 UNIX_HOME_DIR := env_var_or_default("HOME", "")
 HOME_DIR := if path_exists(UNIX_HOME_DIR) == "true" { UNIX_HOME_DIR } else { WIN_HOME_DIR }
 
-SCRIPTS_DIR := justfile_directory()
-
 CONFIG_DIR := join(justfile_directory(),".config")
 KMONAD_DIR := join(CONFIG_DIR,"kmonad")
 KOMOREBI_DIR := join(CONFIG_DIR,"komorebi")
 SYNCTHING_DIR := env_var_or_default("SYNCTHING_DIR", join(HOME_DIR,"Sync"))
-KMONAD_DIR := join(CONFIG_DIR,"kmonad")
-KOMOREBI_DIR := join(CONFIG_DIR,"komorebi")
 CONF_SCRIPTS_DIR := join(CONFIG_DIR,"my-scripts")
 SCOOP_DIR := env_var_or_default("SCOOP_DIR", join(HOME_DIR,"scoop"))
 SCOOP_BUCKET_DIR := join(SCOOP_DIR,"buckets","my-bucket")
@@ -55,3 +51,4 @@ wm-show:
 
 quick-edit:
 	alacritty.exe -o window.decorations=none -e micro
+
