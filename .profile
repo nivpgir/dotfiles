@@ -10,9 +10,10 @@
 
 
 PATH=$HOME/.local/bin:$PATH
-SCOOP_SHIMS=$(cygpath -u $SCOOP)/shims
-PATH=$SCOOP_SHIMS:$PATH
-
+if [[ $OS == "Windows_NT" ]] ; then
+    SCOOP_SHIMS=$(cygpath -u $SCOOP)/shims
+    PATH=$SCOOP_SHIMS:$PATH
+fi
 
 source <(direnv stdlib)
 
