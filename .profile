@@ -55,8 +55,8 @@ IOLIB=$IOPATH/lib
 PATH_add_if_exists $IOPATH/bin
 PATH_add_if_exists $IOPATH/lib
 
-export TERMINAL="alacritty"
-export EDITOR=micro
+export TERMINAL=alacritty
+export EDITOR=minime
 export VISUAL=emacs
 export BROWSER=firefox
 

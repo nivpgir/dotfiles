@@ -103,8 +103,7 @@ function mount-tar(){
 
 ### NPM ###
 
-# Preserve MANPATH if I already defined it somewhere in my config.
-export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
+export MANPATH="$MANPATH:$NPM_PACKAGES/share/man"
 
 ### NVM ###
 export NVM_DIR="$HOME/.nvm"
