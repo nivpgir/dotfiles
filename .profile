@@ -8,8 +8,8 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
-PATH=$HOME/.local/bin:$PATH
 
+PATH=$HOME/.local/bin:$PATH
 SCOOP_SHIMS=$(cygpath -u $SCOOP)/shims
 PATH=$SCOOP_SHIMS:$PATH
 
@@ -73,3 +73,5 @@ if [ -n "$BASH_VERSION" ]; then
 	. $BASHRC
     fi
 fi
+
+[[ -f $HOME/.profile.local ]] && . $HOME/.profile.local
