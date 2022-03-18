@@ -37,22 +37,6 @@ if test -d $HOME/.local/etc/bash_completion.d ; then
     fi
 fi
 
-function timestamp {
-    date '+%Y-%m-%d %H:%M:%S'
-}
-
-function parse_git_branch {
-    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
-}
-
-function venv_name {
-    local venvname=${VIRTUAL_ENV##*/}
-    if [[ -z "$venvname" ]]; then
-	echo ""
-    else
-	echo "($venvname)"
-    fi
-}
 
 # append to the history file, don't overwrite it
 shopt -s histappend
@@ -152,7 +136,7 @@ source <(direnv hook bash)
 
 _direnv_hook() {
   local previous_exit_status=$?;
-  source <(MSYS_NO_PATHCONV=1 "direnv.exe" export bash | sed 's|export PATH=|export _X_DIRENV_PATH=|g')
+  source <(MSYS_NO_PATHCONV=1 "direnv" export bash | sed 's|export PATH=|export _X_DIRENV_PATH=|g')
   if [ -n "$_X_DIRENV_PATH" ]; then
     _X_DIRENV_PATH=$(cygpath -p "$_X_DIRENV_PATH")
     export "PATH=$_X_DIRENV_PATH"
