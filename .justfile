@@ -20,7 +20,7 @@ do-at JUST_PATH +ARGS:
 
 
 log-activity WHAT *COMMENTS:
-	printf "%s,%s\n" $(date '+%Y-%m-%d %H:%M:%S') {{COMMENTS}} >> {{HOME_DIR}}/Sync/activities_log/{{WHAT}}.csv
+	printf "%s,%s\n" $(date '+%Y-%m-%d %H:%M:%S') {{COMMENTS}} >> {{SYNCTHING_DIR}}/Sync/activities_log/{{WHAT}}.csv
 	git --git-dir={{SYNCTHING_DIR}}/activities_log/.git --work-tree={{SYNCTHING_DIR}}/activities_log add {{WHAT}}.csv
 	git --git-dir={{SYNCTHING_DIR}}/activities_log/.git --work-tree={{SYNCTHING_DIR}}/activities_log commit -m 'new entry for "{{WHAT}}"'
 
