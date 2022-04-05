@@ -11,4 +11,4 @@ restart:
 	eledo just kill ; eledo just start
 
 start:
-	start-process eledo -argumentlist kmonad.exe,{{ join(KMONAD_DIR, "config.kbd") }},-c,-l,debug -windowstyle hidden
+	start-process eledo -argumentlist kmonad.exe,{{ join(KMONAD_DIR, "config.kbd") }},-c,-l,debug -windowstyle hidden -workingdirectory {{ parent_directory(CONFIG_DIR) }}
