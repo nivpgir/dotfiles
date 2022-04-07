@@ -52,3 +52,5 @@ wm-show:
 quick-edit:
 	alacritty.exe -o window.decorations=none -e micro
 
+notify MSG *ARGS:
+	notifu64 -m '{{MSG}}' {{ARGS}}
