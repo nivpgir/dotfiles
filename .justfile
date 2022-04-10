@@ -26,7 +26,7 @@ log-activity WHAT *COMMENTS:
 
 
 terminal:
-	alacritty
+	wezterm
 
 web-browser:
 	firefox
