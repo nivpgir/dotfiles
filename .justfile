@@ -39,6 +39,7 @@ wm +ARGS:
 
 kmonad +ARGS:
 	just -f {{KMONAD_DIR}}/justfile {{ARGS}}
+	just notify "kmonad {{ ARGS  }} done" ; true
 
 wm-help:
 	komorebic --help | just wm-show
