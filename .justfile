@@ -8,7 +8,7 @@ CONFIG_DIR := join(justfile_directory(),".config")
 KMONAD_DIR := join(CONFIG_DIR,"kmonad")
 KOMOREBI_DIR := join(CONFIG_DIR,"komorebi")
 SYNCTHING_DIR := env_var_or_default("SYNCTHING_DIR", join(HOME_DIR,"Sync"))
-CONF_SCRIPTS_DIR := join(CONFIG_DIR,"my-scripts")
+CONF_SCRIPTS_DIR := join(CONFIG_DIR,"scripts")
 SCOOP_DIR := env_var_or_default("SCOOP_DIR", join(HOME_DIR,"scoop"))
 SCOOP_BUCKET_DIR := join(SCOOP_DIR,"buckets","my-bucket")
 

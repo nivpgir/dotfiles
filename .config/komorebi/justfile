@@ -1,7 +1,7 @@
 set windows-powershell := true
 
 CONFIG_DIR := parent_directory(justfile_directory())
-SCRIPTS_DIR := join(CONFIG_DIR,"my-scripts")
+SCRIPTS_DIR := join(CONFIG_DIR,"scripts")
 
 restart:
 	komorebic stop ; true
