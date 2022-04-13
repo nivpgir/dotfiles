@@ -1,0 +1,45 @@
+
+#!/bin/bash
+# vantreeseba -- 2020-04-24
+# This script outputs  
+
+base00="#272822" # dark gray/brown (bg)
+base01="#383830" # med dark gray/brown
+base02="#49483e" # med dark gray/brown
+base03="#75715e" # gray/brown
+base04="#a59f85" # light gray/brown
+base05="#f8f8f2" # gray white
+base06="#f5f4f1" # white
+base07="#f9f8f5" # bright white
+base08="#f92672" # red / pink
+base09="#fd971f" # orange
+base0A="#f4bf75" # light orange
+base0B="#a6e22e" # green
+base0C="#a1efe4" # light blue
+base0D="#66d9ef" # blue
+base0E="#ae81ff" # purple
+base0F="#cc6633" # dark orange
+
+# These colors are from monokai, change them for your own use.
+bgcolor=transparent
+fgcolor=$base06
+nfgcolor=$base0C
+efgcolor=$base0E
+
+font="Roboto Mono"
+
+dot -Tpng \
+  -Grankdir="LR" \
+  -Gbgcolor=$bgcolor \
+  -Gcolor=$fgcolor \
+  -Nfontname="$font" \
+  -Nfontcolor=$fgcolor \
+  -Ncolor=$nfgcolor \
+  -Nfillcolor=$nfgcolor \
+  -Nshape="rectangle" \
+  -Nfontcolor=$fgcolor \
+  -Ecolor=$efgcolor \
+  -Efontname="$font" \
+  -Efontcolor=$fgcolor \
+  -Earrowhead="empty"
+
