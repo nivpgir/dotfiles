@@ -42,15 +42,6 @@ PATH_add_if_exists $HOME/.gem/ruby/2.5.0/bin
 
 ### RUST setup ###
 
-# TODO: make this apply only on Windows
-if [[ $OS == "Windows_NT" ]] ; then
-    export MSYS2_ARG_CONV_EXCL=/C
-
-    for d in $HOME/.rustup/toolchains/*/bin ; do
-	PATH_add_if_exists $d
-    done
-fi
-
 CARGO_HOME=$HOME/.cargo
 [[ -f $CARGO_HOME/env ]] && source $CARGO_HOME/env
 
