@@ -627,7 +627,14 @@
     :mode 'art-mode)
 
   ;; When file suffix is '.art', then `quickrun' uses "arturo" command-key.
-  (add-to-list 'quickrun-file-alist '("\\.art$" . "arturo")))
+  (add-to-list 'quickrun-file-alist '("\\.art$" . "arturo"))
+  (quickrun-add-command "oak"
+    '((:command . "c:/Users/Niv/.local/bin/oak")
+      (:exec    . "%c %s"))
+    :mode 'oak-mode)
+
+  (add-to-list 'quickrun-file-alist '("\\.oak$" . "oak"))
+  )
 
 (use-package deadgrep
   :straight t

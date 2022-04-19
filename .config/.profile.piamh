@@ -67,8 +67,10 @@ PATH_add_if_exists $HOME/.rvm/bin
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # If running interactively, and .bashrc if it exists, source it
-    BASHRC=$PIAMH_CONF_DIR/.bashrc
+    pushd $PIAMH_CONF_DIR
+    BASHRC=.bashrc
     if [[ $- == *i* ]] && [[ -f $BASHRC ]] ; then
 	. $BASHRC
     fi
+    popd
 fi
