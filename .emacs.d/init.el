@@ -587,11 +587,6 @@
   (transient-append-suffix 'magit-pull "-A" '("-f" "ff only" "--ff-only")))
 
 
-(use-package forge
-  :straight t
-  :after magit)
-
-
 (require 'epa-file)
 (epa-file-enable)
 
