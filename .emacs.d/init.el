@@ -64,7 +64,9 @@
 
 (use-package emacs
   :hook
-  (prog-mode . electric-pair-local-mode))
+  (prog-mode . electric-pair-local-mode)
+  :custom
+  auto-mode-alist (delete '("\\.oak\\'" . scheme-mode) auto-mode-alist))
 
 (use-package general
   :straight t
@@ -84,10 +86,14 @@
     "I" 'niv/find-user-init-file
     "<tab>" 'niv/alternate-buffer
     "RET" 'newline-and-indent
+    "k w" 'delete-window
+    "k b" 'kill-buffer
+    "k l" 'kill-whole-line
     )
 
   (general-def "C-a" 'niv/prelude-move-beginning-of-line)
   (general-def "M-k" 'kill-whole-line)
+  (general-def "C-x C-e" 'pp-eval-last-sexp)
   (general-def "M-n" (lambda () (interactive) (scroll-up 1)))
   (general-def "M-p" (lambda () (interactive) (scroll-down 1)))
   )
@@ -157,7 +163,7 @@
 		   ("*go-guru-output*" :select t :same t)
 		   ("*Proced*" :select t :same t)
 		   ("*Buffer List*" :select t :same t)
-		   ("\\*Pp Eval" :regexp t :same nil :select t :other t)
+		   ("\\*Pp Eval Output\\*" :regexp t :same nil :select t :other t)
 		   ("*Messages*" :same nil :other t :select t :inhibit-window-quit t)))
 
   (shackle-default-rule nil)
@@ -666,7 +672,6 @@
   (js-mode . lsp)
   (jsx-mode . lsp)
   (dart-mode . lsp)
-  :custom
   :custom
   ;; what to use when checking on-save. "check" is default, I prefer clippy
   (lsp-rust-analyzer-cargo-watch-command "clippy")
