@@ -1,0 +1,145 @@
+(defcfg
+  ;; ** For Windows **
+  input  (low-level-hook)
+  output (send-event-sink 500 25)
+  fallthrough true
+  allow-cmd true
+  )
+
+
+(defsrc
+  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12        ssrq slck pause
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc  ins  home pgup  nlck kp/  kp*  kp-
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    ret   del  end  pgdn  kp7  kp8  kp9  kp+
+  caps a    s    d    f    g    h    j    k    l    ;    '    \                          kp4  kp5  kp6
+  lsft 102d z    x    c    v    b    n    m    ,    .    /    rsft            up         kp1  kp2  kp3  kprt
+  lctl lmet lalt           spc                 ralt rmet cmp  rctl       left down rght  kp0  kp.
+  )
+
+
+;; (defalias
+;;   sl (sticky-key 5000 lsft)
+;;   sr (sticky-key 5000 rsft))
+
+
+(deflayer qwertybase
+  @krl  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12        ssrq slck pause
+  @arr 1    2    3    4    5    6    7    8    9    0    -    =    bspc  ins  home pgup  nlck kp/  kp*  kp-
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    ret   del  end  pgdn  kp7  kp8  kp9  kp+
+  @cap a    s    d    f    g    h    j    k    l    ;    '    \                          kp4  kp5  kp6
+  lsft @bs  z    x    c    v    b    n    m    ,    .    /    rsft            up         kp1  kp2  kp3  kprt
+  lctl lmet lalt           spc                 ralt rmet cmp  rctl       left down rght  kp0  kp.
+  )
+
+
+(defalias
+  krl  (tap-hold 500 esc (layer-toggle kmonad-reboot))
+  pyc (layer-toggle pycharm-keys)
+  bs  (tap-hold 200 102d @pyc)
+
+  nav (layer-toggle right-navigation-layer)
+  arr (tap-hold 200 grv @nav)
+
+  wm  (around (layer-toggle wm-base) (layer-toggle right-navigation-layer))
+  cap @wm
+  )
+
+
+(defalias
+  kil (cmd-button "just kmonad kill")
+  res (cmd-button "just kmonad restart")
+  )
+
+(deflayer kmonad-reboot
+  _    _    _    _    @kil @res _    _    _    _    _    _    _          _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _                         _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _               _         _    _    _    _
+  _    _    _              _                   _    _    _    _          _    _    _    _    _
+
+
+  )
+(deflayer pycharm-keys
+  _    _    _    _    _    _    _    _    _    _    _    _    _          _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
+  _    f9   f10  f11  f12  _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
+  _    f5   f6   f7   f8   _    _    _    _    _    _    _    _                         _    _    _
+  _    _    f1   f2   f3   f4   _    _    _    _    _    _    _               _         _    _    _    _
+  _    _    _              _                   _    _    _    _          _    _    _    _    _)
+
+(deflayer right-navigation-layer
+  _    _    _    _    _    _    _    _    _    _    _    _    _          _    _    _
+  _    rsft rctl _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
+  _    _    _    _    _    _    pgup home up   end  _    _    _    _     _    _    _    _    _    _    _
+  _    _    _    _    _    _    pgdn left down rght _    _    _                         _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _               _         _    _    _    _
+  _    _    _              _                   _    _    _    _          _    _    _    _    _)
+
+
+(defalias
+  fl (cmd-button "just wm command focus left")
+  fr (cmd-button "just wm command focus right")
+  fu (cmd-button "just wm command focus up")
+  fd (cmd-button "just wm command focus down")
+  fn (cmd-button "just wm command cycle-stack next")
+  fp (cmd-button "just wm command cycle-stack previous")
+  flt (cmd-button "just wm command toggle-float")
+
+  wms (cmd-button "just wm restart")
+  wmk (cmd-button "just wm command stop")
+  wmr (cmd-button "just wm config")
+  wmh (cmd-button "just wm help")
+
+  trm (cmd-button "just terminal")
+  web (cmd-button "just web-browser")
+
+
+  stw (layer-toggle wm-stack)
+  mvw (around (layer-toggle wm-move) lctl)
+
+  run A-pause
+  rmw A-f4
+
+  ml (cmd-button "just wm command move left")
+  mr (cmd-button "just wm command move right")
+  mu (cmd-button "just wm command move up")
+  md (cmd-button "just wm command move down")
+
+  sp (cmd-button "just wm command unstack")
+  sl (cmd-button "just wm command stack left")
+  sr (cmd-button "just wm command stack right")
+  su (cmd-button "just wm command stack up")
+  sd (cmd-button "just wm command stack down")
+
+  max (cmd-button "just wm command toggle-monocle")
+  )
+
+
+(deflayer wm-base
+  @rmw @wmh _    @wms @wmk @wmr _    _    _    _    _    _    _          _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
+  @stw _    @fu  _    @run _    _    _    @web _    @fp  _    _    @trm  _    _    _    _    _    _    _
+  _    @fl  @fd  @fr  @flt _    _    _    _    _    _    _    _                         _    _    _
+  _    _    _    _    _    _    _    @fn  _    _    _    _    _               _         _    _    _    _
+  @mvw _    _              @max                _    _    _    _          _    _    _    _    _
+  )
+
+
+(deflayer wm-stack
+  _    _    _    _    _    _    _    _    _    _    _    _    _          _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
+  _    @sp  @su  _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
+  _    @sl  @sd  @sr  _    _    _    _    _    _    _    _    _                         _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _               _         _    _    _    _
+  _    _    _              _                   _    _    _    _          _    _    _    _    _)
+
+(deflayer wm-move
+  _    _    _    _    _    _    _    _    _    _    _    _    _          _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
+  _    _    @mu  _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
+  _    @ml  @md  @mr  _    _    _    _    _    _    _    _    _                         _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _               _         _    _    _    _
+  _    _    _              _                   _    _    _    _          _    _    _    _    _
+  )
+
