@@ -1,10 +1,10 @@
 (defcfg
-  ;; ** For Linux **
-  input  (device-file "/dev/input/by-path/platform-i8042-serio-0-event-kbd")
-  output (uinput-sink "KMonad output")
-  fallthrough true
-  allow-cmd true
-  )
+   ;; ** For Linux **
+   input  (device-file "/dev/input/by-path/platform-i8042-serio-0-event-kbd")
+   output (uinput-sink "KMonad output")
+   fallthrough true
+   allow-cmd true
+   )
 
 
 (defsrc
@@ -14,17 +14,17 @@
   caps a    s    d    f    g    h    j    k    l    ;    '    \                          kp4  kp5  kp6
   lsft 102d z    x    c    v    b    n    m    ,    .    /    rsft            up         kp1  kp2  kp3  kprt
   lctl lmet lalt           spc                 ralt rmet cmp  rctl       left down rght  kp0  kp.
-  )
+  f13)
 
 
 (deflayer qwertybase
-  @krl  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12        ssrq slck pause
-  @arr 1    2    3    4    5    6    7    8    9    0    -    =    bspc  ins  home pgup  nlck kp/  kp*  kp-
+  @krl f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12        ssrq slck pause
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc  ins  home pgup  nlck kp/  kp*  kp-
   tab  q    w    e    r    t    y    u    i    o    p    [    ]    ret   del  end  pgdn  kp7  kp8  kp9  kp+
   @cap a    s    d    f    g    h    j    k    l    ;    '    \                          kp4  kp5  kp6
   lsft 102d  z    x    c    v    b    n    m    ,    .    /    rsft            up         kp1  kp2  kp3  kprt
   lctl lmet lalt           spc                 ralt rmet cmp  rctl       left down rght  kp0  kp.
-  )
+  f13)
 
 
 (defalias
@@ -32,9 +32,12 @@
   nav (layer-toggle right-navigation-layer)
   arr (tap-hold 200 grv @nav)
 
-  wm  (around (layer-toggle wm-base) (layer-toggle right-navigation-layer))
-  cap (around lmet @wm)
+  wm  (layer-toggle wm-base)
+  ;; cap (around (around cmp @wm) @nav)
+  ;; cap (around (around f13 @wm) @nav)
+  cap (around (around caps @wm) @nav)
   )
+
 
 
 (defalias
@@ -49,7 +52,7 @@
   _    _    _    _    _    _    _    _    _    _    _    _    _                         _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _               _         _    _    _    _
   _    _    _              _                   _    _    _    _          _    _    _    _    _
-  )
+  _)
 
 (deflayer right-navigation-layer
   _    _    _    _    _    _    _    _    _    _    _    _    _          _    _    _
@@ -57,15 +60,21 @@
   _    _    _    _    _    _    pgup home up   end  _    _    _    _     _    _    _    _    _    _    _
   _    _    _    _    _    _    pgdn left down rght _    _    _                         _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _               _         _    _    _    _
-  _    _    _              _                   _    _    _    _          _    _    _    _    _)
+  _    _    _              _                   _    _    _    _          _    _    _    _    _
+  _)
 
 
 (defalias
-  fl (cmd-button "just wm command focus left")
-  fr (cmd-button "just wm command focus right")
-  fu (cmd-button "just wm command focus up")
-  fd (cmd-button "just wm command focus down")
-  fn (cmd-button "just wm command cycle-stack next")
+  ;fl (cmd-button "just wm command focus left")
+  ;fr (cmd-button "just wm command focus right")
+  ;fu (cmd-button "just wm command focus up")
+  ;fd (cmd-button "just wm command focus down")
+  fl (around caps left)
+  fr (around caps right)
+  fu (around caps up)
+  fd (around caps down)
+  ;fn (cmd-button "just wm command cycle-stack next")
+  ;fp (cmd-button "just wm command cycle-stack previous")
   fp (cmd-button "just wm command cycle-stack previous")
   flt (cmd-button "just wm command toggle-float")
 
@@ -81,7 +90,6 @@
   stw (layer-toggle wm-stack)
   mvw (around (layer-toggle wm-move) lctl)
 
-  run A-pause
   rmw A-f4
 
   ml (cmd-button "just wm command move left")
@@ -99,14 +107,15 @@
   )
 
 
+
 (deflayer wm-base
   @rmw @wmh _    @wms @wmk @wmr _    _    _    _    _    _    _          _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
-  @stw _    @fu  _    @run _    _    _    @web _    @fp  _    _    @trm  _    _    _    _    _    _    _
-  _    @fl  @fd  @fr  @flt _    _    _    _    _    _    _    _                         _    _    _
-  _    _    _    _    _    _    _    @fn  _    _    _    _    _               _         _    _    _    _
+  _    _    @fu  _    _    _    _    _    @web _    _    _    _    _     _    _    _    _    _    _    _
+  _    @fl  @fd  @fr  _    _    _    _    _    _    _    _    _                         _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _               _         _    _    _    _
   @mvw _    _              @max                _    _    _    _          _    _    _    _    _
-  )
+  _)
 
 
 (deflayer wm-stack
@@ -115,7 +124,8 @@
   _    @sp  @su  _    _    _    _    _    _    _    _    _    _    _     _    _    _    _    _    _    _
   _    @sl  @sd  @sr  _    _    _    _    _    _    _    _    _                         _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _               _         _    _    _    _
-  _    _    _              _                   _    _    _    _          _    _    _    _    _)
+  _    _    _              _                   _    _    _    _          _    _    _    _    _
+  _)
 
 (deflayer wm-move
   _    _    _    _    _    _    _    _    _    _    _    _    _          _    _    _
@@ -124,5 +134,5 @@
   _    @ml  @md  @mr  _    _    _    _    _    _    _    _    _                         _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _               _         _    _    _    _
   _    _    _              _                   _    _    _    _          _    _    _    _    _
-  )
+  _)
 
