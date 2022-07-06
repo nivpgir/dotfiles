@@ -24,7 +24,7 @@ if [[ $OS == "Windows_NT" ]] ; then
     PATH=$SCOOP_SHIMS:$PATH
 fi
 
-source <(direnv stdlib)
+
 
 PATH_add_if_exists(){
     local new_path=$1

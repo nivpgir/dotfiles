@@ -132,4 +132,14 @@ Version 2017-11-01"
              (planning :to ,(ts-adjust 'day -1 (get-last-friday))))))
     (org-ql-search org-agenda-files query)))
 
+
+(defun joinpaths (root &rest dirs)
+  "Joins a series of directories together, like Python's os.path.join,
+  (dotemacs-joindirs \"/tmp\" \"a\" \"b\" \"c\") => /tmp/a/b/c"
+
+  (if (not dirs)
+      root
+    (apply 'joindirs
+           (expand-file-name (car dirs) root)
+           (cdr dirs))))
 (provide 'niv-utils)

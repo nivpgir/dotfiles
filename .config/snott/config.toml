@@ -1,0 +1,2 @@
+sync_dir = "~/Sync/journal"
+timestamp_format = "%Y%m%d%H%M%S"

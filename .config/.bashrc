@@ -3,8 +3,9 @@
 
 
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
-if [ -f .bash_aliases ]; then
-    . .bash_aliases
+
+if [ -f $PIAMH_CONF_DIR/.bash_aliases ]; then
+    . $PIAMH_CONF_DIR/.bash_aliases
 fi
 
 ### Completioning ###
@@ -130,6 +131,7 @@ export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PR
 
 
 source <(direnv hook bash)
+source <(direnv stdlib)
 
 if [[ $OS == "Windows_NT" ]] ; then
     _direnv_hook() {

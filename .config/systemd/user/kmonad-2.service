@@ -1,0 +1,19 @@
+[Unit]
+Description=kmonad keyboard config
+BindsTo = dev-input-by\x2did-usb\x2dLogitech_USB_Keyboard\x2devent\x2dkbd.device
+# BindsTo = dev-input-event23.device
+Requires = dev-input-by\x2did-usb\x2dLogitech_USB_Keyboard\x2devent\x2dkbd.device
+# Requires = dev-input-event23.device
+After = dev-input-by\x2did-usb\x2dLogitech_USB_Keyboard\x2devent\x2dkbd.device
+# After = dev-input-event23.device
+
+[Service]
+Restart=always
+RestartSec=3
+ExecStart=%h/.local/bin/kmonad %E/kmonad/config-linux.kbd -l info  --input 'device-file "/dev/input/by-id/usb-Logitech_USB_Keyboard-event-kbd"'
+Nice=-20
+
+[Install]
+WantedBy=default.target
+WantedBy = dev-input-by\x2did-usb\x2dLogitech_USB_Keyboard\x2devent\x2dkbd.device
+# WantedBy=dev-input-event23.device
