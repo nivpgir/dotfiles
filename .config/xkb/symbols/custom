@@ -10,3 +10,9 @@ xkb_symbols "hyper4" {
     key <CAPS> { [ Hyper_L, Hyper_L, Hyper_L, Hyper_L ] };
     modifier_map Mod4 { Hyper_L };
 };
+
+partial modifier_keys
+xkb_symbols "super3" {
+    modifier_map Mod3 { Super_L };
+};
+

@@ -33,7 +33,8 @@ file-explorer:
 	start ~
 
 wm +ARGS:
-	just -f {{KOMOREBI_DIR}}/justfile {{ARGS}}
+	# just -f {{KOMOREBI_DIR}}/justfile {{ARGS}}
+    {{ ARGS }}
 
 kmonad +ARGS:
 	just -f {{KMONAD_DIR}}/justfile {{ARGS}}

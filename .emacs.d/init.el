@@ -473,7 +473,6 @@
   (global-undo-tree-mode)
   :custom
   (undo-tree-visualizer-diff t)
-  (undo-tree-history-directory-alist (list (".*" . (expand-file-name "auto-save/undo-tree-history" user-emacs-directory))))
   :general
   (:keymaps 'undo-tree-map
 	    "C-/" nil
@@ -671,7 +670,7 @@
   :custom
   ;; what to use when checking on-save. "check" is default, I prefer clippy
   (lsp-rust-analyzer-cargo-watch-command "clippy")
-  (lsp-eldoc-render-all nil)
+  (lsp-eldoc-render-all t)
   (lsp-idle-delay 0.6)
   ;; (lsp-rust-analyzer-server-display-inlay-hints t)
   (lsp-lens-enable t)
@@ -722,7 +721,7 @@
   :commands lsp-ui-mode
   :custom
   (lsp-ui-peek-always-show t)
-  (lsp-ui-sideline-show-hover nil)
+  (lsp-ui-sideline-show-hover t)
   (lsp-ui-doc-enable nil)
   (lsp-ui-doc-position 'bottom)
   (lsp-ui-doc-delay 1)

@@ -8,6 +8,12 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
+# export XKB_DEFAULT_MODEL=pc105
+# export XKB_DEFAULT_LAYOUT=us
+# export XKB_DEFAULT_VARIANT=us
+# export XKB_DEFAULT_OPTIONS=custom:hyper4
+# export XKB_DEFAULT_RULES=
+
 
 SOURCE=${BASH_SOURCE[0]}
 while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
@@ -54,7 +60,7 @@ IOLIB=$IOPATH/lib
 PATH_add_if_exists $IOPATH/bin
 PATH_add_if_exists $IOPATH/lib
 
-export TERMINAL=alacritty
+export TERMINAL=wezterm
 export EDITOR=minime
 export VISUAL=emacs
 export BROWSER=firefox

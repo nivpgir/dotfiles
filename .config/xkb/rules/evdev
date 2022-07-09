@@ -1,5 +1,6 @@
 ! option                =       symbols
   custom:hyper3         =       +custom(hyper3)
   custom:hyper4         =       +custom(hyper4)
+  custom:super3         =       +custom(super3)
 
 ! include %S/evdev
