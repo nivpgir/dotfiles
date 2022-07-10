@@ -2,4 +2,4 @@ anchor=center
 width=900
 height=500
 font=monospace 20
-# output=wayland-1
+default-timeout=3500
