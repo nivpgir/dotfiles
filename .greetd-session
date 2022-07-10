@@ -1,0 +1,10 @@
+
+
+# export XKB_DEFAULT_VARIANT=
+export XKB_DEFAULT_MODEL=pc105
+export XKB_DEFAULT_LAYOUT=us,il
+export XKB_DEFAULT_OPTIONS=grp:menu_toggle,custom:hyper4,custom:super3
+# grp:win_space_toggle
+export XKB_DEFAULT_RULES=evdev
+
+river >> ~/.logs/river.log
