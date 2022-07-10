@@ -1,17 +1,9 @@
 #!/bin/sh
-# export XKB_DEFAULT_MODEL=pc105
-# export XKB_DEFAULT_LAYOUT=us,il
-# export XKB_DEFAULT_VARIANT=
-# export XKB_DEFAULT_OPTIONS=grp:shifts_toggle
-# export XKB_DEFAULT_RULES=evdev
 
-# This is the example configuration file for river.
-#
-# If you wish to edit this, you will probably want to copy it to
-# $XDG_CONFIG_HOME/river/init or $HOME/.config/river/init first.
-#
-# See the river(1), riverctl(1), and rivertile(1) man pages for complete
-# documentation.
+set +x
+systemctl set-environment WAYLAND_DISPLAY="$WAYLAND_DISPLAY"
+set -x
+
 kanshi &
 eww daemon
 eww open bar
@@ -25,7 +17,7 @@ riverctl float-filter-add title QuickSnoTT
 
 riverctl map normal Super G spawn quick-snote
 riverctl map normal Super R spawn yofi
-riverctl map normal Super R spawn ~/.config/scripts/show-logs 
+riverctl map normal Super backslash spawn ~/.config/scripts/show-logs
 # Note: the "Super" modifier is also known as Logo, GUI, Windows, Mod4, etc.
 # localectl set-x11-keymap us,il pc105 us custom:hyper4
 
@@ -39,8 +31,8 @@ riverctl map normal Super Q close
 riverctl map normal Super+Shift E exit
 
 # Super+S and Super+W to focus the next/previous view in the layout stack
-riverctl map normal Super S focus-view next
-riverctl map normal Super W focus-view previous
+riverctl map normal Super Tab focus-view next
+riverctl map normal Super+Shift Tab focus-view previous
 
 # Super+Shift+S and Super+Shift+W to swap the focused view with the next/previous
 # view in the layout stack
