@@ -4,9 +4,9 @@ if string.find(wzt.target_triple, "msvc") then
   default_prog = "C:/Program Files/Git/bin/" .. default_prog
 end
 
-wzt.on("window-config-reloaded", function(window, pane)
-  window:toast_notification("wezterm", "configuration reloaded!", nil, 4000)
-end)
+-- wzt.on("window-config-reloaded", function(window, pane)
+--   window:toast_notification("wezterm", "configuration reloaded!", nil, 4000)
+-- end)
 
 -- ssh_domains = [];
 return {
