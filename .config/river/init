@@ -1,7 +1,7 @@
 #!/bin/sh
 
 set +x
-systemctl set-environment WAYLAND_DISPLAY="$WAYLAND_DISPLAY"
+systemctl --user set-environment WAYLAND_DISPLAY="$WAYLAND_DISPLAY"
 set -x
 
 kanshi &
