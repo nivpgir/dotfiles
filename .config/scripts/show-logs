@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+CHOSEN_LOG=$('ls' -1 -tr time ~/.logs | tail -n +2 | yofi dialog)
+LOG_FILE=$(fd $CHOSEN_LOG ~/.logs)
+echo $CHOSEN_LOG > ~/.logs/yofi.log
+# alacritty -o window.class.instance='float' -e sp $LOG_FILE
+alacritty --class 'float' -e sp $LOG_FILE
+
