@@ -1,0 +1,18 @@
+(defwindow test
+  :monitor 0
+  :stacking "overlay"
+  :geometry (geometry :x "0%"
+                      :y "0%"
+                      :width "20%"
+                      :height "10%"
+                      :anchor "center center")
+  :focusable true
+  (test-widget :text "test"))
+
+
+(defwidget test-widget [text ?window]
+	   (button :onclick "notify-send -t 2000 '${text}' ; eww close ${window}"
+	   (box
+	     {text}
+	     (children)))
+)

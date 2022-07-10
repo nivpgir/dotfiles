@@ -1,0 +1,136 @@
+(defwidget bar-widget []
+  (centerbox
+        :orientation "h"
+        ;; (workspaces)
+        (wm-info)
+        (box :class "time"
+	     :halign "center"
+	     :style "font-size: large;
+    	     	     font-weight: bold;
+      		     padding: 4px;"
+	     time)
+        ;; (music)
+        (sidestuff)))
+
+(defpoll ismuted :interval "1s"
+	 "pactl get-sink-mute @DEFAULT_SINK@")
+
+;; :onclick "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+(defwidget sidestuff []
+  (box :class "sidestuff" :orientation "h" :space-evenly false :halign "end"
+       ;; {captures(volume, "(\\d+)%")[0][1]}
+       (metric :label {ismuted == "Mute: no" ? "🔊" : "X"}
+               :value {captures(volume, "(\\d+)%")[0][1]}
+               :onchange "pactl set-sink-volume @DEFAULT_SINK@ `printf '%.0f' {}`%")
+       (metric :label ""
+               :value {EWW_RAM.used_mem_perc}
+               :onchange "")
+       (metric :label "💾"
+               :value {round((1 - (EWW_DISK["/"].free / EWW_DISK["/"].total)) * 100, 0)}
+               :onchange "")
+       (box :class "battery" :orientation "h"
+            {EWW_BATTERY.BAT1.status == "Charging" ? CHARGING :
+	     EWW_BATTERY.BAT1.capacity > 50        ? HIGH_CHARGE :
+	                                             LOW_CHARGE}
+            {EWW_BATTERY.BAT1.capacity}
+            )
+       ;; TODO: )
+       ;; Optional TODO:
+       ;;   - Garuda maintenance
+       ;;   - Expandable Tray,
+       ;;   - System stats (CPU load, Network Throughput)
+       ))
+
+(defvar LOW_CHARGE "🪫")
+(defvar HIGH_CHARGE "🔋")
+(defvar CHARGING "🔌")
+
+
+
+(deflisten workspacejson
+    :initial {[1]}
+    "ristate -vt | jq --unbuffered -c '.viewstag?.ChimeiInnoluxCorporation? // [] | unique'"
+)
+
+(deflisten focused-window
+    :initial ""
+    "ristate -w | jq --unbuffered -r '.title?'"
+)
+(defwidget wm-info []
+  (box
+    :style "padding: 0;
+            margin: 0;"
+    :orientation "h"
+    :halign "start"
+    :space-evenly false
+    (workspaces)
+    (box
+      :style "font-size: large;
+      	      font-weight: bold;
+	      margin-left: 30px"
+      {focused-window})
+    )
+)
+
+(defwidget workspaces []
+  (box
+    :class "workspaces"
+    :orientation "h"
+    :halign "start"
+    :spacing 5
+    (for entry in workspacejson
+      (button
+	 :style "border-width: 1;
+    	 	 min-width: 20px;
+    		 border-style: solid;
+    		 border-radius: 5;
+    		 background: #4e4e4e;
+    		 border-color: #4e4e4e;
+ 		 "
+         :onclick "riverctl set-focused-tags $((1 << (${entry - 1})))"
+         entry
+         ))))
+
+(defwidget music []
+  (box :class "music"
+       :orientation "h"
+       :space-evenly false
+       :halign "center"
+    {music != "" ? "🎵${music}" : ""}))
+
+
+(defwidget metric [label value onchange]
+  (box :orientation "h"
+       :class "metric"
+       :space-evenly false
+    (button :class "label" label)
+    (scale :min 0
+           :max 101
+           :active {onchange != ""}
+           :value value
+           :onchange onchange)))
+
+
+
+(deflisten music :initial  ""
+  "playerctl --follow metadata --format '{{ artist }} - {{ title }}' || true")
+
+
+(defpoll volume :interval "1s"
+  "pactl get-sink-volume @DEFAULT_SINK@")
+
+
+(defpoll time :interval "10s"
+  "date '+%H:%M %b %d, %Y'")
+
+(defwindow bar
+  :monitor 0
+  :stacking "overlay"
+  :geometry (geometry :x "0%"
+                      :y "0%"
+                      :width "100%"
+                      ;; :height "15"
+                      :anchor "top center")
+  :exclusive true
+  ;; :focusable true
+  (bar-widget))

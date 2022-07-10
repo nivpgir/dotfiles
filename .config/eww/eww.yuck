@@ -1,0 +1,10 @@
+(include "./bar.yuck")
+(include "./test.yuck")
+(include "./image.yuck")
+
+
+(defwidget popup [window]
+  (eventbox
+    :onclick "${EWW_EXECUTABLE} close ${window}"
+    (box
+      (children))))
