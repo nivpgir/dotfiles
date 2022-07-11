@@ -128,6 +128,16 @@ riverctl border-color-unfocused 0x586e75
 # Set keyboard repeat rate
 riverctl set-repeat 50 300
 
+for pad in $(riverctl list-inputs | grep -i touchpad )
+do
+  riverctl input $pad events enabled
+  riverctl input $pad tap enabled
+  riverctl input $pad natural-scroll enabled
+  riverctl input $pad disable-while-typing disabled
+  riverctl input $pad middle-emulation enabled
+done
+
+
 # Make certain views start floating
 riverctl float-filter-add app-id float
 riverctl float-filter-add title "popup title with spaces"
