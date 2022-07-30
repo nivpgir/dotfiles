@@ -7,4 +7,4 @@ export XKB_DEFAULT_OPTIONS=grp:menu_toggle,custom:hyper4,custom:super3
 # grp:win_space_toggle
 export XKB_DEFAULT_RULES=evdev
 
-river >> ~/.logs/river.log
+river >> ~/.logs/river.log  2>&1

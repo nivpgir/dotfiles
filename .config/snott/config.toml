@@ -1,2 +1,4 @@
 sync_dir = "~/Sync/journal"
-timestamp_format = "%Y%m%d%H%M%S"
+timestamp_format = "%Y%m%d%H%M%S%3f"
+body_font_size = 20
+headline_font_size = 40

@@ -1,22 +1,18 @@
 #!/bin/sh
 
-set +x
 systemctl --user set-environment WAYLAND_DISPLAY="$WAYLAND_DISPLAY"
-set -x
 
-kanshi &
-eww daemon
-eww open bar
-
-emacs &
-wezterm &
+(
+    cd $HOME/.config/river
+    ./startup-apps.sh
+)
 
 export FLOATING_TERMINAL="wezterm-gui start --class float"
 riverctl focus-follows-cursor normal
 riverctl float-filter-add title QuickSnoTT
 
 riverctl map normal Super G spawn quick-snote
-riverctl map normal Super R spawn yofi
+riverctl map normal Super R spawn kickoff
 riverctl map normal Super backslash spawn ~/.config/scripts/show-logs
 # Note: the "Super" modifier is also known as Logo, GUI, Windows, Mod4, etc.
 # localectl set-x11-keymap us,il pc105 us custom:hyper4
@@ -24,8 +20,9 @@ riverctl map normal Super backslash spawn ~/.config/scripts/show-logs
 # Super+Shift+Return to start an instance of foot (https://codeberg.org/dnkl/foot)
 riverctl map normal Super Return spawn "$FLOATING_TERMINAL"
 
-# Super+Q to close the focused view
-riverctl map normal Super Q close
+# Super+Shift+Q to close the focused view
+riverctl map normal Super+Shift Q close
+riverctl map normal Super BackSpace close
 
 # Super+Shift+E to exit river
 riverctl map normal Super+Shift E exit
@@ -121,8 +118,9 @@ do
 done
 
 # Set background and border color
+# colors taken from: https://colorcodes.io/purple/light-zerg-purple-color-codes/
 riverctl background-color 0x002b36
-riverctl border-color-focused 0x93a1a1
+riverctl border-color-focused 0xa6517e # Light Zerg Purple
 riverctl border-color-unfocused 0x586e75
 
 # Set keyboard repeat rate
@@ -140,7 +138,9 @@ done
 
 # Make certain views start floating
 riverctl float-filter-add app-id float
+riverctl float-filter-add app-id floating
 riverctl float-filter-add title "popup title with spaces"
+riverctl float-filter-add title "float-snote"
 
 # Set app-ids and titles of views which should use client side decorations
 riverctl csd-filter-add app-id "gedit"
