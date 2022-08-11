@@ -9,7 +9,6 @@ systemctl --user set-environment WAYLAND_DISPLAY="$WAYLAND_DISPLAY"
 
 export FLOATING_TERMINAL="wezterm-gui start --class float"
 riverctl focus-follows-cursor normal
-riverctl float-filter-add title QuickSnoTT
 
 riverctl map normal Super G spawn quick-snote
 riverctl map normal Super R spawn kickoff
@@ -139,8 +138,10 @@ done
 # Make certain views start floating
 riverctl float-filter-add app-id float
 riverctl float-filter-add app-id floating
+riverctl float-filter-add app-id org.keepassxc.KeePassXC
 riverctl float-filter-add title "popup title with spaces"
 riverctl float-filter-add title "float-snote"
+riverctl float-filter-add title QuickSnoTT
 
 # Set app-ids and titles of views which should use client side decorations
 riverctl csd-filter-add app-id "gedit"
