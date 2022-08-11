@@ -1,8 +1,8 @@
 
-(require 'org-ql)
-(require 'org-ql-view)
-(require 'org-ql-search)
-(require 'ts)
+;; (require 'org-ql)
+;; (require 'org-ql-view)
+;; (require 'org-ql-search)
+;; (require 'ts)
 
 (defun niv/compose (f g)
   `(lambda (x) (,f (,g x))))
@@ -68,6 +68,8 @@ current window."
          ;; `other-buffer' honors `buffer-predicate' so no need to filter
          (other-buffer current-buffer t)))))
 
+
+;;;###autoload
 (defun niv/new-empty-buffer ()
   "Create a new empty buffer.
 New buffer will be named “untitled” or “untitled<2>”, “untitled<3>”, etc.
@@ -118,19 +120,19 @@ Version 2017-11-01"
     (with-current-buffer standard-output ;; temp buffer
       (setq help-xref-stack-item (list 'niv/describe-all-keymaps)))))
 
-(defun get-last-friday (&optional from-time)
-  (let* ((from-time (or from-time (ts-adjust (ts-now))))
-         (adjust-prev-friday (- (mod (- (ts-dow from-time) 5) 7))))
-    (ts-adjust 'day adjust-prev-friday from-time)))
+;; (defun get-last-friday (&optional from-time)
+;;   (let* ((from-time (or from-time (ts-adjust (ts-now))))
+;;          (adjust-prev-friday (- (mod (- (ts-dow from-time) 5) 7))))
+;;     (ts-adjust 'day adjust-prev-friday from-time)))
 
 
-(defun report-last-week-tasks ()
-  (interactive)
-  (let ((query
-         `(and
-             (planning :from ,(ts-adjust 'day -7 (get-last-friday)))
-             (planning :to ,(ts-adjust 'day -1 (get-last-friday))))))
-    (org-ql-search org-agenda-files query)))
+;; (defun report-last-week-tasks ()
+;;   (interactive)
+;;   (let ((query
+;;          `(and
+;;              (planning :from ,(ts-adjust 'day -7 (get-last-friday)))
+;;              (planning :to ,(ts-adjust 'day -1 (get-last-friday))))))
+;;     (org-ql-search org-agenda-files query)))
 
 
 (defun joinpaths (root &rest dirs)
@@ -142,4 +144,5 @@ Version 2017-11-01"
     (apply 'joindirs
            (expand-file-name (car dirs) root)
            (cdr dirs))))
+
 (provide 'niv-utils)

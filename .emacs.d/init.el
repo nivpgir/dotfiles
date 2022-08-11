@@ -55,22 +55,36 @@
 
 
 (use-package niv-mode
-  :after org-ql
   :straight '(niv-mode :local-repo "niv-mode")
-  :config
-  (require 'niv-utils)
   )
 
 
+
 (use-package emacs
+  :config
+  (tool-bar-mode -1)
   :hook
   (prog-mode . electric-pair-local-mode)
   :custom
   auto-mode-alist (delete '("\\.oak\\'" . scheme-mode) auto-mode-alist))
 
+
+
+;; not working/slow
+;; (use-package sublimity
+;;   :straight t
+;;   :config
+;;   (require 'sublimity)
+;;   (require 'sublimity-scroll)
+;;   (require 'sublimity-map)
+;;   (sublimity-mode 0)
+;;   )
+
 (use-package general
   :straight t
   :config
+  (general-def "C-z" nil)
+
   (general-create-definer my-def :keymaps 'niv-mode-map)
   (general-create-definer my-leader-def :prefix "C-c" :wrapping my-def)
 
@@ -78,12 +92,9 @@
     "b" (general-key-dispatch (lambda () (interactive) (switch-to-buffer "*scratch*"))
 	  :timeout 0.25
 	  "b" 'niv/new-empty-buffer)
-    "d" 'niv/duplicate-current-line-or-region
     "-" 'split-window-below
     "/" 'split-window-right
     "<backspace>" 'delete-window
-    "r" 'niv/rename-file-and-buffer
-    "I" 'niv/find-user-init-file
     "<tab>" 'niv/alternate-buffer
     "RET" 'newline-and-indent
     "k w" 'delete-window
@@ -98,6 +109,75 @@
   (general-def "M-p" (lambda () (interactive) (scroll-down 1)))
   )
 
+
+
+(use-package crux
+  :straight t
+  :general
+  (my-leader-def
+    "n" 'crux-cleanup-buffer-or-region
+    "f" 'crux-recentf-find-file
+    "e" 'crux-eval-and-replace
+    "d" 'crux-duplicate-current-line-or-region
+    "M-d" 'crux-duplicate-and-comment-current-line-or-region
+    "R" 'crux-rename-file-and-buffer
+    "I" 'crux-find-user-init-file
+    "," 'crux-find-user-custom-file
+    "C-u" 'crux-upcase-region
+    "C-l" 'crux-downcase-region
+    "M-c" 'crux-capitalize-region
+    )
+  ("S-RET" 'crux-smart-open-line)
+  ("M-o" 'crux-other-window-or-switch-buffer)
+  ("C-k" 'crux-kill-and-join-forward)
+  )
+
+(use-package eros
+  :straight t
+  :config
+  (eros-mode 1)
+  :general
+  ("C-c C-e" 'eros-eval-last-sexp))
+
+(use-package elisp-mode
+  :straight emacs
+  :general
+  (:keymaps '(emacs-lisp-mode-map lisp-interaction-mode-map)
+	    "C-M-i" nil))
+
+(use-package helpful
+  :straight t
+  :general
+  ("C-h f" 'helpful-callable)
+  ("C-h v" 'helpful-variable)
+  ("C-h k" 'helpful-key)
+  ("C-h F" 'helpful-function)
+  (my-leader-def
+    "C-d" 'helpful-at-point)
+  )
+
+
+(use-package volatile-highlights
+  :straight t
+  :config
+  (volatile-highlights-mode t)
+  (when (featurep 'undo-tree)
+    (vhl/define-extension 'undo-tree 'undo-tree-yank 'undo-tree-move)
+    (vhl/install-extension 'undo-tree))
+  )
+
+(use-package visual-regexp
+  :straight t
+  )
+
+(use-package visual-regexp-steroids
+  :straight t
+  :requires visual-regexp
+  :config
+  (my-leader-def
+    "r" 'vr/replace
+    "q" 'vr/query-replace)
+  )
 (column-number-mode)
 (setq-default show-trailing-whitespace t)
 (require 'tramp)
@@ -111,9 +191,9 @@
   (ediff-split-window-function 'split-window-horizontally)
   :general
   (my-leader-def
-    "e f" 'ediff-files
-    "e b" 'ediff-buffers
-    "e c" 'ediff-current-file)
+    "D f" 'ediff-files
+    "D b" 'ediff-buffers
+    "D c" 'ediff-current-file)
   )
 
 ;; (use-package hydra
@@ -176,29 +256,6 @@
 (use-package doct
   :straight t
   :commands (doct))
-
-
-;; (defconst org-plus-contrib-fixed-recipe
-;;   `(org-plus-contrib
-;;     :type git
-;;     :repo "https://code.orgmode.org/bzg/org-mode.git"
-;;     :local-repo "org"
-;;     :depth full
-;;     :pre-build ,(list
-;; 		 (concat
-;; 		  (when (eq system-type 'berkeley-unix) "g")
-;; 		  "make")
-;; 		 "autoloads"
-;; 		 (concat "EMACS=" "'" invocation-directory invocation-name "'"))
-;;     :build
-;;     (:not autoloads)
-;;     :files
-;;     (:defaults "lisp/*.el"
-;; 	       ("etc/styles/" "etc/styles/*")
-;; 	       "contrib/lisp/*.el")
-;;     :includes org))
-
-;; (straight-override-recipe org-plus-contrib-fixed-recipe)
 
 
 (use-package org
@@ -330,9 +387,6 @@
   ("C-M-S-<return>" 'org-insert-todo-subheading)
   )
 
-(use-package org-ql
-  :straight t)
-
 (use-package org-agenda
   :straight org
   :after org
@@ -418,8 +472,8 @@
 
 (setq visible-bell t)
 
-;;use ibuffer instead of list-buffers
-(global-set-key (kbd "C-x C-b") 'ibuffer)
+;; ;;use ibuffer instead of list-buffers
+;; (global-set-key (kbd "C-x C-b") 'ibuffer)
 ;;enable line numbers always
 (global-linum-mode t)
 ;;activate volatile highlights
@@ -460,7 +514,7 @@
   )
 
 
-;; expand region with C-:
+;; expand region with M-h
 (use-package expand-region
   :straight t
   :general
@@ -473,21 +527,38 @@
   (global-undo-tree-mode)
   :custom
   (undo-tree-visualizer-diff t)
-  (undo-tree-history-directory-alist (list (".*" . (expand-file-name "auto-save/undo-tree-history" user-emacs-directory))))
+  (undo-tree-history-directory-alist `((".*" . ,(expand-file-name "auto-save/undo-tree-history" user-emacs-directory))))
   :general
   (:keymaps 'undo-tree-map
 	    "C-/" nil
 	    "C-?" nil
 	    )
+
   (my-def
     "<undo>" 'undo-tree-undo
     "<redo>" 'undo-tree-redo
     "C-z" "<undo>"
-    "C-S-z" "<redo>"
-    )
+    "C-S-z" "<redo>")
+
   ;;this has to stay in the global map otherwise undo-tree thinks it
   ;;shouldn't be activated, see undo tree documentation for more info
   ("C-/" 'comment-line)
+  )
+
+(use-package move-text
+  :straight t
+  :general
+  ("C-M-i" 'move-text-up)
+  ("C-M-k" 'move-text-down)
+  )
+
+(use-package windmove
+  :straight t
+  :general
+  ("C-S-j" 'windmove-left)
+  ("C-S-l" 'windmove-right)
+  ("C-S-i" 'windmove-up)
+  ("C-S-k" 'windmove-down)
   )
 
 (use-package winum
@@ -551,7 +622,12 @@
     ("C-x C-f" 'counsel-find-file)
     ("C-c j" 'counsel-git-grep)
     :config
-    (counsel-mode 1))
+    (counsel-mode 1)
+    :if (featurep 'helpful)
+    :custom
+    (counsel-describe-function-function 'helpful-callable)
+    (counsel-describe-variable-function 'helpful-variable)
+    )
   (use-package swiper
     :general
     ("C-s" 'swiper-isearch)
@@ -642,7 +718,7 @@
   :straight t
   :general
   (my-leader-def
-    "f" 'deadgrep))
+    "s" 'deadgrep))
 
 ;; YAML
 (use-package yaml-mode
@@ -706,8 +782,12 @@
 
 (use-package tree-sitter-langs
   :straight t
-  :after tree-sitter
-  )
+  :after tree-sitter)
+
+(use-package alert
+  :straight t
+  :custom
+  (alert-default-style 'libnotify))
 
 
 ;; (straight-use-package
@@ -727,21 +807,18 @@
   (lsp-ui-doc-position 'bottom)
   (lsp-ui-doc-delay 1)
   :hook
-  (lsp-mode . lsp-ui-mode)
-  )
+  (lsp-mode . lsp-ui-mode))
 
+
+;; lua
+(use-package lua-mode
+  :straight t
+  :custom
+  (lua-indent-level 2))
 
 ;; haskell
 (use-package haskell-mode
   :straight t)
-
-;; (use-package company-ghc
-;;   :straight t
-;;   :config
-;;   (if (bound-and-true-p company-candidates)
-;;       (add-to-list 'company-backends 'company-ghc))
-;;   )
-
 
 ;; ruby
 (use-package enh-ruby-mode
@@ -908,6 +985,7 @@
 (when (executable-find "ipython")
   (setq python-shell-interpreter "ipython"
 	python-shell-interpreter-args "-i --simple-prompt --InteractiveShell.display_page=True"))
+
 (use-package auto-virtualenv
   :straight t
   :config
@@ -931,7 +1009,9 @@
 
 ;; TODO:
 ;; Consider Using:
-;; - crux: https://github.com/bbatsov/crux
+;; - god mode: https://github.com/emacsorphanage/god-mode
+;; - f.el: https://github.com/rejeep/f.el
+;; - s.el: https://github.com/magnars/s.el
 ;; - emacs disk usage: https://gitlab.com/ambrevar/emacs-disk-usage
 ;; - treemacs: https://github.com/Alexander-Miller/treemacs
 ;; - look for useful stuff in: https://github.com/MatthewZMD/.emacs.d#orgd39ff00
@@ -939,7 +1019,7 @@
 
 ;; fix RET in terminal
 
-(tool-bar-mode -1)
+
 
 
 ;;; reminders on how to use fonts:
