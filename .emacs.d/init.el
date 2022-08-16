@@ -712,6 +712,9 @@
     :mode 'oak-mode)
 
   (add-to-list 'quickrun-file-alist '("\\.oak$" . "oak"))
+  :general
+  (my-leader-def
+    "M-c" 'quickrun)
   )
 
 (use-package deadgrep
