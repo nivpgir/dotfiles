@@ -7,6 +7,7 @@
 (defun niv/compose (f g)
   `(lambda (x) (,f (,g x))))
 
+;;;###autoload
 (defun niv/prelude-move-beginning-of-line (arg)
   "Move point back to indentation of beginning of line.
 
@@ -50,6 +51,7 @@ there's a region, all lines that region covers will be duplicated."
         (setq end (point)))
       (goto-char (+ origin (* (length region) arg) arg)))))
 
+;;;###autoload
 (defun niv/alternate-buffer (&optional window)
   "Switch back and forth between current and last buffer in the
 current window."
