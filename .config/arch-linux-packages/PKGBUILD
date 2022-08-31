@@ -1,0 +1,69 @@
+# Maintainer: Niv Pagir
+
+pkgname=base
+pkgver=1
+pkgrel=1
+pkgdesc='Piamhs basic programs when installing arch linux'
+url='https://www.example.org'
+arch=('any')
+license=('MIT')
+depends=(
+    'base'
+
+    'base-devel'
+    'bash-completion'
+
+    # drivers
+    'xf86-video-amdgpu'
+
+    # desktop environment
+    'greetd-tuigreet-bin'
+    'greetd'
+    'polkit'
+    'river'
+    'kickoff'
+    'kmonad-bin'
+    'wezterm'
+    'gtk-layer-shell'
+
+    # commonly used programs
+    'emacs-nativecomp'
+    'firefox'
+    'syncthing'
+    'keepass-xc'
+    'zoom'
+    'discord'
+
+    # system info
+    'htop'
+
+    # cli utils
+    'ripgrep'
+    'fd'
+    'direnv'
+    'starship'
+    'unzip'
+
+    # package management helpers
+    'paru'
+    'python-pipx'
+
+    # audio
+    'alsa-utils'
+    'pipewire'
+    'pipewire-alsa'
+    'pipewire-pulse'
+    'wireplumber'
+    'helvum'
+
+    # bluetooth
+    'bluez-utils'
+    'blueman'
+
+    # tuxedo drivers
+    'tuxedo-backlight-control-git'
+    'tuxedo-control-center-bin'
+    'tuxedo-keyboard-tools'
+    'tuxedo-touchpad-switch'
+)
+optdepends=('linux: bare metal support')
