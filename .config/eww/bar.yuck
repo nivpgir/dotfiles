@@ -13,15 +13,15 @@
         (sidestuff)))
 
 (defpoll ismuted :interval "1s"
-	 "pactl get-sink-mute @DEFAULT_SINK@")
+	 "wpctl get-volume @DEFAULT_SINK@ | rg -i 'MUTED'")
 
 ;; :onclick "pactl set-sink-mute @DEFAULT_SINK@ toggle"
 (defwidget sidestuff []
   (box :class "sidestuff" :orientation "h" :space-evenly false :halign "end"
        ;; {captures(volume, "(\\d+)%")[0][1]}
-       (metric :label {ismuted == "Mute: no" ? "🔊" : "X"}
+       (metric :label {ismuted == "MUTED" ? "X" : "🔊" }
                :value {captures(volume, "(\\d+)%")[0][1]}
-               :onchange "pactl set-sink-volume @DEFAULT_SINK@ `printf '%.0f' {}`%")
+               :onchange "wpctl set-volume @DEFAULT_SINK@ `printf '%.0f' {}`%")
        (metric :label ""
                :value {EWW_RAM.used_mem_perc}
                :onchange "")
@@ -29,10 +29,10 @@
                :value {round((1 - (EWW_DISK["/"].free / EWW_DISK["/"].total)) * 100, 0)}
                :onchange "")
        (box :class "battery" :orientation "h"
-            {EWW_BATTERY.BAT1.status == "Charging" ? CHARGING :
-	     EWW_BATTERY.BAT1.capacity > 50        ? HIGH_CHARGE :
+            {EWW_BATTERY.BAT0.status == "Charging" ? CHARGING :
+	     EWW_BATTERY.BAT0.capacity > 50        ? HIGH_CHARGE :
 	                                             LOW_CHARGE}
-            {EWW_BATTERY.BAT1.capacity}
+            {EWW_BATTERY.BAT0.capacity}
             )
        ;; TODO: )
        ;; Optional TODO:
@@ -40,6 +40,7 @@
        ;;   - Expandable Tray,
        ;;   - System stats (CPU load, Network Throughput)
        ))
+
 
 (defvar LOW_CHARGE "🪫")
 (defvar HIGH_CHARGE "🔋")
@@ -117,7 +118,7 @@
 
 
 (defpoll volume :interval "1s"
-  "pactl get-sink-volume @DEFAULT_SINK@")
+  "wpctl get-volume @DEFAULT_SINK@")
 
 
 (defpoll time :interval "10s"

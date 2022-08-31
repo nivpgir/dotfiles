@@ -4,7 +4,8 @@ Description=kmonad keyboard config
 [Service]
 Restart=always
 RestartSec=3
-ExecStart=%h/.local/bin/kmonad %E/kmonad/config-linux.kbd -l info
+# ExecStart=%h/.local/bin/kmonad %E/kmonad/config-linux.kbd -l info
+ExecStart=kmonad %E/kmonad/config-linux.kbd -l info
 Nice=-20
 
 [Install]
