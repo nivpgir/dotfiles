@@ -21,6 +21,7 @@ depends=(
     'greetd'
     'polkit'
     'river'
+    'ristate'
     'kickoff'
     'kmonad-bin'
     'wezterm'

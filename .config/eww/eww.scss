@@ -1,1 +1,24 @@
+* {
+  all: unset;
+  font-family: "Noto Sans Mono";
+}
+
+
 @import "./bar.scss";
+
+.bg {
+  background-color: #1E222A;
+  border: 2px solid #80A0C0;
+}
+
+window {
+  background: #2e3440;
+  color: #ebcb8b;
+  //border-radius: 2rem;
+  // border: 3px solid #80A0C0;
+}
+
+@import "./power-menu.scss";
+@import "./quick-settings.scss";
+@import "./system-info.scss";
+

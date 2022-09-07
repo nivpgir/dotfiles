@@ -13,15 +13,15 @@
         (sidestuff)))
 
 (defpoll ismuted :interval "1s"
-	 "wpctl get-volume @DEFAULT_SINK@ | rg -i 'MUTED'")
+	 "wpctl get-volume @DEFAULT_SINK@ | rg -i 'MUTED' || true")
 
 ;; :onclick "pactl set-sink-mute @DEFAULT_SINK@ toggle"
 (defwidget sidestuff []
   (box :class "sidestuff" :orientation "h" :space-evenly false :halign "end"
-       ;; {captures(volume, "(\\d+)%")[0][1]}
        (metric :label {ismuted == "MUTED" ? "X" : "🔊" }
-               :value {captures(volume, "(\\d+)%")[0][1]}
-               :onchange "wpctl set-volume @DEFAULT_SINK@ `printf '%.0f' {}`%")
+               :value {captures((volume ?: "0.00%"), "\\b([0-9.]+)\\b")[0][1] ?: 0}
+               :onchange "wpctl set-volume @DEFAULT_SINK@ `printf '%f' {}`% | tee ~/.logs/eww.test.tmp")
+               ;; :onchange "printf '%s\\n' {}% | tee -a ~/.logs/eww.test.tmp")
        (metric :label ""
                :value {EWW_RAM.used_mem_perc}
                :onchange "")

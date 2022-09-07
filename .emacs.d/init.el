@@ -813,6 +813,17 @@
   (lsp-mode . lsp-ui-mode))
 
 
+;; dot (graphviz)
+(use-package graphviz-dot-mode
+  :straight t
+  :ensure t
+  :config
+  (setq graphviz-dot-indent-width 4))
+
+;; (use-package company-graphviz-dot
+;;   :straight t)
+
+
 ;; lua
 (use-package lua-mode
   :straight t
@@ -1042,7 +1053,7 @@
 ;;;actual font settings
 (setq my-prefered-font
       (cond ((eq system-type 'windows-nt) "hack")
-            ((eq system-type 'gnu/linux) "mono")
+            ((eq system-type 'gnu/linux) "Noto Sans Mono")
             (t nil)))
 
 (when my-prefered-font

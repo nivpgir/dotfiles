@@ -1,11 +1,13 @@
 #!/bin/sh
-
 systemctl --user set-environment WAYLAND_DISPLAY="$WAYLAND_DISPLAY"
+
+wlr-randr --output eDP-1 --scale 1.5
 
 (
     cd $HOME/.config/river
     ./startup-apps.sh
 )
+
 
 export FLOATING_TERMINAL="wezterm-gui start --class float"
 riverctl focus-follows-cursor normal
@@ -139,7 +141,7 @@ done
 riverctl float-filter-add app-id float
 riverctl float-filter-add app-id floating
 riverctl float-filter-add app-id org.keepassxc.KeePassXC
-riverctl float-filter-add title "popup title with spaces"
+riverctl float-filter-add app-id KeePassXC
 riverctl float-filter-add title "float-snote"
 riverctl float-filter-add title QuickSnoTT
 
