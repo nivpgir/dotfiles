@@ -9,7 +9,7 @@ wlr-randr --output eDP-1 --scale 1.5
 )
 
 
-export FLOATING_TERMINAL="wezterm-gui start --class float"
+export FLOATING_TERMINAL="wezterm-gui start --class float --always-new-process"
 riverctl focus-follows-cursor normal
 
 riverctl map normal Super G spawn quick-snote

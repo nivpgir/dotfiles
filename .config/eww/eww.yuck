@@ -1,10 +1,6 @@
 (include "./bar.yuck")
 (include "./test.yuck")
 (include "./image.yuck")
-(include "./system-info.yuck")
-(include "./quick-settings.yuck")
-(include "./power-menu.yuck")
-
 
 (defwidget popup [window]
   (eventbox
