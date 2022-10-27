@@ -10,6 +10,8 @@ done
 
 export PIAMH_CONF_DIR=$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )
 
+
+
 source $PIAMH_CONF_DIR/piamh-lib.sh
 for confile in $PIAMH_CONF_DIR/session-env.conf.d/* ; do
     case $confile in
