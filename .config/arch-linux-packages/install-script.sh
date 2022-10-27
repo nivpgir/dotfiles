@@ -32,6 +32,10 @@ mkdir -p ~/.local/bin/
     cd build-zone
     # AUR helper
     curl --proto '=https' --tlsv1.2 -sS https://sh.rustup.rs | sh
+    mkdir -p ~/.local/share/bash-completion/completions/
+    rustup completions bash rustup  >> ~/.local/share/bash-completion/completions/rustup
+    rustup completions bash cargo  >> ~/.local/share/bash-completion/completions/cargo
+    rustup component add rust-src
     (
 	git clone https://aur.archlinux.org/paru
 	cd paru/
@@ -53,7 +57,7 @@ sudo cp /usr/share/wayland-sessions/river.desktop /usr/share/wayland-sessions/gr
 sudo sed -ie 's/Exec=.*/Exec=/home/piamh/.greetd-session' /usr/share/wayland-sessions/greetd-user-session.desktop
 
 # commonly used programs
-paru -S openssh emacs-nativecomp wezterm firefox syncthing keepass-xc zoom discordsystemctl --enable --now syncthing
+paru -S openssh emacs-nativecomp wezterm firefox syncthing keepass-xc zoom discordsystemctl --enable --now syncthing jq
 
 # system info
 paru -S htop
@@ -66,6 +70,7 @@ paru -S paru python-pipx
 
 # audio
 paru -S alsa-utils pipewire pipewire-alsa pipewire-pulse wireplumber helvum
+systemctl --user enable --now wireplumber@piamh
 
 # bluetooth
 paru -S bluez-utils blueman
