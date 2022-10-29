@@ -109,9 +109,7 @@ if command -v pueue >/dev/null 2>&1 ; then
     # pueued --daemonize
 fi
 
-function timestamp {
-    date '+%Y-%m-%d %H:%M:%S'
-}
+
 
 function parse_git_branch {
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
