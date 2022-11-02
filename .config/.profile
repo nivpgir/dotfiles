@@ -14,4 +14,4 @@
 # export XKB_DEFAULT_OPTIONS=custom:hyper4
 # export XKB_DEFAULT_RULES=
 
-source $PIAMH_CONF_DIR/session-env.sh
+source $HOME/.config/session-env.sh

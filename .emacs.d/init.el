@@ -758,13 +758,42 @@
   )
 
 
+(use-package with-venv
+  :straight t)
+
 (use-package dap-mode
   :straight t
-  :init
+  :after lsp-mode
+  :commands dap-debug
+  :hook ((python-mode . dap-ui-mode) (python-mode . dap-mode))
+  :general
+  (:keymaps 'lsp-command-map
+	    "d" 'dap-hydra)
+  :config
   ;; Enabling only some features
+  (dap-ui-mode)
+  (dap-ui-controls-mode 1)
   (setq dap-auto-configure-features '(sessions locals controls tooltip))
   (require 'dap-python)
-  (require 'dap-cpptools))
+  (require 'dap-cpptools)
+  :custom
+  (dap-python-debugger 'debugpy)
+  (defun dap-python--pyenv-executable-find (command)
+    (with-venv (executable-find command)))
+
+  (add-hook 'dap-stopped-hook
+            (lambda (arg) (call-interactively #'dap-hydra)))
+  ;; (dap-gdb-lldb-setup)
+  ;; (require 'dap-lldb)
+  ;; (require 'dap-gdb-lldb)
+  ;; (dap-register-debug-template "Rust::GDB Run Configuration"
+  ;;                              (list :type "lldb"
+  ;;                                    :request "launch"
+  ;;                                    :name "GDB::Run"
+  ;; 				     :gdbpath "rust-lldb"
+  ;; 				     :target nil
+  ;; 				     :cwd nil))
+  )
 
 (use-package tree-sitter
   :straight t

@@ -36,7 +36,7 @@ function strip() {
     fi
 }
 
-function until-fail() {
+function until_fail() {
     local cmd=$@
     echo executing: $cmd
     local i=0
@@ -46,7 +46,7 @@ function until-fail() {
     echo failed on iteration: $i
 }
 
-function mount-tar(){
+function mount_tar(){
     which archivemount 2>&1 > /dev/null ||
 	( echo "archivemount not found, returning..." && return )
     test ! -z $1 ||
@@ -58,7 +58,7 @@ function mount-tar(){
     archivemount ${ARCHIVE} ${MOUNT}
 }
 
-current-file(){
+function current_file(){
     local SOURCE=${BASH_SOURCE[0]}
     local DIR=""
     while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
