@@ -1,4 +1,4 @@
-;;; init.el --- Initialization file for Emacs
+;; init.el --- Initialization file for Emacs
 ;;; init.el --- -*- lexical-binding: t -*-
 ;;; Commentary: Emacs Startup File --- initialization for Emacs
 
@@ -778,8 +778,11 @@
   (require 'dap-cpptools)
   :custom
   (dap-python-debugger 'debugpy)
-  (defun dap-python--pyenv-executable-find (command)
-    (with-venv (executable-find command)))
+  (defun executable-find-with-venv (pyenv-executable-find command)
+    (when-let ((command-in-venv (with-venv (executable-find command))))
+      (pyenv-executable-find command)))
+  (advice-add 'venv-executable-find :around dap-python--pyenv-executable-find)
+
 
   (add-hook 'dap-stopped-hook
             (lambda (arg) (call-interactively #'dap-hydra)))
