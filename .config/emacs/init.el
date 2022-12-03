@@ -184,6 +184,10 @@
 (global-unset-key (kbd "M-m"))
 (global-auto-revert-mode t)
 
+;; (use-package ranger
+;;   :straight t
+;;   )
+
 (use-package ediff
   :straight t
   :custom
@@ -668,18 +672,18 @@
 (epa-file-enable)
 
 
-(use-package parinfer
-  :straight t
-  :init
-  (add-hook 'emacs-lisp-mode-hook 'parinfer-mode)
-  (add-hook 'scheme-mode-hook 'parinfer-mode)
-  (add-hook 'lisp-mode-hook 'parinfer-mode)
-  :general
-  (:keymaps 'parinfer-mode-map
-	    "C-," 'parinfer-toggle-mode)
-  :custom
-  (parinfer-extensions '(defaults pretty-parens smart-yank))
-  )
+;; (use-package parinfer
+;;   :straight t
+;;   :init
+;;   (add-hook 'emacs-lisp-mode-hook 'parinfer-mode)
+;;   (add-hook 'scheme-mode-hook 'parinfer-mode)
+;;   (add-hook 'lisp-mode-hook 'parinfer-mode)
+;;   :general
+;;   (:keymaps 'parinfer-mode-map
+;; 	    "C-," 'parinfer-toggle-mode)
+;;   :custom
+;;   (parinfer-extensions '(defaults pretty-parens smart-yank))
+;;   )
 ;; (use-package parinfer-rust-mode
 ;;   :straight t
 ;;   :init
@@ -699,19 +703,13 @@
   (my-leader-def
     "x" 'quickrun)
   :config
-  (quickrun-add-command "arturo"
-    '((:command . "c:/Users/Niv/Sync/utility-software/arturo-0.9.78-Windows-full/arturo.exe")
+  (quickrun-add-command "potion"
+    `((:command . ,(executable-find "potion"))
       (:exec    . "%c %s"))
-    :mode 'art-mode)
+    :mode 'potion-mode)
 
   ;; When file suffix is '.art', then `quickrun' uses "arturo" command-key.
-  (add-to-list 'quickrun-file-alist '("\\.art$" . "arturo"))
-  (quickrun-add-command "oak"
-    '((:command . "c:/Users/Niv/.local/bin/oak")
-      (:exec    . "%c %s"))
-    :mode 'oak-mode)
-
-  (add-to-list 'quickrun-file-alist '("\\.oak$" . "oak"))
+  (add-to-list 'quickrun-file-alist '("\\.pn$" . "potion"))
   :general
   (my-leader-def
     "M-c" 'quickrun)
@@ -729,6 +727,9 @@
   :init
   (add-to-list 'auto-mode-alist '("//.yml//'" . yaml-mode))
   (add-to-list 'auto-mode-alist '("//.yaml//'" . yaml-mode)))
+
+(use-package lispy
+  :straight t)
 
 ;;; Languages:
 (use-package lsp-mode
@@ -1114,3 +1115,4 @@
 	     :host github
 	     :repo "kmonad/kbd-mode")
   )
+(require 'sclang)
