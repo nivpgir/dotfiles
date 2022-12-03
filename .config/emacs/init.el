@@ -1,7 +1,6 @@
 ;; init.el --- Initialization file for Emacs
 ;;; init.el --- -*- lexical-binding: t -*-
 ;;; Commentary: Emacs Startup File --- initialization for Emacs
-
 (let ((bootstrap-file (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory)))
   (when (file-exists-p bootstrap-file)
     (setq package-enable-at-startup nil)
@@ -483,6 +482,7 @@
 ;;activate volatile highlights
 ;; (volatile-highlights-mode t)
 ;;make backup files only in "~/.saves":
+(setq auto-save-list-file-prefix (expand-file-name "auto-save-list" user-emacs-directory))
 (setq backup-directory-alist `(("." . "~/.saves")))
 ;;settings for gdb:
 ;; use gdb-many-windows by default
@@ -1094,7 +1094,8 @@
 
 (set-face-attribute 'default nil :height 110)
 
-(setq custom-file "~/.emacs.d/custom.el")
+
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file)
 
 (use-package just-mode
