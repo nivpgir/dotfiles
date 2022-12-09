@@ -131,6 +131,8 @@
   ("C-k" 'crux-kill-and-join-forward)
   )
 
+(load-file "./misc.el")
+
 (use-package eros
   :straight t
   :config
@@ -1116,4 +1118,8 @@
 	     :host github
 	     :repo "kmonad/kbd-mode")
   )
-(require 'sclang)
+
+;; potion
+(use-package potion-mode
+  :straight '(potion-mode :local-repo "potion-mode")
+  )
