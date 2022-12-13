@@ -17,6 +17,7 @@
 
 (use-package paredit
   :straight t
+  :diminish
   :hook
   (emacs-lisp-mode . paredit-mode)
   :general (:keymaps 'paredit-mode-map
@@ -28,3 +29,6 @@
 		     "M-C d" 'paredit-forward-up)
   )
 
+(use-package eldoc
+  :straight nil
+  :diminish)

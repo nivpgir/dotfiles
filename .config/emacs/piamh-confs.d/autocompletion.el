@@ -1,4 +1,5 @@
 (use-package company
+  :diminish
   :straight t
   :custom
   (company-dabbrev-downcase nil)
@@ -10,6 +11,7 @@
   (add-hook 'after-init-hook 'global-company-mode))
 
 (use-package ivy
+  :diminish
   :straight t
   :init
   (use-package amx

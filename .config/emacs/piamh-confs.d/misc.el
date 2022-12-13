@@ -58,6 +58,7 @@
   )
 
 (use-package niv-mode
+  :diminish
   :straight '(niv-mode :local-repo "niv-mode")
   :general
   (my-leader-def

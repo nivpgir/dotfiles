@@ -1,5 +1,6 @@
 ;;; editing
 (use-package volatile-highlights
+  :diminish
   :straight t
   :config
   (volatile-highlights-mode t)
@@ -64,6 +65,7 @@
   ("M-h" 'er/expand-region))
 
 (use-package undo-tree
+  :diminish
   :straight t
   :config
   (global-undo-tree-mode)
@@ -98,4 +100,5 @@
   :straight t)
 
 (use-package yasnippet
+  :diminish yas-minor-mode
   :straight t)
