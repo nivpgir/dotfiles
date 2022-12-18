@@ -123,3 +123,7 @@ function venv_name {
 	echo "($venvname)"
     fi
 }
+
+if command -v tydra >/dev/null 2>&1 ; then
+    alias menu="tydra $PIAMH_CONF_DIR/tydra/tydra.yaml"
+fi

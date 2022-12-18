@@ -1,0 +1,46 @@
+pages:
+  root:
+    title: Home
+    settings:
+      layout: columns
+      shortcut_color: green
+    groups:
+      - title: Categories
+        entries:
+          - shortcut: s
+            title: System
+            return: system
+          - shortcut: d
+            title: dotfiles
+            return: dotfiles
+  dotfiles:
+    title: dotfiles
+    settings:
+      layout: columns
+      shortcut_color: green
+    groups:
+      - title: dotfiles
+        entries:
+          - shortcut: s
+            title: status
+            command: git --git-dir=.dotfiles.git --work-tree=$HOME status
+          - shortcut: d
+            title: diff
+            command: git --git-dir=.dotfiles.git --work-tree=$HOME diff
+  system:
+    title: System
+    settings:
+      layout: columns
+      shortcut_color: green
+    groups:
+      - title: Packages
+        entries:
+          - shortcut: p
+            title: update packages with pacman
+            command: sudo pacman -Syyu
+            mode: wait
+          - shortcut: P
+            title: Update packages with paru
+            command: paru -Syyu
+            shortcut_color: red
+            mode: wait
