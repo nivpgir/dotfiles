@@ -37,7 +37,11 @@ pages:
             command: git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME push
           - shortcut: c
             title: commit
-            command: git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME commit
+            command: |
+              bash -c '
+              git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME status
+              git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME commit -m "$(read -p commit\ message:\  LINE && echo $LINE)"
+              '
   system:
     title: System
     settings:
