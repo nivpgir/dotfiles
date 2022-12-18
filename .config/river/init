@@ -9,7 +9,7 @@ wlr-randr --output eDP-1 --scale 1.5
 )
 
 
-export FLOATING_TERMINAL="wezterm-gui start --class float --always-new-process"
+export FLOATING_TERMINAL="alacritty --class float"
 riverctl focus-follows-cursor normal
 
 riverctl map normal Super G spawn quick-snote
@@ -29,8 +29,8 @@ riverctl map normal Super BackSpace close
 riverctl map normal Super+Shift E exit
 
 # Super+S and Super+W to focus the next/previous view in the layout stack
-riverctl map normal Super Tab focus-view next
-riverctl map normal Super+Shift Tab focus-view previous
+riverctl map normal Super Space focus-view next
+riverctl map normal Super+Shift Space focus-view previous
 
 # Super+Shift+S and Super+Shift+W to swap the focused view with the next/previous
 # view in the layout stack
@@ -82,7 +82,7 @@ riverctl map normal Super 0 set-focused-tags $all_tags
 riverctl map normal Super+Shift 0 set-view-tags $all_tags
 
 # Super+Space to toggle float
-riverctl map normal Super+Shift Space toggle-float
+riverctl map normal Super+Shift Slash toggle-float
 
 # Super+F to toggle fullscreen
 riverctl map normal Super F toggle-fullscreen
@@ -122,7 +122,8 @@ done
 
 # Set background and border color
 # colors taken from: https://colorcodes.io/purple/light-zerg-purple-color-codes/
-riverctl background-color 0x002b36
+# riverctl background-color 0x002b36
+riverctl background-color 0x000000
 riverctl border-color-focused 0xa6517e # Light Zerg Purple
 riverctl border-color-unfocused 0x586e75
 
@@ -144,6 +145,11 @@ riverctl float-filter-add app-id float
 riverctl float-filter-add app-id floating
 riverctl float-filter-add app-id org.keepassxc.KeePassXC
 riverctl float-filter-add app-id KeePassXC
+riverctl float-filter-add app-id spyglass
+riverctl float-filter-add app-id Spyglass
+riverctl float-filter-add app-id com.khrykin.strategr
+riverctl float-filter-add app-id com.khrykin.strategr-v0
+riverctl float-filter-add app-id com.khrykin.Strategr
 riverctl float-filter-add title "float-snote"
 riverctl float-filter-add title QuickSnoTT
 
@@ -162,6 +168,11 @@ riverctl map normal Super+Shift P set-view-tags ${scratch_tag}
 # explicitly set.
 all_but_scratch_tag=$(( ((1 << 32) - 1) ^ $scratch_tag ))
 riverctl spawn-tagmask ${all_but_scratch_tag}
+
+search_tag=$((1 << 19 ))
+# Toggle the search bar with Super+P
+riverctl map normal Super SemiColon toggle-tagmask
+
 
 
 # Set the default layout generator to be rivertile and start it.

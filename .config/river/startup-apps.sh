@@ -1,8 +1,14 @@
-# kanshi &
-eww daemon
-eww open bar
+kanshi &
 
+# eww daemon
+# eww open bar
+
+waybar &
 emacs &
-wezterm &
+alacritty &
 
 keepassxc &
+spyglass &
+
+blueman-applet &
+udiskie &
