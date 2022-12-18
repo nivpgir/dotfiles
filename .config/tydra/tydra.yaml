@@ -19,14 +19,25 @@ pages:
       layout: columns
       shortcut_color: green
     groups:
-      - title: dotfiles
+      - title: Inspect
         entries:
           - shortcut: s
             title: status
-            command: git --git-dir=.dotfiles.git --work-tree=$HOME status
+            command: git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME status
           - shortcut: d
             title: diff
-            command: git --git-dir=.dotfiles.git --work-tree=$HOME diff
+            command: git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME diff
+      - title: Sync
+        entries:
+          - shortcut: F
+            title: pull
+            command: git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME pull
+          - shortcut: P
+            title: push
+            command: git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME push
+          - shortcut: c
+            title: commit
+            command: git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME commit
   system:
     title: System
     settings:
