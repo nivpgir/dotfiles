@@ -50,6 +50,7 @@
 (use-package straight
              :custom (straight-use-package-by-default t))
 
+
 (use-package general
   :custom
   (general-use-package-emit-autoloads nil)

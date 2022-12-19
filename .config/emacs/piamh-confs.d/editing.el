@@ -41,7 +41,7 @@
   )
 
 (setq visible-bell t)
-(global-linum-mode t)
+(global-display-line-numbers-mode) ;; (global-linum-mode t)
 (setq auto-save-list-file-prefix (expand-file-name "auto-save-list" user-emacs-directory))
 (setq backup-directory-alist `(("." . "~/.saves")))
 (delete-selection-mode t)

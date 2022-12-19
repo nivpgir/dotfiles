@@ -73,6 +73,14 @@
 	    )
   )
 
+(use-package tramp
+  :straight nil
+  :config
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+  )
+
+;; (load (expand-file-name "counsel-tramp.el" user-emacs-directory))
+
 (use-package niv-mode
   :diminish
   :straight '(niv-mode :local-repo "niv-mode")
