@@ -4,6 +4,7 @@
   :custom
   (switch-window-shortcut-style 'qwerty)
   (switch-window-minibuffer-shortcut ?z)
+  (switch-window-auto-resize-window nil)
   :general
   ("C-x o" 'switch-window)
   ("M-o" 'switch-window)
@@ -12,6 +13,8 @@
 (use-package zoom
   :diminish
   :custom
+  (zoom-ignored-major-modes '(dired-mode ediff-mode))
+  (zoom-buffer-name-regexps '("^*Ediff.*" "^*ediff.*"))
   (zoom-mode t)
   (zoom-size '(0.618 . 0.618))
   :general

@@ -31,3 +31,5 @@
 (load "lang-rust.el")
 (load "lang-scheme.el")
 (load "lang-yaml.el")
+
+(load-file "counsel-tramp.el")

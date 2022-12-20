@@ -1,9 +1,10 @@
+global:
+  layout: columns
+  shortcut_color: green
+
 pages:
   root:
     title: Home
-    settings:
-      layout: columns
-      shortcut_color: green
     groups:
       - title: Categories
         entries:
@@ -13,11 +14,13 @@ pages:
           - shortcut: d
             title: dotfiles
             return: dotfiles
+          - shortcut: .
+            title: menu for current directory
+            mode: exec
+            command: tydra ./.tydra.yaml
+
   dotfiles:
     title: dotfiles
-    settings:
-      layout: columns
-      shortcut_color: green
     groups:
       - title: Inspect
         entries:
@@ -44,9 +47,6 @@ pages:
               '
   system:
     title: System
-    settings:
-      layout: columns
-      shortcut_color: green
     groups:
       - title: Packages
         entries:
