@@ -15,6 +15,8 @@
 ;;   :config
 ;;   (setq lsp-eldoc-hook nil)
 ;;   (setq lsp-rust-analyzer-server-display-inlay-hints t))
+(use-package lsp-mode)
+(use-package lsp-ui)
 (use-package rustic
   :straight t
   ;; :hook

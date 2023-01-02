@@ -6,7 +6,7 @@
 (load "straight-setup.el")
 
 (load "misc.el")
-;; (load "keybinding-utils.el")
+(load "notes.el")
 (load "editing.el")
 (load "autocompletion.el")
 (load "quickrun-conf.el")

@@ -12,3 +12,4 @@ spyglass &
 
 blueman-applet &
 udiskie &
+redshift-gtk &

@@ -152,6 +152,7 @@ riverctl float-filter-add app-id com.khrykin.strategr-v0
 riverctl float-filter-add app-id com.khrykin.Strategr
 riverctl float-filter-add title "float-snote"
 riverctl float-filter-add title QuickSnoTT
+riverctl float-filter-add title blueman-manager
 
 # Set app-ids and titles of views which should use client side decorations
 riverctl csd-filter-add app-id "gedit"
@@ -159,10 +160,10 @@ riverctl csd-filter-add app-id "gedit"
 scratch_tag=$((1 << 20 ))
 
 # Toggle the scratchpad with Super+P
-riverctl map normal Super P toggle-focused-tags ${scratch_tag}
+riverctl map normal Super grave toggle-focused-tags ${scratch_tag}
 
 # Send windows to the scratchpad with Super+Shift+P
-riverctl map normal Super+Shift P set-view-tags ${scratch_tag}
+riverctl map normal Super+Shift grave set-view-tags ${scratch_tag}
 
 # Set spawn tagmask to ensure new windows don't have the scratchpad tag unless
 # explicitly set.
