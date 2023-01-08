@@ -1,9 +1,4 @@
 
-
-;; (use-package piamh-keybindings
-;;   :straight '(piamh-keybindings
-;; 	      :local-repo "niv-mode"))
-
 (use-package dwim-shell-command
   :bind (([remap shell-command] . dwim-shell-command)
          :map dired-mode-map
@@ -20,8 +15,7 @@
      "ffmpeg -loglevel quiet -stats -y -i <<f>> -pix_fmt rgb24 -r 15 <<fne>>.gif"
      :utils "ffmpeg")))
 
-(use-package all-the-icons
-  :straight t)
+(use-package all-the-icons)
 
 (use-package dirvish
   :straight t
@@ -50,8 +44,8 @@
   (setq dired-listing-switches
         "-l --almost-all --human-readable --group-directories-first --no-group")
   :general
-  (general-def
-    "C-c f" 'dirvish-fd)
+  (general-def "C-c f"
+    'dirvish-fd)
   (:keymaps 'dirvish-mode-map
 	    "a" 'dirvish-quick-access
 	    "y" 'dirvish-yank-menu
@@ -73,13 +67,34 @@
 	    )
   )
 
+
 (use-package tramp
   :straight nil
   :config
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+  ;; Enable full-featured Dirvish over TRAMP on certain connections
+  ;; https://www.gnu.org/software/tramp/#Improving-performance-of-asynchronous-remote-processes-1.
+  (add-to-list 'tramp-connection-properties
+               (list (regexp-quote "/ssh:root@nautilus-fs-006.deepsea.group:")
+                     "direct-async-process" t))
+  (add-to-list 'tramp-connection-properties
+               (list (concat (regexp-quote "/ssh:") "*" (regexp-quote ".deepsea.group:"))
+                     "direct-async-process" t))
   )
 
+(use-package posframe)
+
+;; (when (posframe-workable-p)
+;;   (posframe-show " *my-posframe-buffer*"
+;;                  :string "This is a test"
+;;                  :position (point)))
+
+
 ;; (load (expand-file-name "counsel-tramp.el" user-emacs-directory))
+(use-package key-chord
+  :config
+  (key-chord-mode 1))
+
 
 (use-package niv-mode
   :diminish
@@ -97,13 +112,16 @@
     "k w" 'delete-window
     "k b" 'kill-buffer
     "k l" 'kill-whole-line
+    "K" 'kill-whole-line
     )
 
+  ;; asdf
   (general-def "C-a" 'niv/prelude-move-beginning-of-line)
   (general-def "M-k" 'kill-whole-line)
   (general-def "C-x C-e" 'pp-eval-last-sexp)
   (general-def "M-n" (lambda () (interactive) (scroll-up 1)))
-  (general-def "M-p" (lambda () (interactive) (scroll-down 1))))
+  (general-def "M-p" (lambda () (interactive) (scroll-down 1)))
+)
 
 (use-package emacs
   :config

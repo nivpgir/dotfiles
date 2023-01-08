@@ -7,6 +7,7 @@
 
 (load "misc.el")
 (load "notes.el")
+(load "help.el")
 (load "editing.el")
 (load "autocompletion.el")
 (load "quickrun-conf.el")
@@ -31,5 +32,3 @@
 (load "lang-rust.el")
 (load "lang-scheme.el")
 (load "lang-yaml.el")
-
-(load-file "counsel-tramp.el")

@@ -9,7 +9,8 @@
   :config
   (eros-mode 1)
   :general
-  ("C-c C-e" 'eros-eval-last-sexp))
+  ("C-c C-e" 'eros-eval-last-sexp)
+  )
 
 
 (use-package lispy

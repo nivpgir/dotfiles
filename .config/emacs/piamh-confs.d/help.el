@@ -13,7 +13,7 @@
   :straight t
   :config
   (which-key-mode t)
-  (which-key-setup-minibuffer)
+  ;; (which-key-setup-minibuffer)
   :custom
   (which-key-popup-type 'minibuffer)
   )

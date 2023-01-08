@@ -13,7 +13,7 @@
 (use-package zoom
   :diminish
   :custom
-  (zoom-ignored-major-modes '(dired-mode ediff-mode))
+  (zoom-ignored-major-modes '(dired-mode ediff-mode dirvish))
   (zoom-buffer-name-regexps '("^*Ediff.*" "^*ediff.*"))
   (zoom-mode t)
   (zoom-size '(0.618 . 0.618))
