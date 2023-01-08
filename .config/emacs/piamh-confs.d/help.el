@@ -5,8 +5,7 @@
   ("C-h v" 'helpful-variable)
   ("C-h k" 'helpful-key)
   ("C-h F" 'helpful-function)
-  (my-leader-def
-    "C-d" 'helpful-at-point)
+  ("C-h ." 'helpful-at-point)
   )
 
 (use-package which-key
