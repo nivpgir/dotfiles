@@ -60,6 +60,6 @@
   (general-def "C-z" nil)
   (general-def "C-x C-z" nil)
 
-  (general-create-definer my-def :keymaps 'niv-mode-map)
+  (general-create-definer my-def :keymaps 'piamh-mode-map)
   (general-create-definer my-leader-def :prefix "C-c" :wrapping my-def)
   )

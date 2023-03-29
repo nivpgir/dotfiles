@@ -34,4 +34,7 @@
 (load "lang-scheme.el")
 (load "lang-yaml.el")
 
-(load "emacs-local.el")
+(let ((personal-settings "~/.config/emacs-local.el"))
+ (when (file-exists-p personal-settings)
+   (load-file personal-settings))
+)

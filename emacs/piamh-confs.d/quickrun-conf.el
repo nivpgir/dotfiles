@@ -1,8 +1,5 @@
 (use-package quickrun
   :straight t
-  :general
-  (my-leader-def
-    "x" 'quickrun)
   :config
   (quickrun-add-command "potion"
     `((:command . ,(executable-find "potion"))

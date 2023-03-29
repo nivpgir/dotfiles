@@ -1,10 +1,9 @@
-
 (use-package dwim-shell-command
   :bind (([remap shell-command] . dwim-shell-command)
-         :map dired-mode-map
-         ([remap dired-do-async-shell-command] . dwim-shell-command)
-         ([remap dired-do-shell-command] . dwim-shell-command)
-         ([remap dired-smart-shell-command] . dwim-shell-command))
+	 :map dired-mode-map
+	 ([remap dired-do-async-shell-command] . dwim-shell-command)
+	 ([remap dired-do-shell-command] . dwim-shell-command)
+	 ([remap dired-smart-shell-command] . dwim-shell-command))
   :config
   (require 'dwim-shell-commands)
   (defun my/dwim-shell-command-convert-to-gif ()
@@ -24,7 +23,8 @@
    '(("h" "~/"                          "Home")
      ("d" "~/Downloads/"                "Downloads")
      ("m" "/mnt/"                       "Drives")
-     ("t" "~/.local/share/Trash/files/" "TrashCan")))
+     ("t" "~/.local/share/Trash/files/" "TrashCan")
+     ))
 
   :config
   (dirvish-override-dired-mode)
@@ -39,13 +39,14 @@
 			     file-time
 			     file-size))
   (setq dirvish-mode-line-format
-        '(:left (sort symlink) :right (omit yank index)))
+	'(:left (sort symlink) :right (omit yank index)))
   (setq delete-by-moving-to-trash t)
   (setq dired-listing-switches
-        "-l --almost-all --human-readable --group-directories-first --no-group")
+	"-l --almost-all --human-readable --group-directories-first --no-group")
   :general
-  (general-def "C-c f"
-    'dirvish-fd)
+  (my-leader-def
+    "O" 'dirvish
+    "a" 'dirvish-quick-access)
   (:keymaps 'dirvish-mode-map
 	    "a" 'dirvish-quick-access
 	    "y" 'dirvish-yank-menu
@@ -55,17 +56,18 @@
 	    "M-f" 'dirvish-history-go-forward
 	    "M-b" 'dirvish-history-go-backward
 	    "M-s" 'dirvish-setup-menu
+	    "s"   'dirvish-quicksort    ; remapped `dired-sort-toggle-or-edit'
+	    "M-t" 'dirvish-layout-toggle
 	    ;;  ("f"   . dirvish-file-info-menu)
 	    ;;  ("^"   . dirvish-history-last)
 	    ;;  ("h"   . dirvish-history-jump) ; remapped `describe-mode'
-	    ;;  ("s"   . dirvish-quicksort)    ; remapped `dired-sort-toggle-or-edit'
 	    ;;  ("M-l" . dirvish-ls-switches-menu)
 	    ;;  ("M-m" . dirvish-mark-menu)
-	    ;;  ("M-t" . dirvish-layout-toggle)
 	    ;;  ("M-e" . dirvish-emerge-menu)
 	    ;; ("M-j" . dirvish-fd-jump)
 	    )
   )
+
 
 
 (use-package tramp
@@ -75,11 +77,11 @@
   ;; Enable full-featured Dirvish over TRAMP on certain connections
   ;; https://www.gnu.org/software/tramp/#Improving-performance-of-asynchronous-remote-processes-1.
   (add-to-list 'tramp-connection-properties
-               (list (regexp-quote "/ssh:root@nautilus-fs-006.deepsea.group:")
-                     "direct-async-process" t))
+	       (list (regexp-quote "/ssh:root@nautilus-fs-006.deepsea.group:")
+		     "direct-async-process" t))
   (add-to-list 'tramp-connection-properties
-               (list (concat (regexp-quote "/ssh:") "*" (regexp-quote ".deepsea.group:"))
-                     "direct-async-process" t))
+	       (list (concat (regexp-quote "/ssh:") "*" (regexp-quote ".deepsea.group:"))
+		     "direct-async-process" t))
   )
 
 (use-package posframe)
@@ -96,32 +98,33 @@
   (key-chord-mode 1))
 
 
-(use-package niv-mode
+(use-package piamh-mode
   :diminish
-  :straight '(niv-mode :local-repo "niv-mode")
+  :straight '(piamh-mode :local-repo "." :files ("piamh-mode.el"))
   :general
   (my-leader-def
     "b" (general-key-dispatch (lambda () (interactive) (switch-to-buffer "*scratch*"))
 	  :timeout 0.25
-	  "b" 'niv/new-empty-buffer)
+	  "b" 'piamh/new-empty-buffer)
     "-" 'split-window-below
     "/" 'split-window-right
     "<backspace>" 'delete-window
-    "<tab>" 'niv/alternate-buffer
+    "<tab>" 'crux-switch-to-previous-buffer
     "RET" 'newline-and-indent
     "k w" 'delete-window
     "k b" 'kill-buffer
     "k l" 'kill-whole-line
     "K" 'kill-whole-line
+    "x a" 'async-shell-command
+    "x d f" 'async-shell-command
     )
-
   ;; asdf
-  (general-def "C-a" 'niv/prelude-move-beginning-of-line)
+  (general-def "C-a" 'crux-move-beginning-of-line)
+  (general-def "<home>" 'crux-move-beginning-of-line)
   (general-def "M-k" 'kill-whole-line)
-  (general-def "C-x C-e" 'pp-eval-last-sexp)
   (general-def "M-n" (lambda () (interactive) (scroll-up 1)))
   (general-def "M-p" (lambda () (interactive) (scroll-down 1)))
-)
+  )
 
 (use-package emacs
   :config
@@ -147,7 +150,6 @@
     "M-c" 'crux-capitalize-region
     )
   ("S-RET" 'crux-smart-open-line)
-  ("M-o" 'crux-other-window-or-switch-buffer)
   ("C-k" 'crux-kill-and-join-forward)
   )
 

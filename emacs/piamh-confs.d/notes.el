@@ -7,7 +7,7 @@
   :commands (deft)
   :custom
   (deft-directory "~/Sync/notes/")
-  (deft-extensions '("txt" "tex" "org"))
+  (deft-extensions '("md" "txt" "tex" "org"))
   (deft-recursive t)
   (deft-use-filename-as-title nil)
   (deft-use-filter-string-for-filename t)
