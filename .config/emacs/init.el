@@ -2,6 +2,7 @@
 ;;; init.el --- -*- lexical-binding: t -*-
 ;;; Commentary: Emacs Startup File --- initialization for Emacs
 
+(add-to-list 'load-path (expand-file-name "~/.config"))
 (add-to-list 'load-path (expand-file-name "piamh-confs.d" user-emacs-directory))
 (load "straight-setup.el")
 
@@ -32,3 +33,5 @@
 (load "lang-rust.el")
 (load "lang-scheme.el")
 (load "lang-yaml.el")
+
+(load "emacs-local.el")
