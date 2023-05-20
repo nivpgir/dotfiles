@@ -8,7 +8,7 @@ emacs &
 alacritty &
 
 keepassxc &
-spyglass &
+# spyglass &
 
 blueman-applet &
 udiskie &
