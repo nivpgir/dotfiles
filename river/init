@@ -1,25 +1,27 @@
 #!/bin/sh
 systemctl --user set-environment WAYLAND_DISPLAY="$WAYLAND_DISPLAY"
+MOZ_ENABLE_WAYLAND=1		# start firefox with wayland
 
 wlr-randr --output eDP-1 --scale 1.5
 
 (
-    cd $HOME/.config/river
-    ./startup-apps.sh
+    RIVER_CONF_DIR=$HOME/.config/river
+    $RIVER_CONF_DIR/startup-apps.sh
 )
 
-
+export TERMINAL="alacritty"
 export FLOATING_TERMINAL="alacritty --class float"
 riverctl focus-follows-cursor normal
 
-riverctl map normal Super G spawn quick-snote
+# riverctl map normal Super G spawn quick-snote
 riverctl map normal Super R spawn kickoff
 riverctl map normal Super backslash spawn ~/.config/scripts/show-logs
 # Note: the "Super" modifier is also known as Logo, GUI, Windows, Mod4, etc.
 # localectl set-x11-keymap us,il pc105 us custom:hyper4
 
 # Super+Shift+Return to start an instance of foot (https://codeberg.org/dnkl/foot)
-riverctl map normal Super Return spawn "$FLOATING_TERMINAL"
+riverctl map normal Super Return spawn "$TERMINAL"
+# riverctl map normal Super Return spawn "bash -c 'wayshot --stdout -s \"$(slurp -f \\\"%x %y %w %h\\\")\" | swappy -f -'"
 
 # Super+Shift+Q to close the focused view
 riverctl map normal Super+Shift Q close
@@ -29,6 +31,7 @@ riverctl map normal Super BackSpace close
 riverctl map normal Super+Shift E exit
 
 # Super+S and Super+W to focus the next/previous view in the layout stack
+
 riverctl map normal Super Space focus-view next
 riverctl map normal Super+Shift Space focus-view previous
 
@@ -81,8 +84,8 @@ all_tags=$(((1 << 32) - 1))
 riverctl map normal Super 0 set-focused-tags $all_tags
 riverctl map normal Super+Shift 0 set-view-tags $all_tags
 
-# Super+Space to toggle float
-riverctl map normal Super+Shift Slash toggle-float
+# Super+Shift+F to toggle float
+riverctl map normal Super+Shift F toggle-float
 
 # Super+F to toggle fullscreen
 riverctl map normal Super F toggle-fullscreen
@@ -141,6 +144,11 @@ done
 
 
 # Make certain views start floating
+riverctl float-filter-add title "Choose Application"
+riverctl float-filter-add app-id ActivityLog
+riverctl float-filter-add app-id blueman-manager
+riverctl float-filter-add app-id pavucontrol
+riverctl float-filter-add app-id zoom
 riverctl float-filter-add app-id float
 riverctl float-filter-add app-id floating
 riverctl float-filter-add app-id org.keepassxc.KeePassXC
