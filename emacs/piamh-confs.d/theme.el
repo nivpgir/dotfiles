@@ -29,6 +29,13 @@
             (t nil)))
 
 (when my-prefered-font
-  (set-frame-font my-prefered-font nil t))
+  (add-to-list 'default-frame-alist
+             `(font . ,my-prefered-font))
 
+  )
+
+(add-to-list 'face-ignored-fonts "Noto Rashi Hebrew")
+(add-to-list 'face-ignored-fonts "Noto Serif Hebrew")
+
+(font-family-list)
 (set-face-attribute 'default nil :height 110)

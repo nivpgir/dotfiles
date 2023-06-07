@@ -16,7 +16,6 @@
 (load "theme.el")
 ;; (load "org-conf.el")
 (load "prog-lang-env.el")
-(load "theme.el")
 (load "version-control.el")
 (load "lang-elisp.el")
 (load "lang-c-cpp.el")
