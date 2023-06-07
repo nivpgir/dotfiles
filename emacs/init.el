@@ -10,7 +10,7 @@
 (load "notes.el")
 (load "help.el")
 (load "editing.el")
-(load "autocompletion.el")
+(load "completion.el")
 (load "quickrun-conf.el")
 (load "window-management.el")
 (load "theme.el")
