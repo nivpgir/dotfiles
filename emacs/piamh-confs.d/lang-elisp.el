@@ -16,19 +16,19 @@
 (use-package lispy
   :straight t)
 
-(use-package paredit
-  :straight t
-  :diminish
-  :hook
-  (emacs-lisp-mode . paredit-mode)
-  :general (:keymaps 'paredit-mode-map
-		     "M-C b" 'paredit-backward
-		     "M-C f" 'paredit-forward
-		     "M-C w" 'paredit-backward-up
-		     "M-C a" 'paredit-backward-down
-		     "M-C s" 'paredit-forward-down
-		     "M-C d" 'paredit-forward-up)
-  )
+;; (use-package paredit
+;;   :straight t
+;;   :diminish
+;;   :hook
+;;   (emacs-lisp-mode . paredit-mode)
+;;   :general (:keymaps 'paredit-mode-map
+;; 		     "M-C b" 'paredit-backward
+;; 		     "M-C f" 'paredit-forward
+;; 		     "M-C w" 'paredit-backward-up
+;; 		     "M-C a" 'paredit-backward-down
+;; 		     "M-C s" 'paredit-forward-down
+;; 		     "M-C d" 'paredit-forward-up)
+;;   )
 
 (use-package eldoc
   :straight nil
