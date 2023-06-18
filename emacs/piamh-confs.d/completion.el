@@ -227,6 +227,47 @@
      ;; orderless-strict-full-initialism
      ;; orderless-without-literal          ; Recommended for dispatches instead
      ))
+  :init
+  (defun kb/vertico-multiform-flat-toggle ()
+    "Toggle between flat and reverse."
+    (interactive)
+    (vertico-multiform--display-toggle 'vertico-flat-mode)
+    (if vertico-flat-mode
+        (vertico-multiform--temporary-mode 'vertico-reverse-mode -1)
+      (vertico-multiform--temporary-mode 'vertico-reverse-mode 1)))
+  (defun kb/vertico-quick-embark (&optional arg)
+    "Embark on candidate using quick keys."
+    (interactive)
+    (when (vertico-quick-jump)
+      (embark-act arg)))
+
+  ;; Workaround for problem with `tramp' hostname completions. This overrides
+  ;; the completion style specifically for remote files! See
+  ;; https://github.com/minad/vertico#tramp-hostname-completion
+  (defun kb/basic-remote-try-completion (string table pred point)
+    (and (vertico--remote-p string)
+         (completion-basic-try-completion string table pred point)))
+  (defun kb/basic-remote-all-completions (string table pred point)
+    (and (vertico--remote-p string)
+         (completion-basic-all-completions string table pred point)))
+  (add-to-list 'completion-styles-alist
+               '(basic-remote           ; Name of `completion-style'
+                 kb/basic-remote-try-completion kb/basic-remote-all-completions nil))
+  :config
+  (vertico-mode)
+  ;; Extensions
+  (vertico-multiform-mode)
+
+  ;; Prefix the current candidate with “» ”. From
+  ;; https://github.com/minad/vertico/wiki#prefix-current-candidate-with-arrow
+  (advice-add #'vertico--format-candidate :around
+              (lambda (orig cand prefix suffix index _start)
+                (setq cand (funcall orig cand prefix suffix index _start))
+                (concat
+                 (if (= vertico--index index)
+                     (propertize "» " 'face 'vertico-current)
+                   "  ")
+                 cand)))
   )
 
 (use-package embark
