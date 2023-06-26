@@ -1,20 +1,54 @@
-(use-package dwim-shell-command
-  :bind (([remap shell-command] . dwim-shell-command)
-	 :map dired-mode-map
-	 ([remap dired-do-async-shell-command] . dwim-shell-command)
-	 ([remap dired-do-shell-command] . dwim-shell-command)
-	 ([remap dired-smart-shell-command] . dwim-shell-command))
-  :config
-  (require 'dwim-shell-commands)
-  (defun my/dwim-shell-command-convert-to-gif ()
-    "Convert all marked videos to optimized gif(s)."
-    (interactive)
-    (dwim-shell-command-on-marked-files
-     "Convert to gif"
-     "ffmpeg -loglevel quiet -stats -y -i <<f>> -pix_fmt rgb24 -r 15 <<fne>>.gif"
-     :utils "ffmpeg")))
+;; (use-package dwim-shell-command
+;;   :bind (([remap shell-command] . dwim-shell-command)
+;; 	 :map dired-mode-map
+;; 	 ([remap dired-do-async-shell-command] . dwim-shell-command)
+;; 	 ([remap dired-do-shell-command] . dwim-shell-command)
+;; 	 ([remap dired-smart-shell-command] . dwim-shell-command))
+;;   :config
+;;   (require 'dwim-shell-commands)
+;;   (defun my/dwim-shell-command-convert-to-gif ()
+;;     "Convert all marked videos to optimized gif(s)."
+;;     (interactive)
+;;     (dwim-shell-command-on-marked-files
+;;      "Convert to gif"
+;;      "ffmpeg -loglevel quiet -stats -y -i <<f>> -pix_fmt rgb24 -r 15 <<fne>>.gif"
+;;      :utils "ffmpeg")))
 
 (use-package all-the-icons)
+
+
+
+(use-package eat
+  :straight '(eat :type git
+		  :host codeberg
+		  :repo "akib/emacs-eat"
+		  :files ("*.el" ("term" "term/*.el") "*.texi"
+			  "*.ti" ("terminfo/e" "terminfo/e/*")
+			  ("terminfo/65" "terminfo/65/*")
+			  ("integration" "integration/*")
+			  (:exclude ".dir-locals.el" "*-tests.el")))
+  :custom
+  (eat-term-scrollback-size nil)
+  :init
+  (defun piamh/run-command-with-eat (command &rest args &key startfile)
+    (let* ((name (string-join `("*" ,command ,@args "*") " "))
+	   (buffer (apply 'eat-make `(,name ,command ,startfile ,@args))))
+      (message "cmd: %S, args: %S" command args)
+      (with-current-buffer buffer
+	(eat-emacs-mode))
+      (display-buffer buffer 'display-buffer-in-child-frame))
+    )
+
+  (defun piamh/run-term-command (command)
+    (interactive)
+    (-let* (((prog . args) (split-string-shell-command ,command))
+	    (buffer (apply 'eat-make `(,command ,prog nil ,@args))))
+      (message "cmd: %S, args: %S" prog args)
+      (with-current-buffer buffer
+	(eat-emacs-mode))
+      (switch-to-buffer buffer)))
+  )
+
 
 (use-package dirvish
   :straight t
@@ -179,3 +213,14 @@
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file)
+
+
+(defun advice-unadvice (sym)
+  "Remove all advices from symbol SYM."
+  (interactive "aFunction symbol:")
+  (advice-mapc `(lambda (fun props) (advice-remove ,(quote sym) fun)) sym))
+
+;; (advice-add #'message :after
+;; 	    (lambda (&rest rest)
+;; 	      (alert (format "%s" rest))
+;; 	      ))
