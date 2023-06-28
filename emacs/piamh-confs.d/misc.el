@@ -35,7 +35,10 @@
 	   (buffer (apply 'eat-make `(,name ,command ,startfile ,@args))))
       (message "cmd: %S, args: %S" command args)
       (with-current-buffer buffer
-	(eat-emacs-mode))
+	(eat-emacs-mode)
+	(setq-local show-trailing-whitespace nil)
+	(view-mode t)
+	)
       (display-buffer buffer 'display-buffer-in-child-frame))
     )
 
