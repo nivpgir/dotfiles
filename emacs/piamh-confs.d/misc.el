@@ -129,7 +129,6 @@
 ;;                  :position (point)))
 
 
-;; (load (expand-file-name "counsel-tramp.el" user-emacs-directory))
 (use-package key-chord
   :config
   (key-chord-mode 1))
@@ -151,7 +150,7 @@
     "k w" 'delete-window
     "k b" 'kill-buffer
     "k l" 'kill-whole-line
-    "K" 'kill-whole-line
+    "M-k" 'kill-current-buffer
     "x a" 'async-shell-command
     "x d f" 'async-shell-command
     )
@@ -227,3 +226,16 @@
 ;; 	    (lambda (&rest rest)
 ;; 	      (alert (format "%s" rest))
 ;; 	      ))
+
+(defun piamh/get-current-transient-args ()
+  (transient-args (oref transient-current-prefix command)))
+
+(transient-define-suffix transient-suffix-print-args (the-prefix-arg)
+  "Report the PREFIX-ARG, prefix's scope, and infix values."
+  :transient 'transient--do-call
+  (interactive "P")
+  (let ((args (transient-args (oref transient-current-prefix command)))
+        (scope (oref transient-current-prefix scope)))
+    (message "prefix-arg: %s \nprefix's scope value: %s \ntransient-args: %s"
+             the-prefix-arg scope args)))
+
