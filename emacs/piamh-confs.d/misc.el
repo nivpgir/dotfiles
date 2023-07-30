@@ -177,7 +177,7 @@
     "C-l" 'crux-downcase-region
     "M-c" 'crux-capitalize-region
     )
-  ("S-RET" 'crux-smart-open-line)
+  ("S-<return>" 'crux-smart-open-line)
   ("C-k" 'crux-kill-and-join-forward)
   )
 
