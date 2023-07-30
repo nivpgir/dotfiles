@@ -28,6 +28,7 @@
     ("c" "Close window" delete-window)
     ("u" "Undo last window change" winner-undo)
     ("r" "resize window mode" piamh/resize-windows)
+    ("f" "make full window (delete other windows)" delete-other-windows)
     ]])
 
 (transient-define-prefix piamh/resize-windows ()
