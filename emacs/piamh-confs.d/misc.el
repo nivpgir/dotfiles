@@ -31,25 +31,17 @@
   (eat-term-scrollback-size nil)
   :init
   (defun piamh/run-command-with-eat (command &rest args &key startfile)
+    (interactive (split-string-shell-command
+		  (read-from-minibuffer "Exec command: ")))
     (let* ((name (string-join `("*" ,command ,@args "*") " "))
 	   (buffer (apply 'eat-make `(,name ,command ,startfile ,@args))))
-      (message "cmd: %S, args: %S" command args)
+      (message "running cmd: %S, args: %S" command args)
       (with-current-buffer buffer
 	(eat-emacs-mode)
 	(setq-local show-trailing-whitespace nil)
-	(view-mode t)
 	)
       (display-buffer buffer 'display-buffer-in-child-frame))
     )
-
-  (defun piamh/run-term-command (command)
-    (interactive)
-    (-let* (((prog . args) (split-string-shell-command ,command))
-	    (buffer (apply 'eat-make `(,command ,prog nil ,@args))))
-      (message "cmd: %S, args: %S" prog args)
-      (with-current-buffer buffer
-	(eat-emacs-mode))
-      (switch-to-buffer buffer)))
   )
 
 
