@@ -193,6 +193,11 @@
   :config
   (vertico-mode))
 
+(use-package vertico-bottom
+  :straight nil
+  :after vertico)
+
+
 (use-package vertico-posframe
   :after vertico
   :custom
