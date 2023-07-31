@@ -107,7 +107,7 @@
 
   ;; Optionally configure the narrowing key.
   ;; Both < and C-+ work reasonably well.
-  (setq consult-narrow-key "<") ;; "C-+"
+  (setq consult-narrow-key "C-;") ;; "C-+"
 
   ;; Optionally make narrowing help available in the minibuffer.
   ;; You may want to use `embark-prefix-help-command' or which-key instead.
@@ -193,8 +193,7 @@
      (consult-location)
      (imenu buffer)
      (library reverse indexed)
-     (org-roam-node reverse indexed)
-     (t reverse)
+     (t)
      ))
   (vertico-multiform-commands
    '(("flyspell-correct-*" grid reverse)
@@ -202,11 +201,25 @@
      (consult-yank-pop indexed)
      (consult-flycheck)
      (consult-lsp-diagnostics)
-     ))
+     (consult-line posframe)
+     (t)
+     ;; (t bottom)
+     )
+   )
 
   :config
   (vertico-mode))
 
+(use-package vertico-posframe
+  :after vertico
+  :custom
+  (vertico-posframe-poshandler 'posframe-poshandler-frame-top-center)
+  (vertico-posframe-border-width 10)
+  ;; NOTE: This is useful when emacs is used in both in X and
+  ;; terminal, for posframe do not work well in terminal, so
+  ;; vertico-buffer-mode will be used as fallback at the moment.
+  (vertico-posframe-fallback-mode vertico-flat-mode)
+)
 
 (use-package orderless
   :custom
@@ -270,7 +283,6 @@
   )
 
 (use-package embark
-  :ensure t
 
   :bind
   (("C-." . embark-act)         ;; pick some comfortable binding
