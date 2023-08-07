@@ -15,6 +15,7 @@ riverctl focus-follows-cursor normal
 
 # riverctl map normal Super G spawn quick-snote
 riverctl map normal Super R spawn kickoff
+riverctl map normal Super Escape spawn kickoff
 riverctl map normal Super backslash spawn ~/.config/scripts/show-logs
 # Note: the "Super" modifier is also known as Logo, GUI, Windows, Mod4, etc.
 # localectl set-x11-keymap us,il pc105 us custom:hyper4
@@ -70,13 +71,18 @@ do
     tags=$((1 << ($i - 1)))
     # Super+[1-9] to focus tag [0-8]
     riverctl map normal Super $i set-focused-tags $tags
+    riverctl map normal Super F$i set-focused-tags $tags
     # Super+Shift+[1-9] to tag focused view with tag [0-8]
     riverctl map normal Super+Shift $i set-view-tags $tags
+    riverctl map normal Super+Shift F$i set-view-tags $tags
     # Super+Ctrl+[1-9] to toggle focus of tag [0-8]
     riverctl map normal Super+Control $i toggle-focused-tags $tags
+    riverctl map normal Super+Control F$i toggle-focused-tags $tags
     # Super+Shift+Ctrl+[1-9] to toggle tag [0-8] of focused view
     riverctl map normal Super+Shift+Control $i toggle-view-tags $tags
+    riverctl map normal Super+Shift+Control F$i toggle-view-tags $tags
 done
+
 
 # Super+0 to focus all tags
 # Super+Shift+0 to tag focused view with all tags
@@ -89,6 +95,8 @@ riverctl map normal Super+Shift F toggle-float
 
 # Super+F to toggle fullscreen
 riverctl map normal Super F toggle-fullscreen
+# yuioophjkl;nm,./
+# azgbvx
 
 # Declare a passthrough mode. This mode has only a single mapping to return to
 # normal mode. This makes it useful for testing a nested wayland compositor

@@ -155,6 +155,8 @@
   )
 
 (use-package emacs
+  :custom
+  (create-lockfiles nil)
   :config
   (tool-bar-mode -1)
   :hook

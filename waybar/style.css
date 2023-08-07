@@ -1,9 +1,21 @@
 * {
     /* `otf-font-awesome` is required to be installed for icons */
     font-family: FontAwesome, Roboto, Helvetica, Arial, sans-serif;
-    font-size: 13px;
+    font-size: 18px;
 }
-
+/* #river.window { */
+/*     animation-name: marquee; */
+/*     animation-duration: 5s; */
+/*     animation-timing-function: linear; */
+/*     animation-iteration-count: infinite; */
+/*     animation-play-state: running; */
+/*     background-color: #330000; */
+/*     color: #ffffff; */
+/* } */
+/* @keyframes marquee { */
+/*     0%{transform: translateX(0px);} */
+/*     100% {transform: translateX(100px);} */
+/* } */
 window#waybar {
     /* background-color: rgba(43, 48, 59, 0.5); */
     background-color: rgba(0, 0, 0, 0.75);
