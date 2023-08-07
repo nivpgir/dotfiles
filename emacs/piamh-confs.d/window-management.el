@@ -62,3 +62,23 @@
 ;;   (zoom-size '(0.618 . 0.618))
 ;;   :general
 ;;   ("C-x +" 'zoom))
+
+(use-package popper
+  :ensure t ; or :straight t
+  :general
+  ("C-<" 'popper-toggle-latest)
+  ("C-," 'popper-cycle)
+  ("C-." 'popper-toggle-type)
+  :custom
+  (popper-reference-buffers
+   '("\\*Messages\\*"
+     "Output\\*$"
+     "\\*Async Shell Command\\*"
+     help-mode
+     compilation-mode
+     flycheck-mode
+     magit-process))
+
+  :config
+  (popper-mode +1)
+  (popper-echo-mode +1))
