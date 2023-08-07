@@ -172,11 +172,10 @@
   (vertico-buffer-display-action '(display-buffer-reuse-window)) ; Default
   (vertico-multiform-categories                                  ; Choose a multiform
    '((file reverse)
-     (consult-grep buffer)
      (consult-location)
      (imenu buffer)
      (library reverse indexed)
-     (t)
+     (t posframe)
      ))
   (vertico-multiform-commands
    '(("flyspell-correct-*" grid reverse)
@@ -185,7 +184,6 @@
      (consult-flycheck)
      (consult-lsp-diagnostics)
      (consult-line posframe)
-     (t)
      ;; (t bottom)
      )
    )
@@ -203,6 +201,7 @@
   :custom
   (vertico-posframe-poshandler 'posframe-poshandler-frame-top-center)
   (vertico-posframe-border-width 10)
+  (vertico-posframe-min-height 2)
   ;; NOTE: This is useful when emacs is used in both in X and
   ;; terminal, for posframe do not work well in terminal, so
   ;; vertico-buffer-mode will be used as fallback at the moment.
@@ -271,14 +270,12 @@
   )
 
 (use-package embark
-
-  :bind
-  (("C-." . embark-act)         ;; pick some comfortable binding
-   ("C-;" . embark-dwim)        ;; good alternative: M-.
-   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+  :general
+  ("C-;" 'embark-act)         ;; pick some comfortable binding
+  ("C-." 'embark-dwim)        ;; good alternative: M-.
+  ("C-h B" 'embark-bindings)  ;; alternative for `describe-bindings'
 
   :init
-
   ;; Optionally replace the key help with a completing-read interface
   (setq prefix-help-command #'embark-prefix-help-command)
 
