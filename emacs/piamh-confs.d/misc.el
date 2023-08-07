@@ -236,9 +236,10 @@
 
 (use-package popper
   :ensure t ; or :straight t
-  :bind (("C-'"   . popper-toggle-latest)
-         ("M-'"   . popper-cycle)
-         ("C-M-'" . popper-toggle-type))
+  :general
+  ("C-<" 'popper-toggle-latest)
+  ("C-," 'popper-cycle)
+  ("C-." 'popper-toggle-type)
   :custom
   (popper-reference-buffers
    '("\\*Messages\\*"
