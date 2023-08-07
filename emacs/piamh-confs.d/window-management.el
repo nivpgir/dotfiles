@@ -69,6 +69,9 @@
   ("C-<" 'popper-toggle-latest)
   ("C-," 'popper-cycle)
   ("C-." 'popper-toggle-type)
+  (:keymap 'popper-mode-map
+	   "C-<escape>" 'popper-close-popup-window)
+
   :custom
   (popper-reference-buffers
    '("\\*Messages\\*"
@@ -82,4 +85,18 @@
 
   :config
   (popper-mode +1)
-  (popper-echo-mode +1))
+  (popper-echo-mode +1)
+  (defun popper-popup-buffer-p (&optional buffer)
+    (let ((buffer (or buffer (current-buffer))))
+      (pcase (buffer-local-value 'popper-popup-status buffer)
+	('raised nil)
+	('popup t)
+	('user-popup t)
+	(_ (popper-popup-p buffer))))
+    )
+
+  (defun popper-close-popup-window ()
+    (interactive)
+    (if (popper-popup-buffer-p)
+	(delete-window)))
+  )
