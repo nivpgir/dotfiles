@@ -49,7 +49,7 @@
   (switch-window-auto-resize-window nil)
   :general
   ("M-i" 'piamh/switch-or-manage-windows)
-  ("M-o" 'piamh/manage-windows)
+  ("M-I" 'piamh/manage-windows)
   )
 
 
