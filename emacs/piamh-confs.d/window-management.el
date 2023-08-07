@@ -74,6 +74,7 @@
    '("\\*Messages\\*"
      "Output\\*$"
      "\\*Async Shell Command\\*"
+     "\\*eat\\*"
      help-mode
      compilation-mode
      flycheck-mode

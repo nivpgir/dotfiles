@@ -1,3 +1,9 @@
+case $TERM in
+    *eat-truecolor*)
+	return
+	;;
+esac
+
 if [[ -z "$ZELLIJ" ]]; then
     if [[ "$ZELLIJ_AUTO_ATTACH" == "true" ]]; then
         zellij attach -c
