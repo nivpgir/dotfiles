@@ -78,6 +78,7 @@
      "Output\\*$"
      "\\*Async Shell Command\\*"
      "\\*eat\\*"
+     "\\*eldoc\\*"
      help-mode
      compilation-mode
      flycheck-mode
