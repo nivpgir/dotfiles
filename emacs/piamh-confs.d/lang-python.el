@@ -1,23 +1,25 @@
 (use-package pet
   ;; :ensure-system-package (dasel sqlite3)
-  :hook (python-mode . pet-mode)
+  :hook (python-mode . (lambda ()
+			 (unless (file-remote-p default-directory)
+			   (pet-mode +1))))
   :config
   (defun pet-eglot-setup ()
-  "Setup all `eglot' Python language server configuration."
-  (with-eval-after-load 'eglot
-    (declare-function eglot-alternatives 'eglot)
-    (setq-local eglot-server-programs
-                (cons
-		 `((python-mode python-ts-mode)
-		   . ,(lambda (&optional interactive)
-			(let ((executable-find 'pet-executable-find))
-			  (eglot-alternatives
-			   (list "pylsp"
-                                 "pyls"
-                                 "pyright"
-                                 "jedi-language-server"))))
-		   )
-                 eglot-server-programs))))
+    "Setup all `eglot' Python language server configuration."
+    (with-eval-after-load 'eglot
+      (declare-function eglot-alternatives 'eglot)
+      (setq-local eglot-server-programs
+                  (cons
+		   `((python-mode python-ts-mode)
+		     . ,(lambda (&optional interactive)
+			  (let ((executable-find 'pet-executable-find))
+			    (eglot-alternatives
+			     (list "pylsp"
+                                   "pyls"
+                                   "pyright"
+                                   "jedi-language-server")))))
+                   eglot-server-programs))))
+
   ;; (add-hook 'python-mode-hook
   ;;           #'(lambda ()
   ;;               ;; Python interpreter
