@@ -201,8 +201,9 @@
   :after vertico
   :custom
   (vertico-posframe-poshandler 'posframe-poshandler-frame-top-center)
-  (vertico-posframe-border-width 10)
+  (vertico-posframe-border-width 1)
   (vertico-posframe-min-height 2)
+  (vertico-posframe-parameters '((alpha-background . 80)))
   ;; NOTE: This is useful when emacs is used in both in X and
   ;; terminal, for posframe do not work well in terminal, so
   ;; vertico-buffer-mode will be used as fallback at the moment.
@@ -212,7 +213,7 @@
 (use-package orderless
   :custom
   (completion-styles '(orderless))      ; Use orderless
-  (completion-category-defaults nil)    ; I want to be in control!
+  ;; (completion-category-defaults nil)    ; I want to be in control!
   (completion-category-overrides
    '((file (styles basic-remote ; For `tramp' hostname completion with `vertico'
                    orderless))))

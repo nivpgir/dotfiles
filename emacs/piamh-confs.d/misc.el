@@ -33,7 +33,7 @@
   (defun piamh/run-command-with-eat (command &rest args &key startfile)
     (interactive (split-string-shell-command
 		  (read-from-minibuffer "Exec command: ")))
-    (let* ((name (string-join `("*" ,command ,@args "*") " "))
+    (let* ((name (string-join `("*" ,default-directory " :: " ,command ,@args "*") " "))
 	   (buffer (apply 'eat-make `(,name ,command ,startfile ,@args))))
       (message "running cmd: %S, args: %S" command args)
       (with-current-buffer buffer
@@ -159,6 +159,7 @@
   (create-lockfiles nil)
   :config
   (tool-bar-mode -1)
+  (prefer-coding-system 'utf-8-unix)
   :hook
   (prog-mode . electric-pair-local-mode))
 
