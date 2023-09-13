@@ -6,3 +6,12 @@ zoom
 spyglass
 zoom.conf
 zoomus.conf
+emacs/.lsp-session*
+emacs/auto-save*
+emacs/eln-cache
+emacs/projects
+emacs/recentf
+emacs/straight
+emacs/tramp
+emacs/dirvish
+emacs/amx-items
