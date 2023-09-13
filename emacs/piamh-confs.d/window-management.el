@@ -66,8 +66,8 @@
 (use-package popper
   :ensure t ; or :straight t
   :general
-  ("C-<" 'popper-toggle-latest)
-  ("C-," 'popper-cycle)
+  ("C-<" 'popper-cycle)
+  ("C-," 'popper-toggle-latest)
   ("C-." 'popper-toggle-type)
   (:keymap 'popper-mode-map
 	   "C-<escape>" 'popper-close-popup-window)
