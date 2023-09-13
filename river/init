@@ -29,7 +29,7 @@ riverctl map normal Super+Shift Q close
 riverctl map normal Super BackSpace close
 
 # Super+Shift+E to exit river
-riverctl map normal Super+Shift E exit
+riverctl map normal Super+Control+Alt Delete exit
 
 # Super+S and Super+W to focus the next/previous view in the layout stack
 
@@ -38,14 +38,14 @@ riverctl map normal Super+Shift Space focus-view previous
 
 # Super+Shift+S and Super+Shift+W to swap the focused view with the next/previous
 # view in the layout stack
-riverctl map normal Super+Shift S swap next
-riverctl map normal Super+Shift W swap previous
+riverctl map normal Super+Shift X swap next
+riverctl map normal Super+Shift Z swap previous
 
 # Super+Alt+Shift+{W,A,S,D} to resize views
-riverctl map normal Super+Control W resize vertical -100
-riverctl map normal Super+Control A resize horizontal -100
-riverctl map normal Super+Control S resize vertical 100
-riverctl map normal Super+Control D resize horizontal 100
+riverctl map normal Super+Control I resize vertical -100
+riverctl map normal Super+Control J resize horizontal -100
+riverctl map normal Super+Control K resize vertical 100
+riverctl map normal Super+Control L resize horizontal 100
 
 # Super+Period and Super+Comma to focus the next/previous output
 riverctl map normal Super Period focus-output next
@@ -90,11 +90,11 @@ all_tags=$(((1 << 32) - 1))
 riverctl map normal Super 0 set-focused-tags $all_tags
 riverctl map normal Super+Shift 0 set-view-tags $all_tags
 
-# Super+Shift+F to toggle float
-riverctl map normal Super+Shift F toggle-float
+# Super+Shift+T to toggle float
+riverctl map normal Super+Shift T toggle-float
 
-# Super+F to toggle fullscreen
-riverctl map normal Super F toggle-fullscreen
+# Super+E to toggle fullscreen
+riverctl map normal Super E toggle-fullscreen
 # yuioophjkl;nm,./
 # azgbvx
 
