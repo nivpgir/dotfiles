@@ -64,7 +64,7 @@
 ;;   ("C-x +" 'zoom))
 
 (use-package popper
-  :ensure t ; or :straight t
+  :after magit
   :general
   ("C-<" 'popper-cycle)
   ("C-," 'popper-toggle-latest)
@@ -82,7 +82,7 @@
      help-mode
      compilation-mode
      flycheck-mode
-     magit-process))
+     magit-process-mode))
 
   :config
   (popper-mode +1)
