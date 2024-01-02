@@ -99,9 +99,6 @@
 (use-package wgrep
   :straight t)
 
-(use-package yasnippet
-  :diminish yas-minor-mode
-  :straight t)
 
 (use-package string-inflection
   :init

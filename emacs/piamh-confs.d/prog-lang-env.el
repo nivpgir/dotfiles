@@ -27,11 +27,11 @@
 
 
 (use-package yasnippet
-  :ensure
+  :diminish yas-minor-mode
   :config
   (yas-reload-all)
   :hook
-  (prog-mode-hook . yas-minor-mode)
-  (text-mode-hook . yas-minor-mode)
+  (prog-mode . yas-minor-mode)
+  (text-mode . yas-minor-mode)
   )
 
