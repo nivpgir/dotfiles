@@ -184,16 +184,16 @@
      (consult-flycheck)
      (consult-lsp-diagnostics)
      (consult-line posframe)
-     ;; (t bottom)
+     (t bottom)
      )
    )
 
   :config
   (vertico-mode))
 
-;; (use-package vertico-bottom
-;;   :straight nil
-;;   :after vertico)
+(use-package vertico-bottom
+  :straight nil
+  :after vertico)
 
 (use-package vertico-posframe
   :straight (:host github :repo "tumashu/vertico-posframe"

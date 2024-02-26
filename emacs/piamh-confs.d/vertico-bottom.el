@@ -89,7 +89,8 @@
   )
 
 (cl-pushnew 'vertico-bottom-mode vertico-multiform--display-modes)
-(vertico-multiform--define-display-toggle bottom)
+(put vertico-bottom-mode 'completion-predicate #'vertico--command-p)
+
 (define-key vertico-multiform-map (kbd "M-B") #'vertico-multiform-bottom)
 
 (cl-defmethod vertico--display-candidates :after (lines &context (vertico-bottom-mode (eql t)))
