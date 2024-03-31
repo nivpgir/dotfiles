@@ -6,5 +6,4 @@
 (use-package python-isort)
 
 (use-package poetry)
-
-(require 'lang-python-lsp-mode)
+(require 'lang-python-eglot)
