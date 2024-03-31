@@ -119,3 +119,8 @@
   :general
   (my-leader-def
     "c" 'piamh/string-inflection-cycle-auto))
+
+(use-package emacs
+  :config
+  (indent-tabs-mode -1)
+  )

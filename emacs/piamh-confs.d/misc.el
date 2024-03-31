@@ -137,7 +137,7 @@
     "-" 'split-window-below
     "/" 'split-window-right
     "<backspace>" 'delete-window
-    "<tab>" 'crux-switch-to-previous-buffer
+    "<tab>" 'mode-line-other-buffer
     "RET" 'newline-and-indent
     "k w" 'delete-window
     "k b" 'kill-buffer
