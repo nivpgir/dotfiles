@@ -1,6 +1,6 @@
 #!/bin/sh
 systemctl --user set-environment WAYLAND_DISPLAY="$WAYLAND_DISPLAY"
-MOZ_ENABLE_WAYLAND=1		# start firefox with wayland
+export MOZ_ENABLE_WAYLAND=1		# start firefox with wayland
 
 wlr-randr --output eDP-1 --scale 1.5
 
@@ -28,7 +28,7 @@ riverctl map normal Super Return spawn "$TERMINAL"
 riverctl map normal Super+Shift Q close
 riverctl map normal Super BackSpace close
 
-# Super+Shift+E to exit river
+# Super+Control+Alt Delete exit to exit river
 riverctl map normal Super+Control+Alt Delete exit
 
 # Super+S and Super+W to focus the next/previous view in the layout stack
