@@ -16,10 +16,11 @@
 ;;   (setq lsp-eldoc-hook nil)
 ;;   (setq lsp-rust-analyzer-server-display-inlay-hints t))
 
+(use-package lsp-mode)
+
 (use-package rustic
   :custom
-  (rustic-lsp-client 'eglot)
-  :hook (rustic-mode . (lambda () (flymake-mode -1)))
+  (rustic-kill-buffer-and-window t)
   )
 (use-package rust-playground
   :straight t)

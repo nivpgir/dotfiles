@@ -112,7 +112,7 @@
   ;; (setq consult-project-function nil)
 )
 
-(use-package consult-eglot)
+;; (use-package consult-eglot)
 (use-package consult-dash)
 (use-package embark-consult)
 

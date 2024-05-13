@@ -37,3 +37,14 @@
  (when (file-exists-p personal-settings)
    (load-file personal-settings))
 )
+
+(use-package tabby-mode
+  :straight '(eat :type git
+		  :host github
+		  :repo "ragnard/tabby-mode"
+		  :files ("*.el"))
+  :custom
+  (tabby-api-url "http://localhost:8080")
+  )
+
+
