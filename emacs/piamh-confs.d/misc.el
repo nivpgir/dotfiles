@@ -16,7 +16,7 @@
 
 (use-package all-the-icons)
 
-
+(use-package environ)
 
 (use-package eat
   :straight '(eat :type git
@@ -236,3 +236,7 @@
 
 
 
+(use-package exec-path-from-shell
+  :config
+  (when (memq window-system '(mac ns x pgtk))
+    (exec-path-from-shell-initialize)))
