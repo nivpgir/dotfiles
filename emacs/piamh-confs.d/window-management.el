@@ -79,6 +79,8 @@
      "\\*Async Shell Command\\*"
      "\\*eat\\*"
      "\\*eldoc\\*"
+     "\\*warning\\*"
+     "\\*EGLOT .* events\\*"
      help-mode
      compilation-mode
      flycheck-mode
