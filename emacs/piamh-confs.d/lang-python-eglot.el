@@ -25,16 +25,27 @@
          ;; Eglot demands that `pyrightconfig.json' is in the project root
          ;; folder.
 
+	 (default-directory venvPath)
          (base-dir (vc-root-dir))
          (out-file (expand-file-name "pyrightconfig.json" base-dir))
 
+	 (current-contents (json-read-file out-file))
+	 (current-contents (add-to-list 'current-contents '(venvPath . venvPath)))
+	 (current-contents (add-to-list 'current-contents '(venv . venv)))
+	 (current-contents (cl-remove-duplicates current-contents :key 'car :from-end t))
          ;; Finally, get a string with the JSON payload.
-         (out-contents (json-encode (list :venvPath venvPath :venv venv))))
+	 (out-contents (json-encode current-contents))
+
+         ;; (out-contents (json-encode (list :venvPath venvPath :venv venv)))
 
     ;; Emacs uses buffers for everything.  This creates a temp buffer, inserts
     ;; the JSON payload, then flushes that content to final `pyrightconfig.json'
     ;; location
-    (with-temp-file out-file (insert out-contents))))
+	 )
+    (with-temp-file out-file
+      (insert out-contents)
+      (json-pretty-print-buffer)
+      )))
 
 (use-package eglot
   :straight nil
