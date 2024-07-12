@@ -37,5 +37,19 @@
 (add-to-list 'face-ignored-fonts "Noto Rashi Hebrew")
 (add-to-list 'face-ignored-fonts "Noto Serif Hebrew")
 
+(use-package smart-mode-line-atom-one-dark-theme)
+(use-package smart-mode-line
+  :custom
+  (sml/theme 'atom-one-dark)
+  ;; (sml/theme 'respectful)
+  :config
+  (sml/setup)
+  )
+
+(setq scroll-margin 1)
+(setq scroll-step 1)
+(setq scroll-conservatively 10000)
+(setq auto-window-vscroll nil)
+
 (font-family-list)
 (set-face-attribute 'default nil :height 110)
