@@ -29,9 +29,11 @@
          (base-dir (vc-root-dir))
          (out-file (expand-file-name "pyrightconfig.json" base-dir))
 
-	 (current-contents (json-read-file out-file))
-	 (current-contents (add-to-list 'current-contents '(venvPath . venvPath)))
-	 (current-contents (add-to-list 'current-contents '(venv . venv)))
+	 (current-contents (if (file-exists-p out-file)
+			       (json-read-file out-file)
+			     ()))
+	 (current-contents (add-to-list 'current-contents `(venvPath . ,venvPath)))
+	 (current-contents (add-to-list 'current-contents `(venv . ,venv)))
 	 (current-contents (cl-remove-duplicates current-contents :key 'car :from-end t))
          ;; Finally, get a string with the JSON payload.
 	 (out-contents (json-encode current-contents))
@@ -51,6 +53,15 @@
   :straight nil
   :commands eglot
   )
+
+(use-package flymake-posframe
+  :straight (flymake-posframe
+	     :type git
+	     :host github
+	     :repo "Ladicle/flymake-posframe"
+	     :files ("*.el" "*.org"))
+
+  :hook (flymake-mode . flymake-posframe-mode))
 
 (use-package lang-python
   :straight eglot

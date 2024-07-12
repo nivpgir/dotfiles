@@ -184,7 +184,7 @@
      (consult-flycheck)
      (consult-lsp-diagnostics)
      (consult-line posframe)
-     (t bottom)
+     ;; (t bottom)
      )
    )
 

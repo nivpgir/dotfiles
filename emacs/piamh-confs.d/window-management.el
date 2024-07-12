@@ -103,3 +103,21 @@
     (if (popper-popup-buffer-p)
 	(delete-window)))
   )
+
+(use-package eldoc-box
+  :straight '(eldoc-box
+	      :type git
+	      :host github
+	      :repo "casouri/eldoc-box"
+	      :files ("*.el" "*.org"))
+  :hook
+  (eglot-managed-mode . eldoc-box-hover-at-point-mode)
+  ;; :config
+  ;; (eldoc-box-hover-at-point-mode)
+  )
+
+(require 'eldoc)
+(setq eldoc-echo-area-prefer-doc-buffer nil)
+
+'()
+

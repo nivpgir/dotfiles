@@ -2,6 +2,28 @@
 (use-package dape
   :config
   (add-to-list 'dape-configs
+	       '(python-generic-tasks-worker-attach
+		 host "0.0.0.0"
+                 port 5698
+		 modes (python-ts-mode python-mode)
+		 :request "attach"))
+  (add-to-list 'dape-configs
+	       '(python-master-attach
+		 host "0.0.0.0"
+                 port 5697
+		 modes (python-ts-mode python-mode)
+		 :request "attach"
+		 )
+	       )
+  (add-to-list 'dape-configs
+	       '(python-web-attach
+		 host "0.0.0.0"
+                 port 5696
+		 modes (python-ts-mode python-mode)
+		 :request "attach")
+	       )
+
+  (add-to-list 'dape-configs
                `(python-simple
                  modes (python-ts-mode python-mode)
                  command "python3.10"
