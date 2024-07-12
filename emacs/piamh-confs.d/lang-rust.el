@@ -21,6 +21,9 @@
 (use-package rustic
   :custom
   (rustic-kill-buffer-and-window t)
+  (rustic-lsp-client 'eglot)
+  :hook
+  (eglot--managed-mode . (lambda () (flymake-mode -1)))
   )
 (use-package rust-playground
   :straight t)
