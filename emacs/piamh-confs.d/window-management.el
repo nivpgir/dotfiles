@@ -111,7 +111,10 @@
 	      :repo "casouri/eldoc-box"
 	      :files ("*.el" "*.org"))
   :hook
-  (eglot-managed-mode . eldoc-box-hover-at-point-mode)
+  ;; (eglot-managed-mode . eldoc-box-hover-at-point-mode)
+  (eglot-managed-mode . eldoc-box-hover-mode)
+  :custom
+  (eldoc-box-clear-with-C-g t)
   ;; :config
   ;; (eldoc-box-hover-at-point-mode)
   )
