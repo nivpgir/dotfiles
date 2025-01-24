@@ -205,6 +205,7 @@ spawn-at-startup "blueman-applet"
 spawn-at-startup "blueman-applet"
 spawn-at-startup "udiskie"
 spawn-at-startup "redshift-gtk"
+spawn-at-startup "xwayland-satellite"
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
 // If the client will specifically ask for CSD, the request will be honored.
