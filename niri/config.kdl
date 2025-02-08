@@ -17,7 +17,7 @@ input {
             // options "grp:win_space_toggle,compose:ralt,ctrl:nocaps"
 
 	    layout "us,il"
-            options "grp:menu_toggle,caps:super"
+            options "grp:shift_caps_toggle,caps:super"
 	    // rules evdev
 
         }
