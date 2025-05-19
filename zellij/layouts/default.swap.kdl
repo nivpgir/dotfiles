@@ -11,8 +11,8 @@ tab_template name="ui" {
 swap_tiled_layout name="stacked" {
     ui min_panes=3 {
         pane split_direction="vertical" {
-            pane
             pane stacked=true { children; }
+            pane
         }
     }
 }

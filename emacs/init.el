@@ -32,6 +32,7 @@
 (load "lang-rust.el")
 (load "lang-scheme.el")
 (load "lang-yaml.el")
+(load "lang-jenkinsfile.el")
 
 (let ((personal-settings "~/.config/emacs-local.el"))
  (when (file-exists-p personal-settings)

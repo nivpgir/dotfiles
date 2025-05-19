@@ -225,6 +225,7 @@
 (defun piamh/get-current-transient-args ()
   (transient-args (oref transient-current-prefix command)))
 
+(use-package transient :straight t)
 (transient-define-suffix transient-suffix-print-args (the-prefix-arg)
   "Report the PREFIX-ARG, prefix's scope, and infix values."
   :transient 'transient--do-call
@@ -240,3 +241,25 @@
   :config
   (when (memq window-system '(mac ns x pgtk))
     (exec-path-from-shell-initialize)))
+
+
+(use-package moldable-emacs
+  :straight (moldable-emacs
+	     :host github
+	     :repo "ag91/moldable-emacs"
+	     :branch "master"
+	     :files ("*.el" "*.org" "molds"))
+  ;; :straight t
+  :bind (("C-c m m" . me-mold)
+         ("C-c m f" . me-go-forward)
+         ("C-c m b" . me-go-back)
+         ("C-c m o" . me-open-at-point)
+         ("C-c m d" . me-mold-docs)
+         ("C-c m g" . me-goto-mold-source)
+         ("C-c m e a" . me-mold-add-last-example)
+         )
+  :config
+  (require 'moldable-emacs)
+  ;; (add-to-list 'me-files-with-molds (concat (file-name-directory (symbol-file 'me-mold)) "molds/experiments.el")) ;; TODO this is relevant only if you have private molds
+  (me-setup-molds)
+  )

@@ -13,8 +13,8 @@
   )
 
 
-(use-package lispy
-  :straight t)
+;; (use-package lispy
+;;   :straight t)
 
 ;; (use-package paredit
 ;;   :straight t

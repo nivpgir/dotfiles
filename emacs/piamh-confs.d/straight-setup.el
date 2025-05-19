@@ -63,3 +63,8 @@
   (general-create-definer my-def :keymaps 'piamh-mode-map)
   (general-create-definer my-leader-def :prefix "C-c" :wrapping my-def)
   )
+
+;; workaround for https://github.com/radian-software/straight.el/issues/1146
+(straight-use-package 'project)
+(straight-use-package 'flymake)
+(straight-use-package 'xref)

@@ -74,6 +74,10 @@
   ((python-mode python-ts-mode) . flycheck-mode)
   :config
   (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
+  (add-to-list 'eglot-server-programs
+	       `((python-mode python-ts-mode)
+		 . ,(eglot-alternatives
+		     '(("lsp-proxy.py" "lsp-proxy-config.json")))))
   :custom
   (python-indent 2)
 )

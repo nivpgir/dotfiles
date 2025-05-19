@@ -61,7 +61,7 @@
 ;;   (zoom-mode t)
 ;;   (zoom-size '(0.618 . 0.618))
 ;;   :general
-;;   ("C-x +" 'zoom))
+;;   ("C-x +" 'zoom)
 
 (use-package popper
   :after magit
@@ -69,9 +69,15 @@
   ("C-<" 'popper-cycle)
   ("C-," 'popper-toggle-latest)
   ("C-." 'popper-toggle-type)
-  (:keymap 'popper-mode-map
-	   "C-<escape>" 'popper-close-popup-window)
+  ;; ("M" 'self-insert-command)
+  ;; ("C-M" 'newline)
+  ;; ("m" 'self-insert-command)
+  ;; ("C-m" 'newline)
+  (:keymaps 'quickrun--mode-map
+	    "M" 'maximize-window
+	    "m" 'minimize-window)
 
+  
   :custom
   (popper-reference-buffers
    '("\\*Messages\\*"
@@ -81,6 +87,7 @@
      "\\*eldoc\\*"
      "\\*warning\\*"
      "\\*EGLOT .* events\\*"
+     "\\*quickrun\\*"
      help-mode
      compilation-mode
      flycheck-mode
@@ -102,6 +109,7 @@
     (interactive)
     (if (popper-popup-buffer-p)
 	(delete-window)))
+
   )
 
 (use-package eldoc-box
