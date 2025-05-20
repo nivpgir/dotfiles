@@ -12,9 +12,9 @@
                    :models '(test)))
   :general
   (my-leader-def
-    "A m" 'gptel-menu
-    "A s" 'gptel-send
-    "A a" 'gptel-abort
-    "A r" 'gptel-rewrite
+    "l m" 'gptel-menu
+    "l s" 'gptel-send
+    "l a" 'gptel-abort
+    "l r" 'gptel-rewrite
     )
   )
