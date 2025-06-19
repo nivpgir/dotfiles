@@ -50,18 +50,18 @@
       )))
 
 (use-package eglot
-  :straight nil
+  :straight (:type built-in)
   :commands eglot
   )
 
-(use-package flymake-posframe
-  :straight (flymake-posframe
-	     :type git
-	     :host github
-	     :repo "Ladicle/flymake-posframe"
-	     :files ("*.el" "*.org"))
+;; (use-package flymake-posframe
+;;   :straight (flymake-posframe
+;; 	     :type git
+;; 	     :host github
+;; 	     :repo "Ladicle/flymake-posframe"
+;; 	     :files ("*.el" "*.org"))
 
-  :hook (flymake-mode . flymake-posframe-mode))
+;;   :hook (flymake-mode . flymake-posframe-mode))
 
 (use-package lang-python
   :straight eglot
@@ -80,6 +80,31 @@
 		     '(("lsp-proxy.py" "lsp-proxy-config.json")))))
   :custom
   (python-indent 2)
-)
+  :general
+  (my-leader-def
+    "la" 'eglot-code-actions
+    "li" 'eglot-code-action-inline
+    "lr" 'eglot-rename
+    "le" 'eglot-code-action-extract
+    )
+  )
+
+;; better eglot-rename
+(defun eglot-rename (newname)
+  "Rename the current symbol to NEWNAME."
+  (interactive
+   (list (let ((default-symbol (symbol-name (symbol-at-point))))
+	   (read-from-minibuffer
+          (eglot--format "Rename `%s' to: "
+                         (or (thing-at-point 'symbol t)
+                             "unknown symbol"))
+          default-symbol nil nil nil
+          default-symbol))))
+  (eglot-server-capable-or-lose :renameProvider)
+  (eglot--apply-workspace-edit
+   (eglot--request (eglot--current-server-or-lose)
+                   :textDocument/rename `(,@(eglot--TextDocumentPositionParams)
+                                          :newName ,newname))
+   this-command))
 
 (provide 'lang-python-eglot)

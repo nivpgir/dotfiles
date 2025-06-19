@@ -100,7 +100,7 @@
 
 
 (use-package tramp
-  :straight nil
+  :straight (:type built-in)
   :config
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
   ;; Enable full-featured Dirvish over TRAMP on certain connections

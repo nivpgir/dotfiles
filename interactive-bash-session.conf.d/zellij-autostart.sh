@@ -2,6 +2,9 @@ case $TERM in
     *eat-truecolor*)
 	return
 	;;
+    dumb)
+	return
+	;;
 esac
 
 if [[ -z "$ZELLIJ" ]]; then

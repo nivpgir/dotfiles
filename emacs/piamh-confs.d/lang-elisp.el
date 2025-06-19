@@ -31,5 +31,5 @@
 ;;   )
 
 (use-package eldoc
-  :straight nil
+  :straight (:type built-in)
   :diminish)
