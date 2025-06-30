@@ -48,6 +48,7 @@
 (use-package dirvish
   :straight t
   :custom
+  (dirvish-default-layout '(0 0.35 0.65))
   (dirvish-quick-access-entries ; It's a custom option, `setq' won't work
    '(("h" "~/"                          "Home")
      ("d" "~/Downloads/"                "Downloads")
@@ -133,7 +134,7 @@
   (my-leader-def
     "b" (general-key-dispatch (lambda () (interactive) (switch-to-buffer "*scratch*"))
 	  :timeout 0.25
-	  "b" 'piamh/new-empty-buffer)
+	  "b" 'crux-create-scratch-buffer)
     "-" 'split-window-below
     "/" 'split-window-right
     "<backspace>" 'delete-window
@@ -141,7 +142,7 @@
     "RET" 'newline-and-indent
     "k w" 'delete-window
     "k b" 'kill-buffer
-    "k l" 'kill-whole-line
+    "k l" 'crux-kill-whole-line
     "M-k" 'kill-current-buffer
     "x a" 'async-shell-command
     "x d f" 'async-shell-command
@@ -149,7 +150,7 @@
   ;; asdf
   (general-def "C-a" 'crux-move-beginning-of-line)
   (general-def "<home>" 'crux-move-beginning-of-line)
-  (general-def "M-k" 'kill-whole-line)
+  (general-def "M-k" 'crux-kill-whole-line)
   (general-def "M-n" (lambda () (interactive) (scroll-up 1)))
   (general-def "M-p" (lambda () (interactive) (scroll-down 1)))
   )
