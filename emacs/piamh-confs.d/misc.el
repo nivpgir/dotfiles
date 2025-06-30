@@ -102,16 +102,33 @@
 
 (use-package tramp
   :straight (:type built-in)
+  :custom
+  (remote-file-name-inhibit-locks t)
+  (tramp-use-scp-direct-remote-copying t)
+  (remote-file-name-inhibit-auto-save-visited t)
+  (tramp-copy-size-limit (* 1024 1024))
+  (tramp-verbose 2)
+  (magit-tramp-pipe-stty-settings 'pty)
+
   :config
+  (connection-local-set-profile-variables
+   'remote-direct-async-process
+   '((tramp-direct-async-process . t)))
+
+  (connection-local-set-profiles
+   '(:application tramp :protocol "ssh")
+   'remote-direct-async-process)
+
+  (connection-local-set-profiles
+   '(:application tramp :protocol "scp")
+   'remote-direct-async-process)
+
+  (with-eval-after-load 'tramp
+    (with-eval-after-load 'compile
+      (remove-hook
+       'compilation-mode-hook #'tramp-compile-disable-ssh-controlmaster-options)))
+
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
-  ;; Enable full-featured Dirvish over TRAMP on certain connections
-  ;; https://www.gnu.org/software/tramp/#Improving-performance-of-asynchronous-remote-processes-1.
-  (add-to-list 'tramp-connection-properties
-	       (list (regexp-quote "/ssh:root@nautilus-fs-006.deepsea.group:")
-		     "direct-async-process" t))
-  (add-to-list 'tramp-connection-properties
-	       (list (concat (regexp-quote "/ssh:") "*" (regexp-quote ".deepsea.group:"))
-		     "direct-async-process" t))
   )
 
 (use-package posframe)
