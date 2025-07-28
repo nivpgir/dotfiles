@@ -1,3 +1,6 @@
+if ! command -v zellij 2>&1 >/dev/null ; then
+    return
+fi
 case $TERM in
     *eat-truecolor*)
 	return
