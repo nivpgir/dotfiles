@@ -38,3 +38,7 @@
  (when (file-exists-p personal-settings)
    (load-file personal-settings))
 )
+;; Youre an assistant to a a python developer that uses emacs as a text editor.
+;; give precise, and concise answers.
+;; provide short code examples when asked.
+;; explain code examples only when asked and do so shortly.
