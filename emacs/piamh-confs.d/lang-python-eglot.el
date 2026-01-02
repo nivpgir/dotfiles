@@ -50,34 +50,35 @@
       )))
 
 (use-package eglot
-  :straight (:type built-in)
+  :straight t
   :commands eglot
   )
 
-;; (use-package flymake-posframe
-;;   :straight (flymake-posframe
-;; 	     :type git
-;; 	     :host github
-;; 	     :repo "Ladicle/flymake-posframe"
-;; 	     :files ("*.el" "*.org"))
-
-;;   :hook (flymake-mode . flymake-posframe-mode))
 
 (use-package lang-python
-  :straight eglot
+  :straight nil
+  :after eglot
   :hook
   ((python-mode python-ts-mode) . eglot-ensure)
   ((python-mode python-ts-mode) . flyspell-prog-mode)
   ((python-mode python-ts-mode) . superword-mode)
   ((python-mode python-ts-mode) . hs-minor-mode)
   ((python-mode python-ts-mode) . (lambda () (set-fill-column 88)))
-  ((python-mode python-ts-mode) . flycheck-mode)
   :config
   (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
   (add-to-list 'eglot-server-programs
-	       `((python-mode python-ts-mode)
-		 . ,(eglot-alternatives
-		     '(("lsp-proxy.py" "lsp-proxy-config.json")))))
+               '((python-mode python-ts-mode) .
+		  (
+                    "rass" "python" "--log-level" "debug"
+                    )))
+  (add-to-list 'eglot-server-programs
+               '((python-mode python-ts-mode) .
+		 ("lspx"
+		  "--lsp" "basedpyright-langserver --stdio"
+		  "--lsp" "ruff server"
+		  "--lsp" "pylsp --check-parent-process -vvvvvv --log-file /tmp/piamh-lsp-log.log"
+		  )))
+
   :custom
   (python-indent 2)
   :general
@@ -86,7 +87,7 @@
     "li" 'eglot-code-action-inline
     "lr" 'eglot-rename
     "le" 'eglot-code-action-extract
-    )
+     )
   )
 
 ;; better eglot-rename

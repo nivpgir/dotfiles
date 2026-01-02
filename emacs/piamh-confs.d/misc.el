@@ -48,7 +48,7 @@
 (use-package dirvish
   :straight t
   :custom
-  (dirvish-default-layout '(0 0.35 0.65))
+  (dirvish-default-layout nil)
   (dirvish-quick-access-entries ; It's a custom option, `setq' won't work
    '(("h" "~/"                          "Home")
      ("d" "~/Downloads/"                "Downloads")
@@ -111,6 +111,8 @@
   (magit-tramp-pipe-stty-settings 'pty)
 
   :config
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+
   (connection-local-set-profile-variables
    'remote-direct-async-process
    '((tramp-direct-async-process . t)))
@@ -128,16 +130,21 @@
       (remove-hook
        'compilation-mode-hook #'tramp-compile-disable-ssh-controlmaster-options)))
 
-  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
   )
 
+(defun piamh/make-tramp-full-file-name (file-name-struct)
+  "FILE-NAME-STRUCT.  HOPS.  STFU."
+  (let* ((hop (tramp-file-name-hop file-name-struct))
+	(name (tramp-make-tramp-file-name file-name-struct))
+	(name-without-prefix (substring name 1 nil)))
+    (concat tramp-prefix-format
+	    hop
+	    name-without-prefix)
+    ))
+
+
+
 (use-package posframe)
-
-;; (when (posframe-workable-p)
-;;   (posframe-show " *my-posframe-buffer*"
-;;                  :string "This is a test"
-;;                  :position (point)))
-
 
 (use-package key-chord
   :config
@@ -207,10 +214,10 @@
 (use-package diminish
   :straight t)
 
-(use-package direnv
-  :straight t
-  :config
-  (direnv-mode))
+;; (use-package direnv
+;;   :straight t
+;;   :config
+;;   (direnv-mode))
 
 (require 'epa-file)
 (epa-file-enable)

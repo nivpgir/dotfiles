@@ -123,4 +123,6 @@
 (use-package emacs
   :config
   (indent-tabs-mode -1)
+  (editorconfig-mode t)
   )
+

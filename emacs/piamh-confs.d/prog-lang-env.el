@@ -20,10 +20,12 @@
   :straight t
   :after tree-sitter)
 
+(straight-use-package 'tree-sitter-langs)
 
 (use-package flycheck
   :straight t
-  :hook (prog-mode . flycheck-mode))
+  ;; :hook (prog-mode . flycheck-mode)
+  )
 
 
 (use-package yasnippet
