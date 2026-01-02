@@ -13,6 +13,7 @@
      default))
  '(inhibit-startup-screen t)
  '(lsp-rust-analyzer-server-command "rust-analyzer" nil nil "Customized with use-package rustic")
+ '(warning-suppress-log-types '((native-compiler)))
  '(warning-suppress-types '((iedit) (comp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
