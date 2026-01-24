@@ -7,6 +7,7 @@
 (load "straight-setup.el")
 
 (load "misc.el")
+(load "terminal-emulation.el")
 (load "notes.el")
 (load "help.el")
 (load "editing.el")

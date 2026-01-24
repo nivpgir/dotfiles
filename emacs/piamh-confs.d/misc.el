@@ -18,31 +18,7 @@
 
 (use-package environ)
 
-(use-package eat
-  ;; :straight '(eat :type git
-  ;; 		  :host codeberg
-  ;; 		  :repo "akib/emacs-eat"
-  ;; 		  :files ("*.el" ("term" "term/*.el") "*.texi"
-  ;; 			  "*.ti" ("terminfo/e" "terminfo/e/*")
-  ;; 			  ("terminfo/65" "terminfo/65/*")
-  ;; 			  ("integration" "integration/*")
-  ;; 			  (:exclude ".dir-locals.el" "*-tests.el")))
-  :custom
-  (eat-term-scrollback-size nil)
-  :init
-  (defun piamh/run-command-with-eat (command &rest args &key startfile)
-    (interactive (split-string-shell-command
-		  (read-from-minibuffer "Exec command: ")))
-    (let* ((name (string-join `("*" ,default-directory " :: " ,command ,@args "*") " "))
-	   (buffer (apply 'eat-make `(,name ,command ,startfile ,@args))))
-      (message "running cmd: %S, args: %S" command args)
-      (with-current-buffer buffer
-	(eat-emacs-mode)
-	(setq-local show-trailing-whitespace nil)
-	)
-      (display-buffer buffer 'display-buffer-in-child-frame))
-    )
-  )
+
 
 
 (use-package dirvish
