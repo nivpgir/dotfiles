@@ -102,9 +102,16 @@
 
 (use-package string-inflection
   :init
-  (defun piamh/string-inflection-cycle-auto ()
-    "switching by major-mode"
-    (interactive)
+  (defun piamh/string-inflection--select-symbol-at-point ()
+    "Set region to symbol at point if no region is active."
+    (unless (use-region-p)
+      (let ((bounds (bounds-of-thing-at-point 'symbol)))
+        (when bounds
+          (set-mark (car bounds))
+          (goto-char (cdr bounds))))))
+
+  (defun piamh/string-inflection--cycle-for-mode ()
+    "Call the appropriate string-inflection cycle function for current major-mode."
     (cond
      ((eq major-mode 'emacs-lisp-mode)
       (string-inflection-all-cycle))
@@ -116,6 +123,15 @@
       (string-inflection-elixir-style-cycle))
      (t
       (string-inflection-ruby-style-cycle))))
+
+  (defun piamh/string-inflection-cycle-auto ()
+    "Cycle string inflection style based on major-mode."
+    (interactive)
+    (if (or (use-region-p) (bounds-of-thing-at-point 'symbol))
+        (save-excursion
+          (piamh/string-inflection--select-symbol-at-point)
+          (piamh/string-inflection--cycle-for-mode))
+      (message "nothing to do here")))
   :general
   (my-leader-def
     "c" 'piamh/string-inflection-cycle-auto))
