@@ -19,6 +19,25 @@
     )
   )
 
+
+(use-package inheritenv
+  :straight (:type git :host github :repo "purcell/inheritenv"))
+
+
+
+(use-package monet
+  :straight  (:type git
+		    :host github
+		    :repo "stevemolitor/monet")
+
+  :custom
+  (monet-diff-tool #'monet-ediff-tool)
+  (monet-diff-cleanup-tool #'monet-ediff-cleanup-tool)
+  :hook
+  ('claude-code-process-environment-functions . 'monet-start-server-function)
+  )
+
+
 (use-package claude-code
   :straight (:type git :host github :repo "stevemolitor/claude-code.el" :branch "main" :depth 1
                    :files ("*.el" (:exclude "images/*")))
