@@ -8,3 +8,5 @@
 	     :repo "psibi/justl\.el")
   :custom
   (justl-executable "c:/Users/Niv/.local/scoop/shims/just.exe"))
+
+(provide 'piamh-confs/lang-just)

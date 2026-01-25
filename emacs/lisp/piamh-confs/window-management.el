@@ -130,5 +130,5 @@
 (require 'eldoc)
 (setq eldoc-echo-area-prefer-doc-buffer nil)
 
-'()
+(provide 'piamh-confs/window-management)
 

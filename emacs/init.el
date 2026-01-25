@@ -3,39 +3,42 @@
 ;;; Commentary: Emacs Startup File --- initialization for Emacs
 
 (add-to-list 'load-path (expand-file-name "~/.config"))
-(add-to-list 'load-path (expand-file-name "piamh-confs.d" user-emacs-directory))
-(load "straight-setup.el")
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+;; (add-to-list 'load-path (expand-file-name user-emacs-directory))
 
-(load "misc.el")
-(load "terminal-emulation.el")
-(load "notes.el")
-(load "help.el")
-(load "editing.el")
-(load "completion.el")
-(load "quickrun-conf.el")
-(load "window-management.el")
-(load "theme.el")
-;; (load "org-conf.el")
-(load "prog-lang-env.el")
-(load "version-control.el")
-(load "lang-elisp.el")
-(load "lang-c-cpp.el")
-(load "lang-clojure.el")
-(load "lang-dockerfile.el")
-(load "lang-graphviz.el")
-(load "lang-haskell.el")
-(load "lang-just.el")
-(load "lang-kmonad-kbd.el")
-(load "lang-lua.el")
-(load "lang-python.el")
-(load "lang-raku.el")
-(load "lang-ruby.el")
-(load "lang-rust.el")
-(load "lang-scheme.el")
-(load "lang-yaml.el")
-(load "llm.el")
+(require 'piamh-confs/straight-setup)
 
-;; (load "lang-jenkinsfile.el")
+(dolist (conf '(misc
+                terminal-emulation
+                notes
+                help
+                editing
+                completion
+                quickrun-conf
+                window-management
+                theme
+                ;; org-conf
+                prog-lang-env
+                version-control
+                lang-elisp
+                lang-c-cpp
+                lang-clojure
+                lang-dockerfile
+                lang-graphviz
+                lang-haskell
+                lang-just
+                lang-kmonad-kbd
+                lang-lua
+                lang-python
+                lang-raku
+                lang-ruby
+                lang-rust
+                lang-scheme
+                lang-yaml
+                llm
+                ;; lang-jenkinsfile
+                ))
+  (require (intern (format "piamh-confs/%s" conf))))
 
 (let ((personal-settings "~/.config/emacs-local.el"))
  (when (file-exists-p personal-settings)

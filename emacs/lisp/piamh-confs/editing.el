@@ -142,3 +142,5 @@
   (editorconfig-mode t)
   )
 
+(provide 'piamh-confs/editing)
+

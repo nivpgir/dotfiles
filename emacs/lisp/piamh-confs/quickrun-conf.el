@@ -39,3 +39,5 @@
 	    )
   )
 
+(provide 'piamh-confs/quickrun-conf)
+

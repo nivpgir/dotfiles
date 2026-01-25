@@ -108,4 +108,4 @@
                                           :newName ,newname))
    this-command))
 
-(provide 'lang-python-eglot)
+(provide 'piamh-confs/lang-python-eglot)

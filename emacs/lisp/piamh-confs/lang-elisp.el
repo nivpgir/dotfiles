@@ -33,3 +33,5 @@
 (use-package eldoc
   :straight (:type built-in)
   :diminish)
+
+(provide 'piamh-confs/lang-elisp)

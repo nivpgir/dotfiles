@@ -52,3 +52,5 @@
   (monet-mode 1)
 
   (claude-code-mode))
+
+(provide 'piamh-confs/llm)

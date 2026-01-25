@@ -16,3 +16,5 @@
   :custom
   (which-key-popup-type 'minibuffer)
   )
+
+(provide 'piamh-confs/help)

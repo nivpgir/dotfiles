@@ -4,3 +4,5 @@
 	     :host github
 	     :repo "kmonad/kbd-mode")
   )
+
+(provide 'piamh-confs/lang-kmonad-kbd)

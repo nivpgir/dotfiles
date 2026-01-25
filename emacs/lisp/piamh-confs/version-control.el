@@ -7,3 +7,5 @@
     "g b" 'magit-blame)
   :config
   (transient-append-suffix 'magit-pull "-A" '("-f" "ff only" "--ff-only")))
+
+(provide 'piamh-confs/version-control)

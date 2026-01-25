@@ -312,3 +312,5 @@
   ;; See also `corfu-exclude-modes'.
   :init
   (global-corfu-mode))
+
+(provide 'piamh-confs/completion)

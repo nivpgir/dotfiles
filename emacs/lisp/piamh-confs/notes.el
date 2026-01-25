@@ -17,3 +17,5 @@
       ;; (noslash . "-")
       (nospace . "_")
       (case-fn . downcase))))
+
+(provide 'piamh-confs/notes)

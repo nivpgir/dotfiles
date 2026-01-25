@@ -13,3 +13,5 @@
 
 (setq cider-default-repl-command "clojure-cli")
 (setq inf-clojure-generic-cmd "clj")
+
+(provide 'piamh-confs/lang-clojure)

@@ -3,4 +3,6 @@
   :ensure t
   :config
   (setq graphviz-dot-indent-width 4))
+
+(provide 'piamh-confs/lang-graphviz)
   

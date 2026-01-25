@@ -127,7 +127,7 @@
   (key-chord-mode 1))
 
 
-(use-package piamh-mode
+(use-package piamh-confs/piamh-mode
   :diminish
   :straight '(piamh-mode :local-repo "." :files ("piamh-mode.el"))
   :general
@@ -264,3 +264,5 @@
 ;;   ;; (add-to-list 'me-files-with-molds (concat (file-name-directory (symbol-file 'me-mold)) "molds/experiments.el")) ;; TODO this is relevant only if you have private molds
 ;;   (me-setup-molds)
 ;;   )
+
+(provide 'piamh-confs/misc)

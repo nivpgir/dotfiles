@@ -104,4 +104,6 @@
 
 (use-package poetry)
 
-(require 'lang-python-eglot)
+(require 'piamh-confs/lang-python-eglot)
+
+(provide 'piamh-confs/lang-python)

@@ -16,3 +16,5 @@
 (use-package pry
   :straight t)
 
+(provide 'piamh-confs/lang-ruby)
+

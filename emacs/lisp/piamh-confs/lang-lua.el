@@ -3,3 +3,5 @@
   :custom
   (lua-indent-level 2))
 
+(provide 'piamh-confs/lang-lua)
+

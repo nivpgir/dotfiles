@@ -36,4 +36,6 @@
   :mode "\\.pest\\'"
   :hook (pest-mode . flymake-mode))
 
+(provide 'piamh-confs/lang-rust)
+
 

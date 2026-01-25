@@ -60,4 +60,4 @@
 ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
 ;; (use-package dap-python)
 
-(provide 'lang-python-lsp-mode)
+(provide 'piamh-confs/lang-python-lsp-mode)

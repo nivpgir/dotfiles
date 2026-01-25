@@ -53,3 +53,5 @@
 
 (font-family-list)
 (set-face-attribute 'default nil :height 110)
+
+(provide 'piamh-confs/theme)

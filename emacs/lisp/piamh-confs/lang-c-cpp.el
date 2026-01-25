@@ -37,3 +37,5 @@
 	    (setq indent-tabs-mode t)
 	    (setq tab-width c-basic-offset)))
 
+(provide 'piamh-confs/lang-c-cpp)
+

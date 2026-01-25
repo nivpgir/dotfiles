@@ -68,3 +68,5 @@
 (straight-use-package 'project)
 (straight-use-package 'flymake)
 (straight-use-package 'xref)
+
+(provide 'piamh-confs/straight-setup)

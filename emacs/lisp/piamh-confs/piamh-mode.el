@@ -29,4 +29,4 @@
 (add-hook 'minibuffer-setup-hook #'piamh/turn-off-piamh-mode)
 
 
-(provide 'piamh-mode)
+(provide 'piamh-confs/piamh-mode)

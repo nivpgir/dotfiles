@@ -37,3 +37,5 @@
   (text-mode . yas-minor-mode)
   )
 
+(provide 'piamh-confs/prog-lang-env)
+
