@@ -4,7 +4,6 @@
 
 (add-to-list 'load-path (expand-file-name "~/.config"))
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-;; (add-to-list 'load-path (expand-file-name user-emacs-directory))
 
 (require 'piamh-confs/straight-setup)
 
