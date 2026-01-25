@@ -8,36 +8,39 @@
 
 (require 'piamh-confs/straight-setup)
 
-(dolist (conf '(misc
-                terminal-emulation
-                notes
-                help
-                editing
-                completion
-                quickrun-conf
-                window-management
-                theme
-                ;; org-conf
-                prog-lang-env
-                version-control
-                lang-elisp
-                lang-c-cpp
-                lang-clojure
-                lang-dockerfile
-                lang-graphviz
-                lang-haskell
-                lang-just
-                lang-kmonad-kbd
-                lang-lua
-                lang-python
-                lang-raku
-                lang-ruby
-                lang-rust
-                lang-scheme
-                lang-yaml
-                llm
-                ;; lang-jenkinsfile
-                ))
+(setq piamh-confs-features
+      '(misc
+        terminal-emulation
+        notes
+        help
+        editing
+        completion
+        quickrun-conf
+        window-management
+        theme
+        ;; org-conf
+        prog-lang-env
+        version-control
+        lang-elisp
+        lang-c-cpp
+        lang-clojure
+        lang-dockerfile
+        lang-graphviz
+        lang-haskell
+        lang-just
+        lang-kmonad-kbd
+        lang-lua
+        lang-python
+        lang-raku
+        lang-ruby
+        lang-rust
+        lang-scheme
+        lang-yaml
+        llm
+        ;; lang-jenkinsfile
+        ))
+
+(dolist (conf piamh-confs-features)
   (require (intern (format "piamh-confs/%s" conf))))
 
 (let ((personal-settings "~/.config/emacs-local.el"))
