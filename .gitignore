@@ -16,3 +16,4 @@ emacs/tramp
 emacs/dirvish
 emacs/amx-items
 api-key/
+/.agent-shell/
