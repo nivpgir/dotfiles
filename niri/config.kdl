@@ -199,10 +199,9 @@ layout {
 // Add lines like this to spawn processes at startup.
 // Note that running niri as a session supports xdg-desktop-autostart,
 // which may be more convenient to use.
-spawn-at-startup "waybar"
+// spawn-at-startup "waybar"
+// spawn-at-startup "blueman-applet"
 spawn-at-startup "keepassxc"
-spawn-at-startup "blueman-applet"
-spawn-at-startup "blueman-applet"
 spawn-at-startup "udiskie"
 spawn-at-startup "redshift-gtk"
 spawn-at-startup "xwayland-satellite"
