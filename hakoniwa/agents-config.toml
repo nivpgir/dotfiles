@@ -6,7 +6,7 @@
 namespaces = [
   { type = "cgroup"     },  # --unshare-cgroup
   { type = "ipc"        },  # --unshare-ipc
-  { type = "network"    },  # --unshare-network
+  # { type = "network"    },  # --unshare-network
   { type = "uts"        },  # --unshare-uts
 ]
 
@@ -23,6 +23,7 @@ mounts = [
   { source = ""          , destination = "/run" , type = "tmpfs" },   # --tmpfs /run
   { source = "{{ home }}" , destination = "{{ home }}" },   # --bindmount-ro $HOME
   { source = "{{ pwd }}" , destination = "{{ pwd }}", rw = true },   # --bindmount-rw $PWD
+  { source = "/run/systemd/resolve/", destination = "/run/systemd/resolve/" },
 ]
 
 # environment
@@ -42,10 +43,10 @@ envs = [
 # [seccomp]
 # path = "{{ __dir__ }}/seccomp-fine-grained.json"
 
-# --network=pasta:-T,auto
-[network]
-mode = "pasta"
-options = ["-T", "auto"]
+# # --network=pasta:-T,auto
+# [network]
+# mode = "pasta"
+# options = ["-T", "auto"]
 
 # cmdline
 [command]
