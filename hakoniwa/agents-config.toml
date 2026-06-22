@@ -21,6 +21,7 @@ mounts = [
   { source = ""          , destination = "/dev" , type = "devfs" },   # --devfs /dev
   { source = ""          , destination = "/tmp" , type = "tmpfs" },   # --tmpfs /tmp
   { source = ""          , destination = "/run" , type = "tmpfs" },   # --tmpfs /run
+  { source = "{{ home }}" , destination = "{{ home }}" },   # --bindmount-ro $HOME
   { source = "{{ pwd }}" , destination = "{{ pwd }}", rw = true },   # --bindmount-rw $PWD
 ]
 
