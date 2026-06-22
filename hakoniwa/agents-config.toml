@@ -1,0 +1,53 @@
+# constants
+{% set home = os_env("HOME") %}
+{% set pwd  = os_env("PWD")  %}
+
+# unshare linux namespace
+namespaces = [
+  { type = "cgroup"     },  # --unshare-cgroup
+  { type = "ipc"        },  # --unshare-ipc
+  { type = "network"    },  # --unshare-network
+  { type = "uts"        },  # --unshare-uts
+]
+
+# mount filesystem
+mounts = [
+  { source = "/bin"     },  # --bindmount-ro /bin
+  { source = "/etc"     },  # --bindmount-ro /etc
+  { source = "/lib"     },  # --bindmount-ro /lib
+  { source = "/lib64"   },  # --bindmount-ro /lib64
+  { source = "/sbin"    },  # --bindmount-ro /sbin
+  { source = "/usr"     },  # --bindmount-ro /usr
+  { source = ""          , destination = "/dev" , type = "devfs" },   # --devfs /dev
+  { source = ""          , destination = "/tmp" , type = "tmpfs" },   # --tmpfs /tmp
+  { source = ""          , destination = "/run" , type = "tmpfs" },   # --tmpfs /run
+  { source = "{{ pwd }}" , destination = "{{ pwd }}", rw = true },   # --bindmount-rw $PWD
+]
+
+# environment
+envs = [
+  { name = "LANG"                           },  # --setenv LANG
+  { name = "LANGUAGE"                       },  # --setenv LANGUAGE
+  { name = "TERM"                           },  # --setenv TERM
+  { name = "HOME" },
+]
+
+# resource limit
+limits = [
+  { type = "as"          , value = 64000000 },  # --limit-as 64000000
+]
+
+# # seccomp
+# [seccomp]
+# path = "{{ __dir__ }}/seccomp-fine-grained.json"
+
+
+# --network=pasta:-T,auto
+[network]
+mode = "pasta"
+options = ["-T", "auto"]
+
+# cmdline
+[command]
+cmdline = ["/usr/bin/bash"]
+cwd = "{{ pwd }}"
