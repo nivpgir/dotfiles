@@ -33,15 +33,14 @@ envs = [
   { name = "HOME" },
 ]
 
-# resource limit
-limits = [
-  { type = "as"          , value = 64000000 },  # --limit-as 64000000
-]
+# # resource limit
+# limits = [
+#   { type = "as"          , value = 536870912 },  # --limit-as 536870912
+# ]
 
 # # seccomp
 # [seccomp]
 # path = "{{ __dir__ }}/seccomp-fine-grained.json"
-
 
 # --network=pasta:-T,auto
 [network]
