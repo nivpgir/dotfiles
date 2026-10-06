@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (use-package deft
   :general
   (:keymaps 'deft-mode-map

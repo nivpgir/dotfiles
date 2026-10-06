@@ -1,3 +1,6 @@
+;; -*- lexical-binding: t; -*-
+
+
 ;; c-c++
 ;; (defun c-mode-set-style ()
 ;;   (setq c-default-style "linux" ; set style to "linux" cause kernel

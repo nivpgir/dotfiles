@@ -1,4 +1,5 @@
-;;; llm.el --- -*- lexical-binding: t -*-
+;; -*- lexical-binding: t -*-
+;;; llm.el ---
 ;;; Commentary:
 
 ;;; Code:

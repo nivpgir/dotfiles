@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package enh-ruby-mode
   :straight t
   :after (lsp-mode)

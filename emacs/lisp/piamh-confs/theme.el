@@ -1,3 +1,6 @@
+;; -*- lexical-binding: t; -*-
+
+
 ;;; Theme
 (use-package vscode-dark-plus-theme
   :straight t

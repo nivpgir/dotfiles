@@ -10,35 +10,71 @@ namespaces = [
   { type = "uts"        },  # --unshare-uts
 ]
 
-# mount filesystem
-mounts = [
-  { source = "/bin"     },  # --bindmount-ro /bin
-  { source = "/etc"     },  # --bindmount-ro /etc
-  { source = "/lib"     },  # --bindmount-ro /lib
-  { source = "/lib64"   },  # --bindmount-ro /lib64
-  { source = "/sbin"    },  # --bindmount-ro /sbin
-  { source = "/usr"     },  # --bindmount-ro /usr
-  { source = ""          , destination = "/dev" , type = "devfs" },   # --devfs /dev
-  { source = ""          , destination = "/tmp" , type = "tmpfs" },   # --tmpfs /tmp
-  { source = ""          , destination = "/run" , type = "tmpfs" },   # --tmpfs /run
-  { source = "{{ home }}" , destination = "{{ home }}" },   # --bindmount-ro $HOME
-  { source = "{{ home }}/.omp" , destination = "{{ home }}/.omp", rw = true },   # --bindmount-ro $HOME
-  { source = "{{ pwd }}" , destination = "{{ pwd }}", rw = true },   # --bindmount-rw $PWD
-  { source = "/run/systemd/resolve/", destination = "/run/systemd/resolve/" },
-]
-
 # environment
-envs = [
-  { name = "LANG"     },  # --setenv LANG
-  { name = "LANGUAGE" },  # --setenv LANGUAGE
-  { name = "TERM"     },  # --setenv TERM
-  { name = "TERMINAL" },  # --setenv TERMINAL
-  { name = "BROWSER"  },
-  { name = "HOME"     },
-  { name = "PATH"     },
-  { name = "EDITOR"   },
-  { name = "TERM"     },
-]
+[[envs]]
+name = "LANG"
+[[envs]]
+name = "LANGUAGE"
+[[envs]]
+name = "TERM"
+[[envs]]
+name = "HOME"
+[[envs]]
+name = "PATH"
+[[envs]]
+name = "EDITOR"
+name = "BROWSER"
+name = "TERMINAL"
+
+
+# mount filesystem
+[[mounts]]
+source = "/bin"   # --bindmount-ro /bin
+[[mounts]]
+source = "/etc"   # --bindmount-ro /etc
+[[mounts]]
+source = "/lib"   # --bindmount-ro /lib
+[[mounts]]
+source = "/lib64"  # --bindmount-ro /lib64
+[[mounts]]
+source = "/sbin"  # --bindmount-ro /sbin
+[[mounts]]
+source = "/usr"  # --bindmount-ro /usr
+[[mounts]]
+source = ""
+destination = "/dev"
+type = "devfs"   # --devfs /dev
+[[mounts]]
+source = ""
+destination = "/tmp"
+type = "tmpfs"   # --tmpfs /tmp
+[[mounts]]
+source = ""
+destination = "/run"
+type = "tmpfs"   # --tmpfs /run
+[[mounts]]
+source = "{{ home }}"
+destination = "{{ home }}"    # --bindmount-ro $HOME
+[[mounts]]
+source = "{{ pwd }}"
+destination = "{{ pwd }}"
+rw = true    # --bindmount-rw $PWD
+# ssh refuses Included configs not owned by root/user; inside the userns
+# root-owned files appear as nobody, so hide the drop-in dir
+[[mounts]]
+source = ""
+destination = "/etc/ssh/ssh_config.d"
+type = "tmpfs"
+
+[[mounts]]
+source = "{{ home }}/.omp"
+destination = "{{ home }}/.omp"
+rw = true
+
+[[mounts]]
+source = "/run/systemd/resolve/"
+destination = "/run/systemd/resolve/"
+
 
 # # resource limit
 # limits = [
@@ -53,6 +89,9 @@ envs = [
 # [network]
 # mode = "pasta"
 # options = ["-T", "auto"]
+
+{% include ("setup-dns-configuration.toml") ignore missing %}
+{% include ("claude-code.toml") ignore missing %}
 
 # cmdline
 [command]

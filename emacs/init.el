@@ -36,6 +36,7 @@
         lang-scheme
         lang-yaml
         llm
+	;; notifications
         ;; lang-jenkinsfile
         ))
 

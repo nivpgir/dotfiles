@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 
 ;; !!! READ THIS:
 ;; https://www.adventuresinwhy.com/post/eglot/
