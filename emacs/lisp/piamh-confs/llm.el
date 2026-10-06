@@ -21,6 +21,9 @@
 
 (use-package agent-shell
   :straight t
+  :custom
+  (agent-shell-command-prefix
+    `("hakoniwa" "run" "--config" ,(file-name-concat (getenv "PIAMH_CONF_DIR") "hakoniwa/agents-config.toml") "--"))
   )
 
 (provide 'piamh-confs/llm)
