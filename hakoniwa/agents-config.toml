@@ -22,16 +22,22 @@ mounts = [
   { source = ""          , destination = "/tmp" , type = "tmpfs" },   # --tmpfs /tmp
   { source = ""          , destination = "/run" , type = "tmpfs" },   # --tmpfs /run
   { source = "{{ home }}" , destination = "{{ home }}" },   # --bindmount-ro $HOME
+  { source = "{{ home }}/.omp" , destination = "{{ home }}/.omp", rw = true },   # --bindmount-ro $HOME
   { source = "{{ pwd }}" , destination = "{{ pwd }}", rw = true },   # --bindmount-rw $PWD
   { source = "/run/systemd/resolve/", destination = "/run/systemd/resolve/" },
 ]
 
 # environment
 envs = [
-  { name = "LANG"                           },  # --setenv LANG
-  { name = "LANGUAGE"                       },  # --setenv LANGUAGE
-  { name = "TERM"                           },  # --setenv TERM
-  { name = "HOME" },
+  { name = "LANG"     },  # --setenv LANG
+  { name = "LANGUAGE" },  # --setenv LANGUAGE
+  { name = "TERM"     },  # --setenv TERM
+  { name = "TERMINAL" },  # --setenv TERMINAL
+  { name = "BROWSER"  },
+  { name = "HOME"     },
+  { name = "PATH"     },
+  { name = "EDITOR"   },
+  { name = "TERM"     },
 ]
 
 # # resource limit
