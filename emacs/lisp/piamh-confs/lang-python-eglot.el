@@ -67,17 +67,10 @@
   :config
   (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
   (add-to-list 'eglot-server-programs
-               '((python-mode python-ts-mode) .
-		  (
-                    "rass" "python" "--log-level" "debug"
-                    )))
-  (add-to-list 'eglot-server-programs
-               '((python-mode python-ts-mode) .
-		 ("lspx"
-		  "--lsp" "basedpyright-langserver --stdio"
-		  "--lsp" "ruff server"
-		  "--lsp" "pylsp --check-parent-process -vvvvvv --log-file /tmp/piamh-lsp-log.log"
-		  )))
+    '((python-mode python-ts-mode) .
+       (
+         "rass" "python" "--log-level" "debug"
+         )))
 
   :custom
   (python-indent 2)
